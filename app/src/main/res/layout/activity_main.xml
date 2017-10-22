@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="2dp"
+    android:id="@+id/main"
+    tools:context="lood.corporatezen.scrabblescore.MainActivity"
+    >
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:src="@drawable/logosmall"
+android:contentDescription="@string/cs"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/userWord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:hint="@string/hint"
+            android:imeOptions="actionDone"
+            android:inputType="textCapSentences"
+            android:maxLines="1"
+            android:textAllCaps="true" />
+
+        <ImageView
+            android:id="@+id/loading"
+            android:contentDescription="@string/cs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:src="@drawable/loader" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="8"
+        android:padding="2dp"
+android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/letter1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/cs"
+                android:onClick="letterclick1"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/s" />
+
+            <ImageButton
+                android:id="@+id/tls1"
+                android:layout_width="match_parent"
+                android:contentDescription="@string/cs"
+                android:layout_height="wrap_content"
+
+                android:adjustViewBounds="true"
+                android:onClick="setTls1Pressed"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/tls" />
+
+            <ImageButton
+                android:id="@+id/dls1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/cs"
+                android:onClick="setDls1Pressed"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/dls" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/letter2"
+                android:contentDescription="@string/cs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/c"
+                android:onClick="letterclick2"
+                />
+
+
+            <ImageButton
+                android:id="@+id/tls2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cs"
+                android:adjustViewBounds="true"
+                android:onClick="setTls2Pressed"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/tls" />
+
+            <ImageButton
+                android:id="@+id/dls2"
+                android:contentDescription="@string/cs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:onClick="setDls2Pressed"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/dls" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/letter3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cs"
+                android:adjustViewBounds="true"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/r"
+                android:onClick="letterclick3"
+                />
+
+            <ImageButton
+                android:id="@+id/tls3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cs"
+                android:adjustViewBounds="true"
+                android:onClick="setTls3Pressed"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/tls" />
+
+            <ImageButton
+                android:id="@+id/dls3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cs"
+                android:adjustViewBounds="true"
+                android:onClick="setDls3Pressed"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/dls" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/letter4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cs"
+                android:adjustViewBounds="true"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/a"
+                android:onClick="letterclick4"
+                />
+
+            <ImageButton
+                android:id="@+id/tls4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cs"
+                android:adjustViewBounds="true"
+                android:onClick="setTls4Pressed"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/tls" />
+
+            <ImageButton
+                android:id="@+id/dls4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cs"
+                android:adjustViewBounds="true"
+                android:onClick="setDls4Pressed"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/dls" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/letter5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/cs"
+                android:onClick="letterclick5"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/b" />
+
+
+            <ImageButton
+                android:id="@+id/tls5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cs"
+                android:adjustViewBounds="true"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:onClick="setTls5Pressed"
+                android:src="@drawable/tls" />
+
+            <ImageButton
+                android:id="@+id/dls5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cs"
+                android:adjustViewBounds="true"
+                android:padding="0dp"
+                android:onClick="setDls5Pressed"
+                android:scaleType="centerInside"
+                android:src="@drawable/dls" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/letter6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cs"
+                android:adjustViewBounds="true"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/b"
+                android:onClick="letterclick6"
+                />
+
+
+            <ImageButton
+                android:id="@+id/tls6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cs"
+                android:adjustViewBounds="true"
+                android:padding="0dp"
+                android:onClick="setTls6Pressed"
+                android:scaleType="centerInside"
+                android:src="@drawable/tls" />
+
+            <ImageButton
+                android:id="@+id/dls6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cs"
+                android:adjustViewBounds="true"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:onClick="setDls6Pressed"
+                android:src="@drawable/dls" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+
+            <ImageButton
+                android:id="@+id/letter7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cs"
+                android:adjustViewBounds="true"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/l"
+                android:onClick="letterclick7"
+                />
+
+            <ImageButton
+                android:id="@+id/tls7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cs"
+                android:adjustViewBounds="true"
+                android:onClick="setTls7Pressed"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/tls" />
+
+            <ImageButton
+                android:id="@+id/dls7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cs"
+                android:adjustViewBounds="true"
+                android:padding="0dp"
+                android:onClick="setDls7Pressed"
+                android:scaleType="centerInside"
+                android:src="@drawable/dls" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/letter8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cs"
+                android:adjustViewBounds="true"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/e"
+                android:onClick="letterclick8"
+                />
+
+            <ImageButton
+                android:id="@+id/tls8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/cs"
+                android:padding="0dp"
+                android:onClick="setTls8Pressed"
+                android:scaleType="centerInside"
+                android:src="@drawable/tls" />
+
+            <ImageButton
+                android:id="@+id/dls8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cs"
+                android:onClick="setDls8Pressed"
+                android:adjustViewBounds="true"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/dls" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/tws"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:contentDescription="@string/cs"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:onClick="twsOnClick"
+            android:padding="0dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/tws" />
+
+        <ImageButton
+            android:id="@+id/dws"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/cs"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:onClick="dwsOnClick"
+            android:padding="0dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/dws" />
+
+        <ImageButton
+            android:id="@+id/bonus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/cs"
+            android:onClick="bonuspoints"
+            android:padding="0dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/fifty" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="2dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        >
+
+        <TextView
+            android:id="@+id/wordScore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@string/ws"
+            android:layout_toLeftOf="@+id/addWordButton"
+            android:layout_toStartOf="@+id/addWordButton"
+
+            />
+        <TextView
+            android:id="@+id/totalWordScore"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_toLeftOf="@id/addWordButton"
+            android:layout_toStartOf="@id/addWordButton"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/wordScore"
+            android:text="@string/tws"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="addToScore"
+            android:padding="0dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:text="@string/st"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/addWordButton"
+            />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/player1name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/player2name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+        <TextView
+            android:id="@+id/player3name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:visibility="gone"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/player4name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:id="@+id/playerScore1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/zero"
+            android:textAlignment="center"
+            android:textSize="50sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/playerScore2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/zero"
+            android:textAlignment="center"
+            android:textSize="50sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/playerScore3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/zero"
+            android:visibility="gone"
+            android:textAlignment="center"
+            android:textSize="50sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/playerScore4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:text="@string/zero"
+            android:textAlignment="center"
+            android:textSize="50sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
+
+        <Button
+            android:id="@+id/button3"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="areYouSure2"
+            android:text="@string/dt" />
+
+        <Button
+            android:id="@+id/button4"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="areYouSure3"
+            android:text="@string/aw" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="?android:attr/buttonStyleSmall"
+            android:text="@string/nw"
+            android:layout_weight="1"
+            android:onClick="areYouSure"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="?android:attr/buttonStyleSmall"
+            android:text="@string/ss"
+            android:onClick="scoreSheetBox"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-2568422939080036/3545468709">
+    </com.google.android.gms.ads.AdView>
+</LinearLayout>

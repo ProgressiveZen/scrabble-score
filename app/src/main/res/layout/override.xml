@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:padding="20dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/playerName"
+        android:text=""/>
+    <TextView
+        android:id="@+id/areyoursuretext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/wo"
+        android:padding="10dp"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/yes"
+    style="?android:attr/buttonStyle"
+    android:text="@string/yes"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/no"
+        android:text="@string/no"
+        style="?android:attr/buttonStyle"
+        />
+
+    </LinearLayout>
+</LinearLayout>

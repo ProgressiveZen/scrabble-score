@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true"
+    android:layout_centerHorizontal="true"
+    android:layout_centerInParent="true"
+    android:padding="40dp"
+    android:screenOrientation="portrait"
+    android:layout_gravity="center"
+    android:background="@color/dialogbg"
+    >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/cs"
+        android:src="@drawable/logosmall"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/cs"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:background="@android:color/transparent"
+            android:onClick="scrabbleScorePlatinum"
+            android:padding="0dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/iconp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:onClick="scrabbleScorePlatinum"
+            android:padding="0dp"
+            android:text="@string/ssp"
+            android:textAlignment="center"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/minusbutton"
+            android:contentDescription="@string/cs"
+            android:layout_width="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_height="match_parent"
+            android:padding="0dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/minus"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/nop"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            />
+
+        <ImageButton
+            android:id="@+id/plusbutton"
+            android:layout_width="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_height="match_parent"
+            android:padding="0dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/plus"
+            android:contentDescription="@string/cs"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/p1n"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/player1nameinput"
+        android:imeOptions="actionNext"
+        android:maxLines="1"
+        android:inputType="textCapSentences"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/p2n"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/player2nameinput"
+        android:layout_height="wrap_content"
+        android:imeOptions="actionDone"
+        android:inputType="textCapSentences"
+        android:nextFocusDown="@+id/player3nameinput"
+        android:maxLines="1"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/player3name"
+        android:text="@string/p3n"/>
+
+    <EditText
+        android:id="@+id/player3nameinput"
+        android:visibility="gone"
+        android:inputType="textCapSentences"
+        android:maxLines="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:imeOptions="actionNext"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/player4name"
+        android:text="@string/p4n"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/player4nameinput"
+        android:inputType="textCapSentences"
+        android:visibility="gone"
+        android:imeOptions="actionDone"
+        android:maxLines="1"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <Button
+        android:id="@+id/dicsettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ds"
+        android:layout_weight="1"
+        android:onClick="whichDic"
+        style="?android:attr/buttonStyle"
+
+        />
+
+    <Button
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/start"
+        style="?android:attr/buttonStyle"
+        android:layout_weight="1"
+        />
+    </LinearLayout>
+    </LinearLayout>
