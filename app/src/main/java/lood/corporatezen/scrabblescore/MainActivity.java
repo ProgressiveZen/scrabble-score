@@ -1,5 +1,6 @@
 package lood.corporatezen.scrabblescore;
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -9,9 +10,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+//import android.support.v4.content.ContextCompat;
+//import android.support.v7.app.AlertDialog;
+//import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -36,10 +37,14 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import com.example.android.scrabblescore.R;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
+//import com.google.android.gms.ads.AdRequest;
+//import com.google.android.gms.ads.AdView;
+//import com.google.android.gms.ads.InterstitialAd;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -195,18 +200,19 @@ int wordCount = 0;
 
     final ViewGroup nullParent = null;
 
-    private InterstitialAd mInterstitialAd;
+    //private InterstitialAd mInterstitialAd;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        AdView mAdView;
-        mAdView = (AdView) findViewById(R.id.adView);
-      mAdView.loadAd(adRequest);
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-2568422939080036/3628578813");
+        //AdRequest adRequest = new AdRequest.Builder().build();
+        //AdView mAdView;
+        //mAdView = (AdView) findViewById(R.id.adView);
+      //mAdView.loadAd(adRequest);
+       // mInterstitialAd = new InterstitialAd(this);
+        //mInterstitialAd.setAdUnitId("ca-app-pub-2568422939080036/3628578813");
               setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         context = getApplicationContext();
         alphabetCreator();
@@ -1506,12 +1512,12 @@ editor.putInt("playerTurn", playerTurn);
         }
 
         if(wordCount % 5 == 0) {
-            if (mInterstitialAd.isLoaded()) {
-                mInterstitialAd.show();
-            } else {
-                Log.d("TAG", "The interstitial wasn't loaded yet.");
-            }
-            mInterstitialAd.loadAd(new AdRequest.Builder().build());
+//            if (mInterstitialAd.isLoaded()) {
+//                mInterstitialAd.show();
+//            } else {
+//                Log.d("TAG", "The interstitial wasn't loaded yet.");
+//            }
+//            mInterstitialAd.loadAd(new AdRequest.Builder().build());
         }
     }
 
@@ -2229,10 +2235,10 @@ editor.putInt("playerTurn", playerTurn);
                 TextView player2namedisplayer = (TextView) findViewById(R.id.player2name);
                 TextView player3namedisplayer = (TextView) findViewById(R.id.player3name);
                 TextView player4namedisplayer = (TextView) findViewById(R.id.player4name);
-                TextView player1score = (TextView) findViewById(R.id.playerScore1);
-                TextView player2score = (TextView) findViewById(R.id.playerScore2);
-                TextView player3score = (TextView) findViewById(R.id.playerScore3);
-                TextView player4score = (TextView) findViewById(R.id.playerScore4);
+                TextView player1score = (TextView) findViewById(playerScore1);
+                TextView player2score = (TextView) findViewById(playerScore2);
+                TextView player3score = (TextView) findViewById(playerScore3);
+                TextView player4score = (TextView) findViewById(playerScore4);
                 player1namedisplayer.setBackgroundColor(ContextCompat.getColor(context, dialogbg));
                 player2namedisplayer.setBackgroundColor(ContextCompat.getColor(context, dialogbg));
                 player3namedisplayer.setBackgroundColor(ContextCompat.getColor(context, dialogbg));
