@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     int player = 2;
     int bonuspoints = 0;
     int wordTotal;
-int wordCount = 0;
+    int wordCount = 0;
     boolean dicoption = true;
     boolean dicoverride = true;
     boolean dicon = true;
@@ -206,15 +206,15 @@ int wordCount = 0;
         //AdRequest adRequest = new AdRequest.Builder().build();
         //AdView mAdView;
         //mAdView = (AdView) findViewById(R.id.adView);
-      //mAdView.loadAd(adRequest);
-       // mInterstitialAd = new InterstitialAd(this);
+        //mAdView.loadAd(adRequest);
+        // mInterstitialAd = new InterstitialAd(this);
         //mInterstitialAd.setAdUnitId("ca-app-pub-2568422939080036/3628578813");
-              setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         context = getApplicationContext();
         alphabetCreator(alphabet);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
-        loading =  findViewById(R.id.loading);
+        loading = findViewById(R.id.loading);
         saved = settings.getBoolean("saved", false);
         player1name = settings.getString("player1name", player1name);
         player2name = settings.getString("player2name", player2name);
@@ -239,19 +239,19 @@ int wordCount = 0;
         int size2 = settings.getInt("list_size2", 0);
         int size3 = settings.getInt("list_size3", 0);
         int size4 = settings.getInt("list_size4", 0);
-        for(int i=0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             p1WordArray.add(settings.getString("p1word" + i, null));
             p1WordScoreArray.add(settings.getInt("p1wordscore" + i, 0));
         }
-        for(int i=0; i < size2; i++) {
+        for (int i = 0; i < size2; i++) {
             p2WordArray.add(settings.getString("p2word" + i, null));
             p2WordScoreArray.add(settings.getInt("p2wordscore" + i, 0));
         }
-        for(int i=0; i < size3; i++) {
+        for (int i = 0; i < size3; i++) {
             p3WordArray.add(settings.getString("p3word" + i, null));
             p3WordScoreArray.add(settings.getInt("p3wordscore" + i, 0));
         }
-        for(int i=0; i < size4; i++) {
+        for (int i = 0; i < size4; i++) {
             p4WordArray.add(settings.getString("p4word" + i, null));
             p4WordScoreArray.add(settings.getInt("p4wordscore" + i, 0));
         }
@@ -284,14 +284,14 @@ int wordCount = 0;
                 }
 
             });
-            Button nobutton =  promptView.findViewById(R.id.no);
+            Button nobutton = promptView.findViewById(R.id.no);
             nobutton.setText(getString(R.string.cg));
             nobutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Context context;
                     context = getApplicationContext();
-                    ImageView loadingPic =  findViewById(R.id.loading);
+                    ImageView loadingPic = findViewById(R.id.loading);
                     Animation animation = AnimationUtils.loadAnimation(context, R.anim.rotate);
                     loadingPic.startAnimation(animation);
                     alertD.hide();
@@ -340,26 +340,27 @@ int wordCount = 0;
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
                 enterWord();
-                Button addWord =  findViewById(R.id.addWordButton);
+                Button addWord = findViewById(R.id.addWordButton);
                 addWord.setText(getString(R.string.adw));
                 if (playerWord.length() < 1) {
                     addWord.setText(getString(R.string.st));
                 }
             }
         });
-        ImageView loadingPic =  findViewById(R.id.loading);
+        ImageView loadingPic = findViewById(R.id.loading);
         loadingPic.setImageResource(loader);
     }
+
     @Override
     public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        TextView player1namedisplayer =  findViewById(R.id.player1name);
-        TextView player2namedisplayer =  findViewById(R.id.player2name);
-        TextView player3namedisplayer =  findViewById(R.id.player3name);
-        TextView player4namedisplayer =  findViewById(R.id.player4name);
-        TextView player1scoredisplay =  findViewById(R.id.playerScore1);
-        TextView player2scoredisplay =  findViewById(R.id.playerScore2);
-        TextView player3scoredisplay =  findViewById(playerScore3);
-        TextView player4scoredisplay =  findViewById(playerScore4);
+        TextView player1namedisplayer = findViewById(R.id.player1name);
+        TextView player2namedisplayer = findViewById(R.id.player2name);
+        TextView player3namedisplayer = findViewById(R.id.player3name);
+        TextView player4namedisplayer = findViewById(R.id.player4name);
+        TextView player1scoredisplay = findViewById(R.id.playerScore1);
+        TextView player2scoredisplay = findViewById(R.id.playerScore2);
+        TextView player3scoredisplay = findViewById(playerScore3);
+        TextView player4scoredisplay = findViewById(playerScore4);
         super.onSaveInstanceState(savedInstanceState);
         player1name = savedInstanceState.getString("player1");
         player2name = savedInstanceState.getString("player2");
@@ -455,17 +456,17 @@ int wordCount = 0;
         final AlertDialog alertD = new AlertDialog.Builder(this).create();
         alertD.setCanceledOnTouchOutside(false);
         alertD.setCancelable(false);
-        Button startbutton =  promptView.findViewById(R.id.start);
-        ImageButton plus =  promptView.findViewById(R.id.plusbutton);
-        ImageButton minus =  promptView.findViewById(R.id.minusbutton);
-        final EditText player3 =  promptView.findViewById(player3nameinput);
-        final EditText player4 =  promptView.findViewById(R.id.player4nameinput);
-        final TextView player31 =  promptView.findViewById(R.id.player3name);
-        final TextView player41 =  promptView.findViewById(R.id.player4name);
-        final TextView player32 =  findViewById(playerScore3);
-        final TextView player42 =  findViewById(R.id.player4name);
-        final TextView player33 =  findViewById(R.id.player3name);
-        final TextView player43 =  findViewById(playerScore4);
+        Button startbutton = promptView.findViewById(R.id.start);
+        ImageButton plus = promptView.findViewById(R.id.plusbutton);
+        ImageButton minus = promptView.findViewById(R.id.minusbutton);
+        final EditText player3 = promptView.findViewById(player3nameinput);
+        final EditText player4 = promptView.findViewById(R.id.player4nameinput);
+        final TextView player31 = promptView.findViewById(R.id.player3name);
+        final TextView player41 = promptView.findViewById(R.id.player4name);
+        final TextView player32 = findViewById(playerScore3);
+        final TextView player42 = findViewById(R.id.player4name);
+        final TextView player33 = findViewById(R.id.player3name);
+        final TextView player43 = findViewById(playerScore4);
         player4.setVisibility(View.GONE);
         player41.setVisibility(View.GONE);
         player42.setVisibility(View.GONE);
@@ -487,13 +488,13 @@ int wordCount = 0;
                     player32.setVisibility(View.VISIBLE);
                     player33.setVisibility(View.VISIBLE);
                     player3over = false;
-                    EditText player2userinput =  alertD.findViewById(player2nameinput);
-                    if(player2userinput != null) {
+                    EditText player2userinput = alertD.findViewById(player2nameinput);
+                    if (player2userinput != null) {
                         player2userinput.setImeOptions(EditorInfo.IME_ACTION_NEXT);
                     }
-                    EditText player3userinput =  alertD.findViewById(player3nameinput);
-if(player3userinput != null) {
-    player3userinput.setImeOptions(EditorInfo.IME_ACTION_DONE);
+                    EditText player3userinput = alertD.findViewById(player3nameinput);
+                    if (player3userinput != null) {
+                        player3userinput.setImeOptions(EditorInfo.IME_ACTION_DONE);
                     }
                 } else if (player == 3) {
                     player4over = false;
@@ -505,10 +506,10 @@ if(player3userinput != null) {
                     player41.setVisibility(View.VISIBLE);
                     player42.setVisibility(View.VISIBLE);
                     player43.setVisibility(View.VISIBLE);
-                    EditText player3userinput =  alertD.findViewById(player3nameinput);
-if(player3userinput != null) {
-    player3userinput.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-}
+                    EditText player3userinput = alertD.findViewById(player3nameinput);
+                    if (player3userinput != null) {
+                        player3userinput.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+                    }
                 }
             }
 
@@ -527,10 +528,10 @@ if(player3userinput != null) {
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     player4over = false;
                     player = 3;
-                    EditText player3userinput =  alertD.findViewById(player3nameinput);
-if(player3userinput != null) {
-    player3userinput.setImeOptions(EditorInfo.IME_ACTION_DONE);
-}
+                    EditText player3userinput = alertD.findViewById(player3nameinput);
+                    if (player3userinput != null) {
+                        player3userinput.setImeOptions(EditorInfo.IME_ACTION_DONE);
+                    }
                 } else if (player == 3) {
                     player3.setVisibility(View.GONE);
                     player31.setVisibility(View.GONE);
@@ -541,10 +542,10 @@ if(player3userinput != null) {
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     player = 2;
                     player3over = false;
-                    EditText player2userinput =  alertD.findViewById(player2nameinput);
-if(player2userinput != null) {
-    player2userinput.setImeOptions(EditorInfo.IME_ACTION_DONE);
-}
+                    EditText player2userinput = alertD.findViewById(player2nameinput);
+                    if (player2userinput != null) {
+                        player2userinput.setImeOptions(EditorInfo.IME_ACTION_DONE);
+                    }
                 }
             }
 
@@ -554,7 +555,7 @@ if(player2userinput != null) {
             public void onClick(View v) {
                 Context context;
                 context = getApplicationContext();
-                if(dicon ){
+                if (dicon) {
                     loading.setVisibility(View.VISIBLE);
                     Animation animation = AnimationUtils.loadAnimation(context, R.anim.rotate);
                     loading.startAnimation(animation);
@@ -562,30 +563,30 @@ if(player2userinput != null) {
                 if (!dicon) {
                     dicoverride = true;
                 }
-                EditText player2userinput =  alertD.findViewById(player2nameinput);
-                EditText player3userinput =  alertD.findViewById(player3nameinput);
-                EditText player4userinput =  alertD.findViewById(R.id.player4nameinput);
-                EditText player1userinput =  alertD.findViewById(R.id.player1nameinput);
-                TextView player1scoreDisplay =  findViewById(R.id.playerScore1);
-                TextView player2scoreDisplay =  findViewById(R.id.playerScore2);
-                TextView player3scoreDisplay =  findViewById(playerScore3);
-                TextView player4scoreDisplay =  findViewById(playerScore4);
+                EditText player2userinput = alertD.findViewById(player2nameinput);
+                EditText player3userinput = alertD.findViewById(player3nameinput);
+                EditText player4userinput = alertD.findViewById(R.id.player4nameinput);
+                EditText player1userinput = alertD.findViewById(R.id.player1nameinput);
+                TextView player1scoreDisplay = findViewById(R.id.playerScore1);
+                TextView player2scoreDisplay = findViewById(R.id.playerScore2);
+                TextView player3scoreDisplay = findViewById(playerScore3);
+                TextView player4scoreDisplay = findViewById(playerScore4);
                 player1scoreDisplay.setText(String.valueOf(player1score));
                 player2scoreDisplay.setText(String.valueOf(player2score));
-                if(player1userinput != null) {
+                if (player1userinput != null) {
                     player1name = player1userinput.getText().toString();
                 }
-                if(player2userinput != null) {
+                if (player2userinput != null) {
                     player2name = player2userinput.getText().toString();
                 }
                 player3scoreDisplay.setText(String.valueOf(player3score));
                 player4scoreDisplay.setText(String.valueOf(player4score));
-if(player3userinput != null) {
-    player3name = player3userinput.getText().toString();
-}
-if(player4userinput != null) {
-    player4name = player4userinput.getText().toString();
-}
+                if (player3userinput != null) {
+                    player3name = player3userinput.getText().toString();
+                }
+                if (player4userinput != null) {
+                    player4name = player4userinput.getText().toString();
+                }
                 if (player1name.length() == 0) {
                     context = getApplicationContext();
                     Toast toast = Toast.makeText(context, "Player 1 please enter your name", Toast.LENGTH_SHORT);
@@ -615,14 +616,14 @@ if(player4userinput != null) {
                     if (player > 3 && isAlpha(player4name)) {
                         player4name = player4name.substring(0, 1).toUpperCase() + player4name.substring(1);
                     }
-                    TextView player1namedisplayer =  findViewById(R.id.player1name);
-                    TextView player3scoredisplayer =  findViewById(R.id.playerScore3);
-                    TextView player4scoredisplayer =  findViewById(R.id.playerScore4);
-                    TextView player2namedisplayer =  findViewById(R.id.player2name);
+                    TextView player1namedisplayer = findViewById(R.id.player1name);
+                    TextView player3scoredisplayer = findViewById(R.id.playerScore3);
+                    TextView player4scoredisplayer = findViewById(R.id.playerScore4);
+                    TextView player2namedisplayer = findViewById(R.id.player2name);
                     player1namedisplayer.setText(player1name);
                     player2namedisplayer.setText(player2name);
-                    TextView player3namedisplayer =  findViewById(R.id.player3name);
-                    TextView player4namedisplayer =  findViewById(R.id.player4name);
+                    TextView player3namedisplayer = findViewById(R.id.player3name);
+                    TextView player4namedisplayer = findViewById(R.id.player4name);
                     player3namedisplayer.setText(player3name);
                     player4namedisplayer.setText(player4name);
                     context = getApplicationContext();
@@ -642,11 +643,11 @@ if(player4userinput != null) {
                     player4namedisplayer.setBackgroundColor(ContextCompat.getColor(context, transparent));
                     player4scoredisplayer.setBackgroundColor(ContextCompat.getColor(context, transparent));
 
-                    if(dicon) {
+                    if (dicon) {
                         loading.setImageResource(loader);
                         Animation animation = AnimationUtils.loadAnimation(context, R.anim.rotate);
                         loading.startAnimation(animation);
-                    }else {
+                    } else {
                         loading.clearAnimation();
                         loading.setVisibility(View.GONE);
                     }
@@ -701,24 +702,24 @@ if(player4userinput != null) {
         pressed6 = false;
         pressed7 = false;
         pressed8 = false;
-        ImageButton twsreset =  findViewById(R.id.tws);
-        ImageButton dwsreset =  findViewById(R.id.dws);
-        ImageButton tls1reset =  findViewById(R.id.tls1);
-        ImageButton dls1reset =  findViewById(R.id.dls1);
-        ImageButton tls2reset =  findViewById(R.id.tls2);
-        ImageButton dls2reset =  findViewById(R.id.dls2);
-        ImageButton tls3reset =  findViewById(R.id.tls3);
-        ImageButton dls3reset =  findViewById(R.id.dls3);
-        ImageButton tls4reset =  findViewById(R.id.tls4);
-        ImageButton dls4reset =  findViewById(R.id.dls4);
-        ImageButton tls5reset =  findViewById(R.id.tls5);
-        ImageButton dls5reset =  findViewById(R.id.dls5);
-        ImageButton tls6reset =  findViewById(R.id.tls6);
-        ImageButton dls6reset =  findViewById(R.id.dls6);
-        ImageButton tls7reset =  findViewById(tls7);
-        ImageButton dls7reset =  findViewById(dls7);
-        ImageButton tls8reset =  findViewById(tls8);
-        ImageButton dls8reset =  findViewById(dls8);
+        ImageButton twsreset = findViewById(R.id.tws);
+        ImageButton dwsreset = findViewById(R.id.dws);
+        ImageButton tls1reset = findViewById(R.id.tls1);
+        ImageButton dls1reset = findViewById(R.id.dls1);
+        ImageButton tls2reset = findViewById(R.id.tls2);
+        ImageButton dls2reset = findViewById(R.id.dls2);
+        ImageButton tls3reset = findViewById(R.id.tls3);
+        ImageButton dls3reset = findViewById(R.id.dls3);
+        ImageButton tls4reset = findViewById(R.id.tls4);
+        ImageButton dls4reset = findViewById(R.id.dls4);
+        ImageButton tls5reset = findViewById(R.id.tls5);
+        ImageButton dls5reset = findViewById(R.id.dls5);
+        ImageButton tls6reset = findViewById(R.id.tls6);
+        ImageButton dls6reset = findViewById(R.id.dls6);
+        ImageButton tls7reset = findViewById(tls7);
+        ImageButton dls7reset = findViewById(dls7);
+        ImageButton tls8reset = findViewById(tls8);
+        ImageButton dls8reset = findViewById(dls8);
         tls1reset.setClickable(true);
         tls2reset.setClickable(true);
         tls3reset.setClickable(true);
@@ -735,18 +736,18 @@ if(player4userinput != null) {
         dls6reset.setClickable(true);
         dls7reset.setClickable(true);
         dls8reset.setClickable(true);
-        ImageButton bonus =  findViewById(R.id.bonus);
-        ImageView l1 =  findViewById(letter1);
-        ImageView l2 =  findViewById(letter2);
-        ImageView l3 =  findViewById(letter3);
-        ImageView l4 =  findViewById(letter4);
-        ImageView l5 =  findViewById(letter5);
-        ImageView l6 =  findViewById(letter6);
-        ImageView l7 =  findViewById(letter7);
-        ImageView l8 =  findViewById(letter8);
-        EditText eText =  findViewById(R.id.userWord);
+        ImageButton bonus = findViewById(R.id.bonus);
+        ImageView l1 = findViewById(letter1);
+        ImageView l2 = findViewById(letter2);
+        ImageView l3 = findViewById(letter3);
+        ImageView l4 = findViewById(letter4);
+        ImageView l5 = findViewById(letter5);
+        ImageView l6 = findViewById(letter6);
+        ImageView l7 = findViewById(letter7);
+        ImageView l8 = findViewById(letter8);
+        EditText eText = findViewById(R.id.userWord);
         playerWord = eText.getText().toString();
-        if(playerWord.length() == 0){
+        if (playerWord.length() == 0) {
             l1.setImageResource(blank);
             l2.setImageResource(blank);
             l3.setImageResource(blank);
@@ -774,136 +775,136 @@ if(player4userinput != null) {
             twsreset.setImageResource(R.drawable.tws);
             dwsreset.setImageResource(R.drawable.dws);
             total = 0;
-        }else {
+        } else {
             try {
-                le1 = "" + alphabet.get("" + playerWord.charAt(playerWord.length()-1));
-        yesno = false;
-        playerWord = playerWord.toLowerCase();
-        if(playerWord.length() > 0) {
-            try {
-                le1 = playerWord.substring(0, 1);
-                dls1reset.setImageResource(R.drawable.dlse);
-                tls1reset.setImageResource(R.drawable.tlse);
-                total = alphabet.get(le1);
-            }catch(StringIndexOutOfBoundsException e){
-                le1 = "blank";
-                dls1reset.setImageResource(R.drawable.dls);
-                tls1reset.setImageResource(R.drawable.tls);
-                dls1reset.setClickable(false);
-                tls1reset.setClickable(false);
-            }
-            try{
-            le2 = playerWord.substring(1,2);
-                dls2reset.setImageResource(R.drawable.dlse);
-                tls2reset.setImageResource(R.drawable.tlse);
-                twsreset.setImageResource(R.drawable.twse);
-                dwsreset.setImageResource(R.drawable.dwse);
-                total = alphabet.get(le1) + alphabet.get(le2);
-            }catch(StringIndexOutOfBoundsException e){
-                le2 = "blank";
-                dls2reset.setImageResource(R.drawable.dls);
-                tls2reset.setImageResource(R.drawable.tls);
-                dls2reset.setClickable(false);
-                tls2reset.setClickable(false);
-            }
-            try {
-                le3 = playerWord.substring(2, 3);
-                dls3reset.setImageResource(R.drawable.dlse);
-                tls3reset.setImageResource(R.drawable.tlse);
-                total = alphabet.get(le1) + alphabet.get(le2) + alphabet.get(le3);
-            }catch(StringIndexOutOfBoundsException e){
-            le3 = "blank";
-                dls3reset.setImageResource(R.drawable.dls);
-                tls3reset.setImageResource(R.drawable.tls);
-                dls3reset.setClickable(false);
-                tls3reset.setClickable(false);
-        }
-        try {
-            le4 = playerWord.substring(3, 4);
-            dls4reset.setImageResource(R.drawable.dlse);
-tls4reset.setImageResource(R.drawable.tlse);
-            total = alphabet.get(le1) + alphabet.get(le2) + alphabet.get(le3) + alphabet.get(le4);
-        }catch(StringIndexOutOfBoundsException e){
-            le4 = "blank";
-            dls4reset.setImageResource(R.drawable.dls);
-            tls4reset.setImageResource(R.drawable.tls);
-            dls4reset.setClickable(false);
-            tls4reset.setClickable(false);
-        }
-            try {
-                le5 = playerWord.substring(4, 5);
-                dls5reset.setImageResource(R.drawable.dlse);
-                tls5reset.setImageResource(R.drawable.tlse);
-                total = alphabet.get(le1) + alphabet.get(le2) + alphabet.get(le3) + alphabet.get(le4) + alphabet.get(le5);
-            }catch(StringIndexOutOfBoundsException e){
-                le5 = "blank";
-                dls5reset.setImageResource(R.drawable.dls);
-                tls5reset.setImageResource(R.drawable.tls);
-                dls5reset.setClickable(false);
-                tls5reset.setClickable(false);
-            }
-            try {
-                le6 = playerWord.substring(5, 6);
-                dls6reset.setImageResource(R.drawable.dlse);
-                tls6reset.setImageResource(R.drawable.tlse);
-                total = alphabet.get(le1) + alphabet.get(le2) + alphabet.get(le3) + alphabet.get(le4) + alphabet.get(le5) + alphabet.get(le6);
-            }catch(StringIndexOutOfBoundsException e){
-                le6 = "blank";
-                dls6reset.setImageResource(R.drawable.dls);
-                tls6reset.setImageResource(R.drawable.tls);
-                dls6reset.setClickable(false);
-                tls6reset.setClickable(false);
-            }
-            try{
-            le7 = playerWord.substring(6,7);
-                dls7reset.setImageResource(R.drawable.dlse);
-                tls7reset.setImageResource(R.drawable.tlse);
-                tls6reset.setImageResource(R.drawable.tlse);
-                total = alphabet.get(le1) + alphabet.get(le2) + alphabet.get(le3) + alphabet.get(le4) + alphabet.get(le5) + alphabet.get(le6) + alphabet.get(le7);
-                bonus.setImageResource(R.drawable.fifty);
-                bonus.setClickable(false);
-            }catch(StringIndexOutOfBoundsException e){
-                le7 = "blank";
-                dls7reset.setImageResource(R.drawable.dls);
-                tls7reset.setImageResource(R.drawable.tls);
-                dls7reset.setClickable(false);
-                tls7reset.setClickable(false);
-            }
-            try {
-            le8 = playerWord.substring(7,8);
-                dls8reset.setImageResource(R.drawable.dlse);
-                tls8reset.setImageResource(R.drawable.tlse);
-                bonus.setImageResource(R.drawable.fiftye);
-                bonus.setClickable(true);
-                total = alphabet.get(le1) + alphabet.get(le2) + alphabet.get(le3) + alphabet.get(le4) + alphabet.get(le5) + alphabet.get(le6) + alphabet.get(le7) + alphabet.get(le8);
-            }catch(StringIndexOutOfBoundsException e){
-                le8 = "blank";
-                dls8reset.setImageResource(R.drawable.dls);
-                tls8reset.setImageResource(R.drawable.tls);
-                dls8reset.setClickable(false);
-                tls8reset.setClickable(false);
-                bonus.setClickable(false);
-            }
-l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable", l1.getContext().getPackageName()));
-            l2.setImageResource(l2.getContext().getResources().getIdentifier(le2, "drawable", l2.getContext().getPackageName()));
-            l3.setImageResource(l3.getContext().getResources().getIdentifier(le3, "drawable", l3.getContext().getPackageName()));
-            l4.setImageResource(l4.getContext().getResources().getIdentifier(le4, "drawable", l4.getContext().getPackageName()));
-            l5.setImageResource(l5.getContext().getResources().getIdentifier(le5, "drawable", l5.getContext().getPackageName()));
-            l6.setImageResource(l6.getContext().getResources().getIdentifier(le6, "drawable", l6.getContext().getPackageName()));
-            l7.setImageResource(l7.getContext().getResources().getIdentifier(le7, "drawable", l7.getContext().getPackageName()));
-            l8.setImageResource(l8.getContext().getResources().getIdentifier(le8, "drawable", l8.getContext().getPackageName()));
-        }
-        if (playerWord.length() > 8) {
-            Toast toast = Toast.makeText(getApplicationContext(), "Maximum 8 characters", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-        if (!isAlpha(playerWord)) {
-            Toast toast = Toast.makeText(getApplicationContext(), "Word must contain only letters.", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-        if (dicon) {
-            txtLooker(playerWord);
-        }
+                le1 = "" + alphabet.get("" + playerWord.charAt(playerWord.length() - 1));
+                yesno = false;
+                playerWord = playerWord.toLowerCase();
+                if (playerWord.length() > 0) {
+                    try {
+                        le1 = playerWord.substring(0, 1);
+                        dls1reset.setImageResource(R.drawable.dlse);
+                        tls1reset.setImageResource(R.drawable.tlse);
+                        total = alphabet.get(le1);
+                    } catch (StringIndexOutOfBoundsException e) {
+                        le1 = "blank";
+                        dls1reset.setImageResource(R.drawable.dls);
+                        tls1reset.setImageResource(R.drawable.tls);
+                        dls1reset.setClickable(false);
+                        tls1reset.setClickable(false);
+                    }
+                    try {
+                        le2 = playerWord.substring(1, 2);
+                        dls2reset.setImageResource(R.drawable.dlse);
+                        tls2reset.setImageResource(R.drawable.tlse);
+                        twsreset.setImageResource(R.drawable.twse);
+                        dwsreset.setImageResource(R.drawable.dwse);
+                        total = alphabet.get(le1) + alphabet.get(le2);
+                    } catch (StringIndexOutOfBoundsException e) {
+                        le2 = "blank";
+                        dls2reset.setImageResource(R.drawable.dls);
+                        tls2reset.setImageResource(R.drawable.tls);
+                        dls2reset.setClickable(false);
+                        tls2reset.setClickable(false);
+                    }
+                    try {
+                        le3 = playerWord.substring(2, 3);
+                        dls3reset.setImageResource(R.drawable.dlse);
+                        tls3reset.setImageResource(R.drawable.tlse);
+                        total = alphabet.get(le1) + alphabet.get(le2) + alphabet.get(le3);
+                    } catch (StringIndexOutOfBoundsException e) {
+                        le3 = "blank";
+                        dls3reset.setImageResource(R.drawable.dls);
+                        tls3reset.setImageResource(R.drawable.tls);
+                        dls3reset.setClickable(false);
+                        tls3reset.setClickable(false);
+                    }
+                    try {
+                        le4 = playerWord.substring(3, 4);
+                        dls4reset.setImageResource(R.drawable.dlse);
+                        tls4reset.setImageResource(R.drawable.tlse);
+                        total = alphabet.get(le1) + alphabet.get(le2) + alphabet.get(le3) + alphabet.get(le4);
+                    } catch (StringIndexOutOfBoundsException e) {
+                        le4 = "blank";
+                        dls4reset.setImageResource(R.drawable.dls);
+                        tls4reset.setImageResource(R.drawable.tls);
+                        dls4reset.setClickable(false);
+                        tls4reset.setClickable(false);
+                    }
+                    try {
+                        le5 = playerWord.substring(4, 5);
+                        dls5reset.setImageResource(R.drawable.dlse);
+                        tls5reset.setImageResource(R.drawable.tlse);
+                        total = alphabet.get(le1) + alphabet.get(le2) + alphabet.get(le3) + alphabet.get(le4) + alphabet.get(le5);
+                    } catch (StringIndexOutOfBoundsException e) {
+                        le5 = "blank";
+                        dls5reset.setImageResource(R.drawable.dls);
+                        tls5reset.setImageResource(R.drawable.tls);
+                        dls5reset.setClickable(false);
+                        tls5reset.setClickable(false);
+                    }
+                    try {
+                        le6 = playerWord.substring(5, 6);
+                        dls6reset.setImageResource(R.drawable.dlse);
+                        tls6reset.setImageResource(R.drawable.tlse);
+                        total = alphabet.get(le1) + alphabet.get(le2) + alphabet.get(le3) + alphabet.get(le4) + alphabet.get(le5) + alphabet.get(le6);
+                    } catch (StringIndexOutOfBoundsException e) {
+                        le6 = "blank";
+                        dls6reset.setImageResource(R.drawable.dls);
+                        tls6reset.setImageResource(R.drawable.tls);
+                        dls6reset.setClickable(false);
+                        tls6reset.setClickable(false);
+                    }
+                    try {
+                        le7 = playerWord.substring(6, 7);
+                        dls7reset.setImageResource(R.drawable.dlse);
+                        tls7reset.setImageResource(R.drawable.tlse);
+                        tls6reset.setImageResource(R.drawable.tlse);
+                        total = alphabet.get(le1) + alphabet.get(le2) + alphabet.get(le3) + alphabet.get(le4) + alphabet.get(le5) + alphabet.get(le6) + alphabet.get(le7);
+                        bonus.setImageResource(R.drawable.fifty);
+                        bonus.setClickable(false);
+                    } catch (StringIndexOutOfBoundsException e) {
+                        le7 = "blank";
+                        dls7reset.setImageResource(R.drawable.dls);
+                        tls7reset.setImageResource(R.drawable.tls);
+                        dls7reset.setClickable(false);
+                        tls7reset.setClickable(false);
+                    }
+                    try {
+                        le8 = playerWord.substring(7, 8);
+                        dls8reset.setImageResource(R.drawable.dlse);
+                        tls8reset.setImageResource(R.drawable.tlse);
+                        bonus.setImageResource(R.drawable.fiftye);
+                        bonus.setClickable(true);
+                        total = alphabet.get(le1) + alphabet.get(le2) + alphabet.get(le3) + alphabet.get(le4) + alphabet.get(le5) + alphabet.get(le6) + alphabet.get(le7) + alphabet.get(le8);
+                    } catch (StringIndexOutOfBoundsException e) {
+                        le8 = "blank";
+                        dls8reset.setImageResource(R.drawable.dls);
+                        tls8reset.setImageResource(R.drawable.tls);
+                        dls8reset.setClickable(false);
+                        tls8reset.setClickable(false);
+                        bonus.setClickable(false);
+                    }
+                    l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable", l1.getContext().getPackageName()));
+                    l2.setImageResource(l2.getContext().getResources().getIdentifier(le2, "drawable", l2.getContext().getPackageName()));
+                    l3.setImageResource(l3.getContext().getResources().getIdentifier(le3, "drawable", l3.getContext().getPackageName()));
+                    l4.setImageResource(l4.getContext().getResources().getIdentifier(le4, "drawable", l4.getContext().getPackageName()));
+                    l5.setImageResource(l5.getContext().getResources().getIdentifier(le5, "drawable", l5.getContext().getPackageName()));
+                    l6.setImageResource(l6.getContext().getResources().getIdentifier(le6, "drawable", l6.getContext().getPackageName()));
+                    l7.setImageResource(l7.getContext().getResources().getIdentifier(le7, "drawable", l7.getContext().getPackageName()));
+                    l8.setImageResource(l8.getContext().getResources().getIdentifier(le8, "drawable", l8.getContext().getPackageName()));
+                }
+                if (playerWord.length() > 8) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Maximum 8 characters", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                if (!isAlpha(playerWord)) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Word must contain only letters.", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                if (dicon) {
+                    txtLooker(playerWord);
+                }
             } catch (NullPointerException e) {
                 Toast toast = Toast.makeText(getApplicationContext(), "No spaces allowed.", Toast.LENGTH_SHORT);
                 toast.show();
@@ -913,15 +914,15 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void twsOnClick(View v) {
-        ImageButton twsbutton1 =  findViewById(R.id.tws);
-        ImageButton dwsbutton1 =  findViewById(R.id.dws);
+        ImageButton twsbutton1 = findViewById(R.id.tws);
+        ImageButton dwsbutton1 = findViewById(R.id.dws);
         if (!twspressed && !le1.equals(" ")) {
             twsbutton1.setImageResource(R.drawable.twss);
             dwsbutton1.setImageResource(dwse);
             dwspressed = false;
             twspressed = true;
             wordMultipleBonus = 3;
-        } else if (twspressed  && !le1.equals(" ")) {
+        } else if (twspressed && !le1.equals(" ")) {
             twsbutton1.setImageResource(R.drawable.twse);
             twspressed = false;
             wordMultipleBonus = 1;
@@ -930,15 +931,15 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void dwsOnClick(View v) {
-        ImageButton twsbutton1 =  findViewById(R.id.tws);
-        ImageButton dwsbutton1 =  findViewById(R.id.dws);
+        ImageButton twsbutton1 = findViewById(R.id.tws);
+        ImageButton dwsbutton1 = findViewById(R.id.dws);
         if (!dwspressed && !le1.equals(" ")) {
             twsbutton1.setImageResource(R.drawable.twse);
             dwsbutton1.setImageResource(R.drawable.dwss);
             twspressed = false;
             dwspressed = true;
             wordMultipleBonus = 2;
-        } else if (dwspressed  && !le1.equals(" ")) {
+        } else if (dwspressed && !le1.equals(" ")) {
             dwsbutton1.setImageResource(dwse);
             dwspressed = false;
             wordMultipleBonus = 1;
@@ -947,15 +948,15 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setTls1Pressed(View v) {
-        ImageButton tlsbutton1 =  findViewById(tls1);
-        ImageButton dlsbutton1 =  findViewById(dls1);
+        ImageButton tlsbutton1 = findViewById(tls1);
+        ImageButton dlsbutton1 = findViewById(dls1);
         if (!tls1Pressed && !le1.equals(" ") && !pressed1) {
             tlsbutton1.setImageResource(R.drawable.tlss);
             dlsbutton1.setImageResource(dlse);
             tls1Pressed = true;
             dls1Pressed = false;
             l1bonus = (alphabet.get(le1) * 2);
-        } else if (tls1Pressed  && !le1.equals(" ") && !pressed1) {
+        } else if (tls1Pressed && !le1.equals(" ") && !pressed1) {
             tlsbutton1.setImageResource(tlse);
             tls1Pressed = false;
             l1bonus = 0;
@@ -964,15 +965,15 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setDls1Pressed(View v) {
-        ImageButton tlsbutton1 =  findViewById(tls1);
-        ImageButton dlsbutton1 =  findViewById(dls1);
+        ImageButton tlsbutton1 = findViewById(tls1);
+        ImageButton dlsbutton1 = findViewById(dls1);
         if (!dls1Pressed && !le1.equals(" ") && !pressed1) {
             dlsbutton1.setImageResource(R.drawable.dlss);
             tlsbutton1.setImageResource(tlse);
             dls1Pressed = true;
             tls1Pressed = false;
             l1bonus = alphabet.get(le1);
-        } else if (dls1Pressed  && !le1.equals(" ") && !pressed1) {
+        } else if (dls1Pressed && !le1.equals(" ") && !pressed1) {
             dlsbutton1.setImageResource(dlse);
             dls1Pressed = false;
             l1bonus = 0;
@@ -981,15 +982,15 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setTls2Pressed(View v) {
-        ImageButton tlsbutton2 =  findViewById(tls2);
-        ImageButton dlsbutton2 =  findViewById(dls2);
+        ImageButton tlsbutton2 = findViewById(tls2);
+        ImageButton dlsbutton2 = findViewById(dls2);
         if (!tls2Pressed && !le2.equals(" ") && !pressed2) {
             tlsbutton2.setImageResource(R.drawable.tlss);
             dlsbutton2.setImageResource(dlse);
             tls2Pressed = true;
             dls2Pressed = false;
             l2bonus = (alphabet.get(le2) * 2);
-        } else if (tls2Pressed  && le2.equals(" ") && !pressed2) {
+        } else if (tls2Pressed && le2.equals(" ") && !pressed2) {
             tlsbutton2.setImageResource(tlse);
             tls2Pressed = false;
             l2bonus = 0;
@@ -998,15 +999,15 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setDls2Pressed(View v) {
-        ImageButton tlsbutton2 =  findViewById(tls2);
-        ImageButton dlsbutton2 =  findViewById(dls2);
+        ImageButton tlsbutton2 = findViewById(tls2);
+        ImageButton dlsbutton2 = findViewById(dls2);
         if (!dls2Pressed && !le2.equals(" ") && !pressed2) {
             dlsbutton2.setImageResource(R.drawable.dlss);
             tlsbutton2.setImageResource(tlse);
             dls2Pressed = true;
             tls2Pressed = false;
             l2bonus = alphabet.get(le2);
-        } else if (dls2Pressed  && !le2.equals(" ") && !pressed2) {
+        } else if (dls2Pressed && !le2.equals(" ") && !pressed2) {
             dlsbutton2.setImageResource(dlse);
             dls2Pressed = false;
             l2bonus = 0;
@@ -1015,15 +1016,15 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setTls3Pressed(View v) {
-        ImageButton tlsbutton3 =  findViewById(tls3);
-        ImageButton dlsbutton3 =  findViewById(dls3);
+        ImageButton tlsbutton3 = findViewById(tls3);
+        ImageButton dlsbutton3 = findViewById(dls3);
         if (!tls3Pressed && !le3.equals(" ") && !pressed3) {
             tlsbutton3.setImageResource(R.drawable.tlss);
             dlsbutton3.setImageResource(dlse);
             tls3Pressed = true;
             dls3Pressed = false;
             l3bonus = (alphabet.get(le3) * 2);
-        } else if (tls3Pressed  && !le3.equals(" ") && !pressed3) {
+        } else if (tls3Pressed && !le3.equals(" ") && !pressed3) {
             tlsbutton3.setImageResource(tlse);
             tls3Pressed = false;
             l3bonus = 0;
@@ -1032,8 +1033,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setDls3Pressed(View v) {
-        ImageButton tlsbutton3 =  findViewById(tls3);
-        ImageButton dlsbutton3 =  findViewById(dls3);
+        ImageButton tlsbutton3 = findViewById(tls3);
+        ImageButton dlsbutton3 = findViewById(dls3);
         if (!dls3Pressed && !le3.equals(" ") && !pressed3) {
             dlsbutton3.setImageResource(R.drawable.dlss);
             tlsbutton3.setImageResource(tlse);
@@ -1049,8 +1050,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setTls4Pressed(View v) {
-        ImageButton tlsbutton4 =  findViewById(tls4);
-        ImageButton dlsbutton4 =  findViewById(dls4);
+        ImageButton tlsbutton4 = findViewById(tls4);
+        ImageButton dlsbutton4 = findViewById(dls4);
         if (!tls4Pressed && !le4.equals(" ") && !pressed4) {
             tlsbutton4.setImageResource(R.drawable.tlss);
             dlsbutton4.setImageResource(dlse);
@@ -1066,15 +1067,15 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setDls4Pressed(View v) {
-        ImageButton tlsbutton4 =  findViewById(tls4);
-        ImageButton dlsbutton4 =  findViewById(dls4);
+        ImageButton tlsbutton4 = findViewById(tls4);
+        ImageButton dlsbutton4 = findViewById(dls4);
         if (!dls4Pressed && !le4.equals(" ") && !pressed4) {
             dlsbutton4.setImageResource(R.drawable.dlss);
             tlsbutton4.setImageResource(tlse);
             dls4Pressed = true;
             tls4Pressed = false;
             l4bonus = alphabet.get(le4);
-        } else if (dls4Pressed  && !le4.equals(" ") && !pressed4) {
+        } else if (dls4Pressed && !le4.equals(" ") && !pressed4) {
             dlsbutton4.setImageResource(dlse);
             dls4Pressed = false;
             l4bonus = 0;
@@ -1083,8 +1084,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setTls5Pressed(View v) {
-        ImageButton tlsbutton5 =  findViewById(tls5);
-        ImageButton dlsbutton5 =  findViewById(dls5);
+        ImageButton tlsbutton5 = findViewById(tls5);
+        ImageButton dlsbutton5 = findViewById(dls5);
         if (!tls5Pressed && !le5.equals(" ") && !pressed5) {
             tlsbutton5.setImageResource(R.drawable.tlss);
             dlsbutton5.setImageResource(dlse);
@@ -1117,8 +1118,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setDls6Pressed(View v) {
-        ImageButton tlsbutton6 =  findViewById(tls6);
-        ImageButton dlsbutton6 =  findViewById(dls6);
+        ImageButton tlsbutton6 = findViewById(tls6);
+        ImageButton dlsbutton6 = findViewById(dls6);
         if (!dls6Pressed && !le6.equals(" ") && !pressed6) {
             dlsbutton6.setImageResource(R.drawable.dlss);
             tlsbutton6.setImageResource(tlse);
@@ -1135,8 +1136,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
 
 
     public void setDls5Pressed(View v) {
-        ImageButton tlsbutton5 =  findViewById(tls5);
-        ImageButton dlsbutton5 =  findViewById(dls5);
+        ImageButton tlsbutton5 = findViewById(tls5);
+        ImageButton dlsbutton5 = findViewById(dls5);
         if (!dls5Pressed && !le5.equals(" ") && !pressed5) {
             dlsbutton5.setImageResource(R.drawable.dlss);
             tlsbutton5.setImageResource(tlse);
@@ -1152,8 +1153,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setTls7Pressed(View v) {
-        ImageButton tlsbutton7 =  findViewById(tls7);
-        ImageButton dlsbutton7 =  findViewById(dls7);
+        ImageButton tlsbutton7 = findViewById(tls7);
+        ImageButton dlsbutton7 = findViewById(dls7);
         if (!tls7Pressed && !le7.equals(" ") && !pressed7) {
             tlsbutton7.setImageResource(R.drawable.tlss);
             dlsbutton7.setImageResource(dlse);
@@ -1169,8 +1170,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setDls7Pressed(View v) {
-        ImageButton tlsbutton7 =  findViewById(tls7);
-        ImageButton dlsbutton7 =  findViewById(dls7);
+        ImageButton tlsbutton7 = findViewById(tls7);
+        ImageButton dlsbutton7 = findViewById(dls7);
         if (!dls7Pressed && !le7.equals(" ") && !pressed7) {
             dlsbutton7.setImageResource(R.drawable.dlss);
             tlsbutton7.setImageResource(tlse);
@@ -1186,8 +1187,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setTls8Pressed(View v) {
-        ImageButton tlsbutton8 =  findViewById(tls8);
-        ImageButton dlsbutton8 =  findViewById(dls8);
+        ImageButton tlsbutton8 = findViewById(tls8);
+        ImageButton dlsbutton8 = findViewById(dls8);
         if (!tls8Pressed && !le8.equals(" ") && !pressed8) {
             tlsbutton8.setImageResource(R.drawable.tlss);
             dlsbutton8.setImageResource(dlse);
@@ -1203,8 +1204,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setDls8Pressed(View v) {
-        ImageButton tlsbutton8 =  findViewById(tls8);
-        ImageButton dlsbutton8 =  findViewById(dls8);
+        ImageButton tlsbutton8 = findViewById(tls8);
+        ImageButton dlsbutton8 = findViewById(dls8);
         if (!dls8Pressed && !le8.equals(" ") && !pressed8) {
             dlsbutton8.setImageResource(R.drawable.dlss);
             tlsbutton8.setImageResource(tlse);
@@ -1220,8 +1221,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void displayTotalWordScore() {
-        TextView totalWordScore =  findViewById(R.id.totalWordScore);
-        TextView wordScoreDisplay =  findViewById(R.id.wordScore);
+        TextView totalWordScore = findViewById(R.id.totalWordScore);
+        TextView wordScoreDisplay = findViewById(R.id.wordScore);
         wordTotal = (((total + l1bonus + l2bonus + l3bonus + l4bonus + l5bonus + l6bonus + l7bonus + l8bonus) * wordMultipleBonus) + bonuspoints);
         totalWordScore.setText(getString(R.string.tws2, wordTotal));
         wordScoreDisplay.setText(getString(R.string.ws2, total));
@@ -1229,54 +1230,54 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
 
     public void turnNameChange() {
         Context context;
-        context= getApplicationContext();
+        context = getApplicationContext();
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("player1score", player1score);
         editor.putInt("player2score", player2score);
         editor.putInt("player3score", player3score);
         editor.putInt("player4score", player4score);
-editor.putInt("playerTurn", playerTurn);
+        editor.putInt("playerTurn", playerTurn);
         editor.putInt("wordcount", wordCount);
         editor.putInt("list_size1", p1WordScoreArray.size());
-        for(int i=0;i<p1WordScoreArray.size(); i++) {
+        for (int i = 0; i < p1WordScoreArray.size(); i++) {
             editor.putInt("p1wordscore" + i, p1WordScoreArray.get(i));
         }
         editor.putInt("list_size2", p2WordScoreArray.size());
-        for(int i=0;i<p2WordScoreArray.size(); i++) {
+        for (int i = 0; i < p2WordScoreArray.size(); i++) {
             editor.putInt("p2wordscore" + i, p2WordScoreArray.get(i));
         }
         editor.putInt("list_size3", p3WordScoreArray.size());
-        for(int i=0;i<p3WordScoreArray.size(); i++) {
+        for (int i = 0; i < p3WordScoreArray.size(); i++) {
             editor.putInt("p3wordscore" + i, p3WordScoreArray.get(i));
         }
         editor.putInt("list_size4", p4WordScoreArray.size());
-        for(int i=0;i<p4WordScoreArray.size(); i++) {
+        for (int i = 0; i < p4WordScoreArray.size(); i++) {
             editor.putInt("p4wordscore" + i, p4WordScoreArray.get(i));
         }
 
-    for (int i = 0; i < p1WordArray.size(); i++) {
-        editor.putString("p1word" + i, p1WordArray.get(i));
-    }
-    for (int i = 0; i < p2WordArray.size(); i++) {
-        editor.putString("p2word" + i, p2WordArray.get(i));
-    }
-    for(int i=0;i<p3WordArray.size(); i++) {
-         editor.putString("p3word" + i, p3WordArray.get(i));
-    }
-    for(int i=0;i<p4WordArray.size(); i++) {
-         editor.putString("p4word" + i, p4WordArray.get(i));
-    }
-    editor.apply();
+        for (int i = 0; i < p1WordArray.size(); i++) {
+            editor.putString("p1word" + i, p1WordArray.get(i));
+        }
+        for (int i = 0; i < p2WordArray.size(); i++) {
+            editor.putString("p2word" + i, p2WordArray.get(i));
+        }
+        for (int i = 0; i < p3WordArray.size(); i++) {
+            editor.putString("p3word" + i, p3WordArray.get(i));
+        }
+        for (int i = 0; i < p4WordArray.size(); i++) {
+            editor.putString("p4word" + i, p4WordArray.get(i));
+        }
+        editor.apply();
 
-        TextView p1name =  findViewById(R.id.player1name);
-        TextView p1score =  findViewById(R.id.playerScore1);
-        TextView p2name =  findViewById(R.id.player2name);
-        TextView p2score =  findViewById(R.id.playerScore2);
-        TextView p3name =  findViewById(R.id.player3name);
-        TextView p3score =  findViewById(R.id.playerScore3);
-        TextView p4name =  findViewById(R.id.player4name);
-        TextView p4score =  findViewById(R.id.playerScore4);
+        TextView p1name = findViewById(R.id.player1name);
+        TextView p1score = findViewById(R.id.playerScore1);
+        TextView p2name = findViewById(R.id.player2name);
+        TextView p2score = findViewById(R.id.playerScore2);
+        TextView p3name = findViewById(R.id.player3name);
+        TextView p3score = findViewById(R.id.playerScore3);
+        TextView p4name = findViewById(R.id.player4name);
+        TextView p4score = findViewById(R.id.playerScore4);
         if (playerTurn == 1 && !player1over) {
             p1name.setBackgroundColor(ContextCompat.getColor(context, appblue));
             p1score.setBackgroundColor(ContextCompat.getColor(context, appblue));
@@ -1345,23 +1346,23 @@ editor.putInt("playerTurn", playerTurn);
 
     public void bonuspoints(View v) {
         if (playerWord.length() == 7 && !bonuspressed && player1score == 0 && player2score == 0) {
-            ImageView bonus =  findViewById(R.id.bonus);
+            ImageView bonus = findViewById(R.id.bonus);
             bonus.setImageResource(R.drawable.fiftys);
             bonuspressed = true;
             bonuspoints = 50;
-        } else if (playerWord.length() == 7 && bonuspressed  && player1score == 0 && player2score == 0) {
-            ImageView bonus =  findViewById(R.id.bonus);
+        } else if (playerWord.length() == 7 && bonuspressed && player1score == 0 && player2score == 0) {
+            ImageView bonus = findViewById(R.id.bonus);
             bonus.setImageResource(R.drawable.fiftye);
             bonuspoints = 0;
             bonuspressed = false;
         }
         if (playerWord.length() == 8 && !bonuspressed) {
-            ImageView bonus =  findViewById(R.id.bonus);
+            ImageView bonus = findViewById(R.id.bonus);
             bonus.setImageResource(R.drawable.fiftys);
             bonuspressed = true;
             bonuspoints = 50;
-        } else if (playerWord.length() == 8 && bonuspressed ) {
-            ImageView bonus =  findViewById(R.id.bonus);
+        } else if (playerWord.length() == 8 && bonuspressed) {
+            ImageView bonus = findViewById(R.id.bonus);
             bonus.setImageResource(R.drawable.fiftye);
             bonuspoints = 0;
             bonuspressed = false;
@@ -1370,43 +1371,43 @@ editor.putInt("playerTurn", playerTurn);
     }
 
     public void checkOver() {
-        if (player1over  && playerTurn == 1) {
+        if (player1over && playerTurn == 1) {
             playerTurn = 2;
         }
-        if (player2over  && playerTurn == 2) {
+        if (player2over && playerTurn == 2) {
             if (player > 2) {
                 playerTurn = 3;
             } else {
                 playerTurn = 1;
             }
         }
-        if (player3over  && playerTurn == 3) {
+        if (player3over && playerTurn == 3) {
             if (player > 3) {
                 playerTurn = 4;
-            } else{
+            } else {
                 playerTurn = 1;
             }
         }
-        if (player4over  && playerTurn == 4) {
+        if (player4over && playerTurn == 4) {
             playerTurn = 1;
         }
     }
 
     public void addToScore(View v) {
-        if(playerWord.length() < 1){
+        if (playerWord.length() < 1) {
             exchangeTiles();
         }
         if (yesno || !dicon) {
             addToScore2();
-        } else if (dicoverride  && playerWord.length() > 0) {
+        } else if (dicoverride && playerWord.length() > 0) {
             LayoutInflater layoutInflater = LayoutInflater.from(this);
             View promptView = layoutInflater.inflate(R.layout.override, nullParent);
             final AlertDialog alertD = new AlertDialog.Builder(this).create();
             alertD.setCanceledOnTouchOutside(false);
             alertD.setCancelable(false);
-            TextView playerName =  promptView.findViewById(R.id.playerName);
+            TextView playerName = promptView.findViewById(R.id.playerName);
             playerName.setText(getPlayerName(playerTurn));
-            Button yesbutton =  promptView.findViewById(R.id.yes);
+            Button yesbutton = promptView.findViewById(R.id.yes);
             yesbutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1415,7 +1416,7 @@ editor.putInt("playerTurn", playerTurn);
                 }
 
             });
-            Button nobutton =  promptView.findViewById(R.id.no);
+            Button nobutton = promptView.findViewById(R.id.no);
             nobutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1434,7 +1435,7 @@ editor.putInt("playerTurn", playerTurn);
             if (playerTurn == 1 && !player1over) {
                 player1score = player1score + wordTotal;
                 playerTurn = 2;
-                TextView playerScoreDisplay1 =  findViewById(playerScore1);
+                TextView playerScoreDisplay1 = findViewById(playerScore1);
                 playerScoreDisplay1.setText(String.valueOf(player1score));
                 p1WordArray.add(p1WordArray.size(), playerWord);
                 p1WordScoreArray.add(p1WordScoreArray.size(), wordTotal);
@@ -1443,10 +1444,10 @@ editor.putInt("playerTurn", playerTurn);
                 player2score = player2score + wordTotal;
                 if (player > 2) {
                     playerTurn = 3;
-                } else{
+                } else {
                     playerTurn = 1;
                 }
-                TextView playerScoreDisplay2 =  findViewById(playerScore2);
+                TextView playerScoreDisplay2 = findViewById(playerScore2);
                 playerScoreDisplay2.setText(String.valueOf(player2score));
                 p2WordArray.add(p2WordArray.size(), playerWord);
                 p2WordScoreArray.add(p2WordScoreArray.size(), wordTotal);
@@ -1458,7 +1459,7 @@ editor.putInt("playerTurn", playerTurn);
                 } else {
                     playerTurn = 1;
                 }
-                TextView playerScoreDisplay3 =  findViewById(playerScore3);
+                TextView playerScoreDisplay3 = findViewById(playerScore3);
                 playerScoreDisplay3.setText(String.valueOf(player3score));
                 p3WordArray.add(p3WordArray.size(), playerWord);
                 p3WordScoreArray.add(p3WordScoreArray.size(), wordTotal);
@@ -1466,7 +1467,7 @@ editor.putInt("playerTurn", playerTurn);
             } else if (playerTurn == 4 && !player4over) {
                 player4score = player4score + wordTotal;
                 playerTurn = 1;
-                TextView playerScoreDisplay4 =  findViewById(playerScore4);
+                TextView playerScoreDisplay4 = findViewById(playerScore4);
                 playerScoreDisplay4.setText(String.valueOf(player4score));
                 p4WordArray.add(p4WordArray.size(), playerWord);
                 p4WordScoreArray.add(p4WordScoreArray.size(), wordTotal);
@@ -1479,13 +1480,13 @@ editor.putInt("playerTurn", playerTurn);
         checkOver();
         turnNameChange();
         wordCount++;
-        if(wordCount == 5){
+        if (wordCount == 5) {
             LayoutInflater layoutInflater = LayoutInflater.from(this);
             View promptView = layoutInflater.inflate(R.layout.scrabblescoreplatinum, nullParent);
             final AlertDialog alertD = new AlertDialog.Builder(this).create();
             alertD.setCanceledOnTouchOutside(false);
             alertD.setCancelable(false);
-            Button nobutton =  promptView.findViewById(R.id.no);
+            Button nobutton = promptView.findViewById(R.id.no);
             nobutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1494,47 +1495,49 @@ editor.putInt("playerTurn", playerTurn);
 
             });
             alertD.setView(promptView);
-            alertD.show();        }
-        if(wordCount > 4){
+            alertD.show();
+        }
+        if (wordCount > 4) {
             dicon = false;
         }
-        if(dicon) {
+        if (dicon) {
             loading.setImageResource(loader);
             Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate);
             loading.startAnimation(animation);
-        }else{
+        } else {
             loading.setVisibility(View.GONE);
             loading.clearAnimation();
         }
 
-       // if(wordCount % 5 == 0) {
+        // if(wordCount % 5 == 0) {
 //            if (mInterstitialAd.isLoaded()) {
 //                mInterstitialAd.show();
 //            } else {
 //                Log.d("TAG", "The interstitial wasn't loaded yet.");
 //            }
 //            mInterstitialAd.loadAd(new AdRequest.Builder().build());
-       // }
+        // }
     }
-//post turn reset for next user
+
+    //post turn reset for next user
     public void reset() {
         //resets edittext and loading icon
         playerWord = "";
-        EditText eText =  findViewById(R.id.userWord);
+        EditText eText = findViewById(R.id.userWord);
         eText.setText("");
         loading.setImageResource(loader);
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate);
         loading.startAnimation(animation);
 
         //resets individual buttons for letters
-        ImageView l1 =  findViewById(R.id.letter1);
-        ImageView l2 =  findViewById(letter2);
-        ImageView l3 =  findViewById(letter3);
-        ImageView l4 =  findViewById(letter4);
-        ImageView l5 =  findViewById(letter5);
-        ImageView l6 =  findViewById(letter6);
-        ImageView l7 =  findViewById(letter7);
-        ImageView l8 =  findViewById(letter8);
+        ImageView l1 = findViewById(R.id.letter1);
+        ImageView l2 = findViewById(letter2);
+        ImageView l3 = findViewById(letter3);
+        ImageView l4 = findViewById(letter4);
+        ImageView l5 = findViewById(letter5);
+        ImageView l6 = findViewById(letter6);
+        ImageView l7 = findViewById(letter7);
+        ImageView l8 = findViewById(letter8);
         l1.setImageResource(blank);
         l2.setImageResource(blank);
         l3.setImageResource(blank);
@@ -1545,25 +1548,25 @@ editor.putInt("playerTurn", playerTurn);
         l8.setImageResource(blank);
 
         //resets bonus buttons
-        ImageButton twsreset =  findViewById(R.id.tws);
-        ImageButton dwsreset =  findViewById(R.id.dws);
-        ImageButton tls1reset =  findViewById(R.id.tls1);
-        ImageButton dls1reset =  findViewById(R.id.dls1);
-        ImageButton tls2reset =  findViewById(R.id.tls2);
-        ImageButton dls2reset =  findViewById(R.id.dls2);
-        ImageButton tls3reset =  findViewById(R.id.tls3);
-        ImageButton dls3reset =  findViewById(R.id.dls3);
-        ImageButton tls4reset =  findViewById(R.id.tls4);
-        ImageButton dls4reset =  findViewById(R.id.dls4);
-        ImageButton tls5reset =  findViewById(R.id.tls5);
-        ImageButton dls5reset =  findViewById(R.id.dls5);
-        ImageButton tls6reset =  findViewById(R.id.tls6);
-        ImageButton dls6reset =  findViewById(R.id.dls6);
-        ImageButton tls7reset =  findViewById(tls7);
-        ImageButton dls7reset =  findViewById(dls7);
-        ImageButton tls8reset =  findViewById(tls8);
-        ImageButton dls8reset =  findViewById(dls8);
-        ImageButton bonusreset =  findViewById(bonus);
+        ImageButton twsreset = findViewById(R.id.tws);
+        ImageButton dwsreset = findViewById(R.id.dws);
+        ImageButton tls1reset = findViewById(R.id.tls1);
+        ImageButton dls1reset = findViewById(R.id.dls1);
+        ImageButton tls2reset = findViewById(R.id.tls2);
+        ImageButton dls2reset = findViewById(R.id.dls2);
+        ImageButton tls3reset = findViewById(R.id.tls3);
+        ImageButton dls3reset = findViewById(R.id.dls3);
+        ImageButton tls4reset = findViewById(R.id.tls4);
+        ImageButton dls4reset = findViewById(R.id.dls4);
+        ImageButton tls5reset = findViewById(R.id.tls5);
+        ImageButton dls5reset = findViewById(R.id.dls5);
+        ImageButton tls6reset = findViewById(R.id.tls6);
+        ImageButton dls6reset = findViewById(R.id.dls6);
+        ImageButton tls7reset = findViewById(tls7);
+        ImageButton dls7reset = findViewById(dls7);
+        ImageButton tls8reset = findViewById(tls8);
+        ImageButton dls8reset = findViewById(dls8);
+        ImageButton bonusreset = findViewById(bonus);
         bonusreset.setImageResource(R.drawable.fifty);
         twsreset.setImageResource(R.drawable.tws);
         dwsreset.setImageResource(R.drawable.dws);
@@ -1591,14 +1594,14 @@ editor.putInt("playerTurn", playerTurn);
         pressed6 = false;
         pressed7 = false;
         pressed8 = false;
-        le1 = "";
-        le2 = "";
-        le3 = "";
-        le4 = "";
-        le5 = "";
-        le6 = "";
-        le7 = "";
-        le8 = "";
+        le1 = " ";
+        le2 = " ";
+        le3 = " ";
+        le4 = " ";
+        le5 = " ";
+        le6 = " ";
+        le7 = " ";
+        le8 = " ";
         l1bonus = 0;
         l2bonus = 0;
         l3bonus = 0;
@@ -1631,23 +1634,23 @@ editor.putInt("playerTurn", playerTurn);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         View promptView = layoutInflater.inflate(R.layout.scoresheet, nullParent);
         final AlertDialog alertD = new AlertDialog.Builder(this).create();
-        TextView p1Display =  promptView.findViewById(p1);
-        TextView p2Display =  promptView.findViewById(p2);
+        TextView p1Display = promptView.findViewById(p1);
+        TextView p2Display = promptView.findViewById(p2);
         p1Display.setText(player1name);
         p2Display.setText(player2name);
-        TextView p3Display =  promptView.findViewById(R.id.p3);
-        TextView p4Display =  promptView.findViewById(p4);
+        TextView p3Display = promptView.findViewById(R.id.p3);
+        TextView p4Display = promptView.findViewById(p4);
         p3Display.setText(player3name);
         p4Display.setText(player4name);
-        Button exitButton =  promptView.findViewById(R.id.exit);
-        LinearLayout ll1Display =  promptView.findViewById(ll1);
-        ImageView ll2Display =  promptView.findViewById(ll2);
-        LinearLayout ll3Display =  promptView.findViewById(ll3);
-        ImageView ll7Display =  promptView.findViewById(ll7);
-        LinearLayout ll4Display =  promptView.findViewById(ll4);
-        LinearLayout ll5Display =  promptView.findViewById(ll5);
-        ImageView ll6Display =  promptView.findViewById(ll6);
-        ImageView ll8Display =  promptView.findViewById(ll7);
+        Button exitButton = promptView.findViewById(R.id.exit);
+        LinearLayout ll1Display = promptView.findViewById(ll1);
+        ImageView ll2Display = promptView.findViewById(ll2);
+        LinearLayout ll3Display = promptView.findViewById(ll3);
+        ImageView ll7Display = promptView.findViewById(ll7);
+        LinearLayout ll4Display = promptView.findViewById(ll4);
+        LinearLayout ll5Display = promptView.findViewById(ll5);
+        ImageView ll6Display = promptView.findViewById(ll6);
+        ImageView ll8Display = promptView.findViewById(ll7);
         if (player > 2) {
             ll1Display.setVisibility(View.VISIBLE);
             ll2Display.setVisibility(View.VISIBLE);
@@ -1660,14 +1663,14 @@ editor.putInt("playerTurn", playerTurn);
             ll6Display.setVisibility(View.VISIBLE);
             ll8Display.setVisibility(View.VISIBLE);
         }
-        TextView player1listofwordsdisplay =  promptView.findViewById(p1words);
-        TextView player2listofwordsdisplay =  promptView.findViewById(p2words);
-        TextView player3listofwordsdisplay =  promptView.findViewById(R.id.p3words);
-        TextView player4listofwordsdisplay =  promptView.findViewById(R.id.p4words);
-        TextView player1totalscore =  promptView.findViewById(p1total);
-        TextView player2totalscore =  promptView.findViewById(p2total);
-        TextView player3totalscore =  promptView.findViewById(R.id.p3total);
-        TextView player4totalscore =  promptView.findViewById(R.id.p4total);
+        TextView player1listofwordsdisplay = promptView.findViewById(p1words);
+        TextView player2listofwordsdisplay = promptView.findViewById(p2words);
+        TextView player3listofwordsdisplay = promptView.findViewById(R.id.p3words);
+        TextView player4listofwordsdisplay = promptView.findViewById(R.id.p4words);
+        TextView player1totalscore = promptView.findViewById(p1total);
+        TextView player2totalscore = promptView.findViewById(p2total);
+        TextView player3totalscore = promptView.findViewById(R.id.p3total);
+        TextView player4totalscore = promptView.findViewById(R.id.p4total);
         exitButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -1677,25 +1680,25 @@ editor.putInt("playerTurn", playerTurn);
         });
         int i = 0;
         StringBuilder player1wordsandscore = new StringBuilder();
-        while(i < p1WordArray.size()){
+        while (i < p1WordArray.size()) {
             player1wordsandscore.append(p1WordArray.get(i)).append("    ").append(p1WordScoreArray.get(i)).append("\n");
             i++;
         }
-        i= 0;
+        i = 0;
         StringBuilder player2wordsandscore = new StringBuilder();
-        while(i < p2WordArray.size()){
+        while (i < p2WordArray.size()) {
             player2wordsandscore.append(p2WordArray.get(i)).append("    ").append(p2WordScoreArray.get(i)).append("\n");
             i++;
         }
         i = 0;
         StringBuilder player3wordsandscore = new StringBuilder();
-        while(i < p3WordArray.size()){
+        while (i < p3WordArray.size()) {
             player3wordsandscore.append(p3WordArray.get(i)).append("    ").append(p3WordScoreArray.get(i)).append("\n");
             i++;
         }
         i = 0;
         StringBuilder player4wordsandscore = new StringBuilder();
-        while(i < p4WordArray.size()){
+        while (i < p4WordArray.size()) {
             player4wordsandscore.append(p4WordArray.get(i)).append("    ").append(p4WordScoreArray.get(i)).append("\n");
             i++;
         }
@@ -1728,18 +1731,17 @@ editor.putInt("playerTurn", playerTurn);
             context = getApplicationContext();
             Toast toast = Toast.makeText(context, getPlayerName(turnChangeBackwards()) + ", You have no Words.", Toast.LENGTH_SHORT);
             toast.show();
-        }
-        else{
+        } else {
             LayoutInflater layoutInflater = LayoutInflater.from(this);
             View promptView = layoutInflater.inflate(R.layout.areyousure, nullParent);
             final AlertDialog alertD = new AlertDialog.Builder(this).create();
             alertD.setCanceledOnTouchOutside(false);
             alertD.setCancelable(false);
-            TextView playerName =  promptView.findViewById(R.id.playerName);
+            TextView playerName = promptView.findViewById(R.id.playerName);
             playerName.setText(getPlayerName(turnChangeBackwards()));
-            TextView deleteplayerwordquestion =  promptView.findViewById(R.id.areyoursuretext);
+            TextView deleteplayerwordquestion = promptView.findViewById(R.id.areyoursuretext);
             deleteplayerwordquestion.setText(getString(R.string.dlw));
-            Button yesbutton =  promptView.findViewById(R.id.yes);
+            Button yesbutton = promptView.findViewById(R.id.yes);
             yesbutton.setOnClickListener(new View.OnClickListener() {
 
 
@@ -1750,7 +1752,7 @@ editor.putInt("playerTurn", playerTurn);
                 }
 
             });
-            Button nobutton =  promptView.findViewById(R.id.no);
+            Button nobutton = promptView.findViewById(R.id.no);
             nobutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1771,29 +1773,28 @@ editor.putInt("playerTurn", playerTurn);
                 player2score = player2score - (p2WordScoreArray.get(p2WordScoreArray.size() - 1));
                 p2WordScoreArray.remove(p2WordScoreArray.size() - 1);
                 p2WordArray.remove(p2WordArray.size() - 1);
-                TextView playerScoreDisplay2 =  findViewById(playerScore2);
+                TextView playerScoreDisplay2 = findViewById(playerScore2);
                 playerScoreDisplay2.setText(String.valueOf(player2score));
                 playerTurn = 2;
-            }else if(playerTurn == 1 && player2over){
+            } else if (playerTurn == 1 && player2over) {
                 player1score = player1score - (p1WordScoreArray.get(p1WordScoreArray.size() - 1));
                 p1WordScoreArray.remove(p1WordScoreArray.size() - 1);
                 p1WordArray.remove(p1WordArray.size() - 1);
-                TextView playerScoreDisplay1 =  findViewById(playerScore1);
+                TextView playerScoreDisplay1 = findViewById(playerScore1);
                 playerScoreDisplay1.setText(String.valueOf(player1score));
                 playerTurn = 1;
-            }
-            else if (playerTurn == 2 && !player1over && player1score > 0) {
+            } else if (playerTurn == 2 && !player1over && player1score > 0) {
                 player1score = player1score - (p1WordScoreArray.get(p1WordScoreArray.size() - 1));
                 p1WordScoreArray.remove(p1WordScoreArray.size() - 1);
                 p1WordArray.remove(p1WordArray.size() - 1);
-                TextView playerScoreDisplay1 =  findViewById(playerScore1);
+                TextView playerScoreDisplay1 = findViewById(playerScore1);
                 playerScoreDisplay1.setText(String.valueOf(player1score));
                 playerTurn = 1;
             } else if (playerTurn == 2 && player1over) {
                 player2score = player2score - (p2WordScoreArray.get(p2WordScoreArray.size() - 1));
                 p2WordScoreArray.remove(p2WordScoreArray.size() - 1);
                 p2WordArray.remove(p2WordArray.size() - 1);
-                TextView playerScoreDisplay2 =  findViewById(playerScore2);
+                TextView playerScoreDisplay2 = findViewById(playerScore2);
                 playerScoreDisplay2.setText(String.valueOf(player2score));
                 playerTurn = 2;
             }
@@ -1803,71 +1804,70 @@ editor.putInt("playerTurn", playerTurn);
                 player3score = player3score - (p3WordScoreArray.get(p3WordScoreArray.size() - 1));
                 p3WordScoreArray.remove(p3WordScoreArray.size() - 1);
                 p3WordArray.remove(p3WordArray.size() - 1);
-                TextView playerScoreDisplay3 =  findViewById(playerScore3);
+                TextView playerScoreDisplay3 = findViewById(playerScore3);
                 playerScoreDisplay3.setText(String.valueOf(player3score));
                 playerTurn = 3;
             } else if (playerTurn == 1 && player3over && !player2over && player2score > 0) {
                 player2score = player2score - (p2WordScoreArray.get(p2WordScoreArray.size() - 1));
                 p2WordScoreArray.remove(p2WordScoreArray.size() - 1);
                 p2WordArray.remove(p2WordArray.size() - 1);
-                TextView playerScoreDisplay2 =  findViewById(playerScore2);
+                TextView playerScoreDisplay2 = findViewById(playerScore2);
                 playerScoreDisplay2.setText(String.valueOf(player2score));
                 playerTurn = 2;
-            } else if (playerTurn == 1 && player3over  && player2over && !player1over && player1score > 0) {
+            } else if (playerTurn == 1 && player3over && player2over && !player1over && player1score > 0) {
                 player1score = player1score - (p1WordScoreArray.get(p1WordScoreArray.size() - 1));
                 p1WordScoreArray.remove(p1WordScoreArray.size() - 1);
                 p1WordArray.remove(p1WordArray.size() - 1);
-                TextView playerScoreDisplay1 =  findViewById(playerScore1);
+                TextView playerScoreDisplay1 = findViewById(playerScore1);
                 playerScoreDisplay1.setText(String.valueOf(player1score));
                 playerTurn = 1;
             } else if (playerTurn == 2 && !player1over && player1score > 0) {
                 player1score = player1score - (p1WordScoreArray.get(p1WordScoreArray.size() - 1));
                 p1WordScoreArray.remove(p1WordScoreArray.size() - 1);
                 p1WordArray.remove(p1WordArray.size() - 1);
-                TextView playerScoreDisplay1 =  findViewById(playerScore1);
+                TextView playerScoreDisplay1 = findViewById(playerScore1);
                 playerScoreDisplay1.setText(String.valueOf(player1score));
                 playerTurn = 1;
             } else if (playerTurn == 2 && player1over && !player3over && player3score > 0) {
                 player3score = player3score - (p3WordScoreArray.get(p3WordScoreArray.size() - 1));
                 p3WordScoreArray.remove(p3WordScoreArray.size() - 1);
                 p3WordArray.remove(p3WordArray.size() - 1);
-                TextView playerScoreDisplay3 =  findViewById(playerScore3);
+                TextView playerScoreDisplay3 = findViewById(playerScore3);
                 playerScoreDisplay3.setText(String.valueOf(player3score));
                 playerTurn = 3;
-            } else if (playerTurn == 2 && player1over && !player2over && player3over  && player2score > 0) {
+            } else if (playerTurn == 2 && player1over && !player2over && player3over && player2score > 0) {
                 player2score = player2score - (p2WordScoreArray.get(p2WordScoreArray.size() - 1));
                 p2WordScoreArray.remove(p2WordScoreArray.size() - 1);
                 p2WordArray.remove(p2WordArray.size() - 1);
-                TextView playerScoreDisplay2 =  findViewById(playerScore2);
+                TextView playerScoreDisplay2 = findViewById(playerScore2);
                 playerScoreDisplay2.setText(String.valueOf(player2score));
                 playerTurn = 2;
             } else if (playerTurn == 3 && !player2over && player2score > 0) {
                 player2score = player2score - (p2WordScoreArray.get(p2WordScoreArray.size() - 1));
                 p2WordScoreArray.remove(p2WordScoreArray.size() - 1);
                 p2WordArray.remove(p2WordArray.size() - 1);
-                TextView playerScoreDisplay2 =  findViewById(playerScore2);
+                TextView playerScoreDisplay2 = findViewById(playerScore2);
                 playerScoreDisplay2.setText(String.valueOf(player2score));
                 playerTurn = 2;
             } else if (playerTurn == 3 && player2over && !player1over && player1score > 0) {
                 player1score = player1score - (p1WordScoreArray.get(p1WordScoreArray.size() - 1));
                 p1WordScoreArray.remove(p1WordScoreArray.size() - 1);
                 p1WordArray.remove(p1WordArray.size() - 1);
-                TextView playerScoreDisplay1 =  findViewById(playerScore1);
+                TextView playerScoreDisplay1 = findViewById(playerScore1);
                 playerScoreDisplay1.setText(String.valueOf(player1score));
                 playerTurn = 1;
-            } else if (playerTurn == 3 && player2over && !player3over && player1over  && player3score > 0) {
+            } else if (playerTurn == 3 && player2over && !player3over && player1over && player3score > 0) {
                 player3score = player3score - (p3WordScoreArray.get(p3WordScoreArray.size() - 1));
                 p3WordScoreArray.remove(p3WordScoreArray.size() - 1);
                 p3WordArray.remove(p3WordArray.size() - 1);
-                TextView playerScoreDisplay3 =  findViewById(playerScore3);
+                TextView playerScoreDisplay3 = findViewById(playerScore3);
                 playerScoreDisplay3.setText(String.valueOf(player3score));
                 playerTurn = 3;
-            }
-            else if(playerTurn == 3 && player1over && player2over){
+            } else if (playerTurn == 3 && player1over && player2over) {
                 player3score = player3score - (p3WordScoreArray.get(p3WordScoreArray.size() - 1));
                 p3WordScoreArray.remove(p3WordScoreArray.size() - 1);
                 p3WordArray.remove(p3WordArray.size() - 1);
-                TextView playerScoreDisplay3 =  findViewById(playerScore3);
+                TextView playerScoreDisplay3 = findViewById(playerScore3);
                 playerScoreDisplay3.setText(String.valueOf(player3score));
                 playerTurn = 3;
             }
@@ -1877,119 +1877,119 @@ editor.putInt("playerTurn", playerTurn);
                 player3score = player3score - (p3WordScoreArray.get(p3WordScoreArray.size() - 1));
                 p3WordScoreArray.remove(p3WordScoreArray.size() - 1);
                 p3WordArray.remove(p3WordArray.size() - 1);
-                TextView playerScoreDisplay3 =  findViewById(playerScore3);
+                TextView playerScoreDisplay3 = findViewById(playerScore3);
                 playerScoreDisplay3.setText(String.valueOf(player3score));
                 playerTurn = 3;
             } else if (playerTurn == 4 && player3over && !player2over && player2score > 0) {
                 player2score = player2score - (p2WordScoreArray.get(p2WordScoreArray.size() - 1));
                 p2WordScoreArray.remove(p2WordScoreArray.size() - 1);
                 p2WordArray.remove(p2WordArray.size() - 1);
-                TextView playerScoreDisplay2 =  findViewById(playerScore2);
+                TextView playerScoreDisplay2 = findViewById(playerScore2);
                 playerScoreDisplay2.setText(String.valueOf(player2score));
                 playerTurn = 2;
-            } else if (playerTurn == 4 && player3over  && player2over && !player1over && player1score > 0) {
+            } else if (playerTurn == 4 && player3over && player2over && !player1over && player1score > 0) {
                 player1score = player1score - (p1WordScoreArray.get(p1WordScoreArray.size() - 1));
                 p1WordScoreArray.remove(p1WordScoreArray.size() - 1);
                 p1WordArray.remove(p1WordArray.size() - 1);
-                TextView playerScoreDisplay1 =  findViewById(playerScore1);
+                TextView playerScoreDisplay1 = findViewById(playerScore1);
                 playerScoreDisplay1.setText(String.valueOf(player1score));
                 playerTurn = 1;
-            } else if (playerTurn == 4 && player3over  && player2over && !player4over && player1over  && player4score > 0) {
+            } else if (playerTurn == 4 && player3over && player2over && !player4over && player1over && player4score > 0) {
                 player4score = player4score - (p4WordScoreArray.get(p4WordScoreArray.size() - 1));
                 p4WordScoreArray.remove(p4WordScoreArray.size() - 1);
                 p4WordArray.remove(p4WordArray.size() - 1);
-                TextView playerScoreDisplay4 =  findViewById(playerScore4);
+                TextView playerScoreDisplay4 = findViewById(playerScore4);
                 playerScoreDisplay4.setText(String.valueOf(player4score));
                 playerTurn = 4;
             } else if (playerTurn == 3 && !player2over && player2score > 0) {
                 player2score = player2score - (p2WordScoreArray.get(p2WordScoreArray.size() - 1));
                 p2WordScoreArray.remove(p2WordScoreArray.size() - 1);
                 p2WordArray.remove(p2WordArray.size() - 1);
-                TextView playerScoreDisplay2 =  findViewById(playerScore2);
+                TextView playerScoreDisplay2 = findViewById(playerScore2);
                 playerScoreDisplay2.setText(String.valueOf(player2score));
                 playerTurn = 2;
             } else if (playerTurn == 3 && player2over && !player1over && player1score > 0) {
                 player1score = player1score - (p1WordScoreArray.get(p1WordScoreArray.size() - 1));
                 p1WordScoreArray.remove(p1WordScoreArray.size() - 1);
                 p1WordArray.remove(p1WordArray.size() - 1);
-                TextView playerScoreDisplay1 =  findViewById(playerScore1);
+                TextView playerScoreDisplay1 = findViewById(playerScore1);
                 playerScoreDisplay1.setText(String.valueOf(player1score));
                 playerTurn = 1;
-            } else if (playerTurn == 3 && player2over  && player1over && !player4over && player4score > 0) {
+            } else if (playerTurn == 3 && player2over && player1over && !player4over && player4score > 0) {
                 player4score = player4score - (p4WordScoreArray.get(p4WordScoreArray.size() - 1));
                 p4WordScoreArray.remove(p4WordScoreArray.size() - 1);
                 p4WordArray.remove(p4WordArray.size() - 1);
-                TextView playerScoreDisplay4 =  findViewById(playerScore4);
+                TextView playerScoreDisplay4 = findViewById(playerScore4);
                 playerScoreDisplay4.setText(String.valueOf(player4score));
                 playerTurn = 4;
-            } else if (playerTurn == 3 && player2over  && player1over  && player4over &&!player3over && player3score > 0) {
+            } else if (playerTurn == 3 && player2over && player1over && player4over && !player3over && player3score > 0) {
                 player3score = player3score - (p3WordScoreArray.get(p3WordScoreArray.size() - 1));
                 p3WordScoreArray.remove(p3WordScoreArray.size() - 1);
                 p3WordArray.remove(p3WordArray.size() - 1);
-                TextView playerScoreDisplay3 =  findViewById(playerScore3);
+                TextView playerScoreDisplay3 = findViewById(playerScore3);
                 playerScoreDisplay3.setText(String.valueOf(player3score));
                 playerTurn = 3;
             } else if (playerTurn == 2 && !player1over && player1score > 0) {
                 player1score = player1score - (p1WordScoreArray.get(p1WordScoreArray.size() - 1));
                 p1WordScoreArray.remove(p1WordScoreArray.size() - 1);
                 p1WordArray.remove(p1WordArray.size() - 1);
-                TextView playerScoreDisplay1 =  findViewById(playerScore1);
+                TextView playerScoreDisplay1 = findViewById(playerScore1);
                 playerScoreDisplay1.setText(String.valueOf(player1score));
                 playerTurn = 1;
             } else if (playerTurn == 2 && player1over && !player4over && player4score > 0) {
                 player4score = player4score - (p4WordScoreArray.get(p4WordScoreArray.size() - 1));
                 p4WordScoreArray.remove(p4WordScoreArray.size() - 1);
                 p4WordArray.remove(p4WordArray.size() - 1);
-                TextView playerScoreDisplay4 =  findViewById(playerScore4);
+                TextView playerScoreDisplay4 = findViewById(playerScore4);
                 playerScoreDisplay4.setText(String.valueOf(player4score));
                 playerTurn = 4;
-            } else if (playerTurn == 2 && player1over  && player4over && !player3over && player3score > 0) {
+            } else if (playerTurn == 2 && player1over && player4over && !player3over && player3score > 0) {
                 player3score = player3score - (p3WordScoreArray.get(p3WordScoreArray.size() - 1));
                 p3WordScoreArray.remove(p3WordScoreArray.size() - 1);
                 p3WordArray.remove(p3WordArray.size() - 1);
-                TextView playerScoreDisplay3 =  findViewById(playerScore3);
+                TextView playerScoreDisplay3 = findViewById(playerScore3);
                 playerScoreDisplay3.setText(String.valueOf(player3score));
                 playerTurn = 3;
-            } else if (playerTurn == 2 && player1over  && player4over  && player3over && !player2over && player2score > 0) {
+            } else if (playerTurn == 2 && player1over && player4over && player3over && !player2over && player2score > 0) {
                 player2score = player2score - (p2WordScoreArray.get(p2WordScoreArray.size() - 1));
                 p2WordScoreArray.remove(p2WordScoreArray.size() - 1);
                 p2WordArray.remove(p2WordArray.size() - 1);
-                TextView playerScoreDisplay2 =  findViewById(playerScore2);
+                TextView playerScoreDisplay2 = findViewById(playerScore2);
                 playerScoreDisplay2.setText(String.valueOf(player2score));
                 playerTurn = 2;
             } else if (playerTurn == 1 && !player4over && player4score > 0) {
                 player4score = player4score - (p4WordScoreArray.get(p4WordScoreArray.size() - 1));
                 p4WordScoreArray.remove(p4WordScoreArray.size() - 1);
                 p4WordArray.remove(p4WordArray.size() - 1);
-                TextView playerScoreDisplay4 =  findViewById(playerScore4);
+                TextView playerScoreDisplay4 = findViewById(playerScore4);
                 playerScoreDisplay4.setText(String.valueOf(player4score));
                 playerTurn = 4;
             } else if (playerTurn == 1 && player4over && !player3over && player3score > 0) {
                 player3score = player3score - (p3WordScoreArray.get(p3WordScoreArray.size() - 1));
                 p3WordScoreArray.remove(p3WordScoreArray.size() - 1);
                 p3WordArray.remove(p3WordArray.size() - 1);
-                TextView playerScoreDisplay3 =  findViewById(playerScore3);
+                TextView playerScoreDisplay3 = findViewById(playerScore3);
                 playerScoreDisplay3.setText(String.valueOf(player3score));
                 playerTurn = 3;
-            } else if (playerTurn == 1 && player4over && player3over && !player2over  && player2score > 0) {
+            } else if (playerTurn == 1 && player4over && player3over && !player2over && player2score > 0) {
                 player2score = player2score - (p2WordScoreArray.get(p2WordScoreArray.size() - 1));
                 p2WordScoreArray.remove(p2WordScoreArray.size() - 1);
                 p2WordArray.remove(p2WordArray.size() - 1);
-                TextView playerScoreDisplay2 =  findViewById(playerScore2);
+                TextView playerScoreDisplay2 = findViewById(playerScore2);
                 playerScoreDisplay2.setText(String.valueOf(player2score));
                 playerTurn = 2;
-            } else if (playerTurn == 1 && player4over  && player3over  && player2over && !player1over  && player1score > 0) {
+            } else if (playerTurn == 1 && player4over && player3over && player2over && !player1over && player1score > 0) {
                 player1score = player1score - (p1WordScoreArray.get(p1WordScoreArray.size() - 1));
                 p1WordScoreArray.remove(p1WordScoreArray.size() - 1);
                 p1WordArray.remove(p1WordArray.size() - 1);
-                TextView playerScoreDisplay1 =  findViewById(playerScore1);
+                TextView playerScoreDisplay1 = findViewById(playerScore1);
                 playerScoreDisplay1.setText(String.valueOf(player1score));
                 playerTurn = 1;
-            }else if(playerTurn == 4 && player1over && player2over && player3over){
+            } else if (playerTurn == 4 && player1over && player2over && player3over) {
                 player4score = player4score - (p4WordScoreArray.get(p4WordScoreArray.size() - 1));
                 p4WordScoreArray.remove(p4WordScoreArray.size() - 1);
                 p4WordArray.remove(p4WordArray.size() - 1);
-                TextView playerScoreDisplay4 =  findViewById(playerScore4);
+                TextView playerScoreDisplay4 = findViewById(playerScore4);
                 playerScoreDisplay4.setText(String.valueOf(player4score));
                 playerTurn = 4;
             }
@@ -2003,18 +2003,18 @@ editor.putInt("playerTurn", playerTurn);
             context = getApplicationContext();
             Toast toast = Toast.makeText(context, "No words have been entered.", Toast.LENGTH_SHORT);
             toast.show();
-        }else {
+        } else {
             LayoutInflater layoutInflater = LayoutInflater.from(this);
             View promptView = layoutInflater.inflate(R.layout.areyousure, nullParent);
             final AlertDialog alertD = new AlertDialog.Builder(this).create();
             alertD.setCanceledOnTouchOutside(false);
             alertD.setCancelable(false);
 
-            TextView playerName =  promptView.findViewById(R.id.playerName);
+            TextView playerName = promptView.findViewById(R.id.playerName);
             playerName.setText(getPlayerName(turnChangeBackwards()));
-            TextView deleteplayerwordquestion =  promptView.findViewById(R.id.areyoursuretext);
+            TextView deleteplayerwordquestion = promptView.findViewById(R.id.areyoursuretext);
             deleteplayerwordquestion.setText(getString(R.string.aw2));
-            Button yesbutton =  promptView.findViewById(R.id.yes);
+            Button yesbutton = promptView.findViewById(R.id.yes);
             yesbutton.setOnClickListener(new View.OnClickListener() {
 
 
@@ -2026,7 +2026,7 @@ editor.putInt("playerTurn", playerTurn);
                 }
 
             });
-            Button nobutton =  promptView.findViewById(R.id.no);
+            Button nobutton = promptView.findViewById(R.id.no);
             nobutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -2088,11 +2088,11 @@ editor.putInt("playerTurn", playerTurn);
                 anInt = 4;
             } else if (playerTurn == 2 && !player3over) {
                 anInt = 3;
-            }else if(playerTurn == 1 && !player4over){
+            } else if (playerTurn == 1 && !player4over) {
                 anInt = 4;
-            }else if(playerTurn == 1 && !player3over){
+            } else if (playerTurn == 1 && !player3over) {
                 anInt = 3;
-            }else if(playerTurn == 1 && !player2over){
+            } else if (playerTurn == 1 && !player2over) {
                 anInt = 2;
             }
         }
@@ -2100,14 +2100,14 @@ editor.putInt("playerTurn", playerTurn);
     }
 
     public void noWords() {
-        TextView p1name =  findViewById(R.id.player1name);
-        TextView p2name =  findViewById(R.id.player2name);
-        TextView p3name =  findViewById(R.id.player3name);
-        TextView p4name =  findViewById(R.id.player4name);
-        TextView p1score =  findViewById(R.id.playerScore1);
-        TextView p2score =  findViewById(R.id.playerScore2);
-        TextView p3score =  findViewById(R.id.playerScore3);
-        TextView p4score =  findViewById(R.id.playerScore4);
+        TextView p1name = findViewById(R.id.player1name);
+        TextView p2name = findViewById(R.id.player2name);
+        TextView p3name = findViewById(R.id.player3name);
+        TextView p4name = findViewById(R.id.player4name);
+        TextView p1score = findViewById(R.id.playerScore1);
+        TextView p2score = findViewById(R.id.playerScore2);
+        TextView p3score = findViewById(R.id.playerScore3);
+        TextView p4score = findViewById(R.id.playerScore4);
         if (playerTurn == 1) {
             player1over = true;
             p1name.setBackgroundColor(ContextCompat.getColor(context, R.color.appgrey));
@@ -2125,7 +2125,7 @@ editor.putInt("playerTurn", playerTurn);
                 playerTurn = 2;
             } else if (player == 4 && !player3over) {
                 playerTurn = 3;
-            } else if(player == 4 && !player4over){
+            } else if (player == 4 && !player4over) {
                 playerTurn = 4;
             }
         } else if (playerTurn == 2) {
@@ -2136,16 +2136,16 @@ editor.putInt("playerTurn", playerTurn);
             if (player == 2 && !player1over) {
                 playerTurn = 1;
             }
-            if(player == 3 && !player3over){
+            if (player == 3 && !player3over) {
                 playerTurn = 3;
-            }else if(player == 3 && !player1over){
+            } else if (player == 3 && !player1over) {
                 playerTurn = 1;
             }
             if (player == 4 && !player3over) {
                 playerTurn = 3;
             } else if (player == 4 && !player4over) {
                 playerTurn = 4;
-            } else if(player == 4 && !player1over){
+            } else if (player == 4 && !player1over) {
                 playerTurn = 1;
             }
         } else if (playerTurn == 3) {
@@ -2153,16 +2153,16 @@ editor.putInt("playerTurn", playerTurn);
             p3name.setBackgroundColor(ContextCompat.getColor(context, appgrey));
             p3score.setBackgroundColor(ContextCompat.getColor(context, appgrey));
             p3score.setText(String.valueOf(player3score));
-            if(player == 3 && !player1over){
+            if (player == 3 && !player1over) {
                 playerTurn = 1;
-            }else if(player == 3 && !player2over){
+            } else if (player == 3 && !player2over) {
                 playerTurn = 2;
             }
             if (player == 4 && !player4over) {
                 playerTurn = 4;
             } else if (player == 4 && !player1over) {
                 playerTurn = 1;
-            } else if(player == 4 && !player2over){
+            } else if (player == 4 && !player2over) {
                 playerTurn = 2;
             }
         } else if (playerTurn == 4) {
@@ -2174,15 +2174,15 @@ editor.putInt("playerTurn", playerTurn);
                 playerTurn = 1;
             } else if (player == 4 && !player2over) {
                 playerTurn = 2;
-            } else if(player == 4 && !player3over){
+            } else if (player == 4 && !player3over) {
                 playerTurn = 3;
             }
         }
-        if (player1over  && player2over  && player == 2) {
+        if (player1over && player2over && player == 2) {
             endGameFormat();
-        } else if (player1over  && player2over  && player3over  && player == 3) {
+        } else if (player1over && player2over && player3over && player == 3) {
             endGameFormat();
-        } else if (player1over  && player2over  && player3over  && player4over  && player == 4) {
+        } else if (player1over && player2over && player3over && player4over && player == 4) {
             endGameFormat();
         }
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -2198,18 +2198,18 @@ editor.putInt("playerTurn", playerTurn);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         @SuppressLint("InflateParams") View promptView = layoutInflater.inflate(endgame, null);
         final AlertDialog endgame = new AlertDialog.Builder(this).create();
-        TextView p1egDisplay =  promptView.findViewById(R.id.p1eg);
-        TextView p2egDisplay =  promptView.findViewById(R.id.p2eg);
-        TextView p1scoreegDisplay =  promptView.findViewById(R.id.p1scoreeg);
-        TextView p2scoreegDisplay =  promptView.findViewById(R.id.p2scoreeg);
+        TextView p1egDisplay = promptView.findViewById(R.id.p1eg);
+        TextView p2egDisplay = promptView.findViewById(R.id.p2eg);
+        TextView p1scoreegDisplay = promptView.findViewById(R.id.p1scoreeg);
+        TextView p2scoreegDisplay = promptView.findViewById(R.id.p2scoreeg);
         p1egDisplay.setText(getString(R.string.colonname, player1name));
         p2egDisplay.setText(getString(R.string.colonname, player2name));
         p1scoreegDisplay.setText(String.valueOf(player1score));
         p2scoreegDisplay.setText(String.valueOf(player2score));
         endgame.setCanceledOnTouchOutside(false);
         endgame.setCancelable(false);
-        Button newGame =  promptView.findViewById(R.id.newgame);
-        TextView winnerDisplay =  promptView.findViewById(winner);
+        Button newGame = promptView.findViewById(R.id.newgame);
+        TextView winnerDisplay = promptView.findViewById(winner);
         String winner;
         SparseArray<String> winnerWord = new SparseArray<>();
         int key = Math.max(player1score, Math.max(player2score, Math.max(player3score, player4score)));
@@ -2218,12 +2218,12 @@ editor.putInt("playerTurn", playerTurn);
         winnerWord.put(player3score, player3name);
         winnerWord.put(player4score, player4name);
         winner = winnerWord.get(key);
-        TextView p3egDisplay =  promptView.findViewById(R.id.p3eg);
-        TextView p3scoreegDisplay =  promptView.findViewById(R.id.p3scoreeg);
-        LinearLayout p3vDisplay =  promptView.findViewById(R.id.p3v);
-        TextView p4egDisplay =  promptView.findViewById(R.id.p4eg);
-        TextView p4scoreegDisplay =  promptView.findViewById(R.id.p4scoreeg);
-        LinearLayout p4vDisplay =  promptView.findViewById(R.id.p4v);
+        TextView p3egDisplay = promptView.findViewById(R.id.p3eg);
+        TextView p3scoreegDisplay = promptView.findViewById(R.id.p3scoreeg);
+        LinearLayout p3vDisplay = promptView.findViewById(R.id.p3v);
+        TextView p4egDisplay = promptView.findViewById(R.id.p4eg);
+        TextView p4scoreegDisplay = promptView.findViewById(R.id.p4scoreeg);
+        LinearLayout p4vDisplay = promptView.findViewById(R.id.p4v);
         if (player > 2) {
             p3vDisplay.setVisibility(View.VISIBLE);
             p3egDisplay.setText(getString(R.string.colonname, player3name));
@@ -2238,14 +2238,14 @@ editor.putInt("playerTurn", playerTurn);
 
             @Override
             public void onClick(View v) {
-                TextView player1namedisplayer =  findViewById(R.id.player1name);
-                TextView player2namedisplayer =  findViewById(R.id.player2name);
-                TextView player3namedisplayer =  findViewById(R.id.player3name);
-                TextView player4namedisplayer =  findViewById(R.id.player4name);
-                TextView player1score =  findViewById(playerScore1);
-                TextView player2score =  findViewById(playerScore2);
-                TextView player3score =  findViewById(playerScore3);
-                TextView player4score =  findViewById(playerScore4);
+                TextView player1namedisplayer = findViewById(R.id.player1name);
+                TextView player2namedisplayer = findViewById(R.id.player2name);
+                TextView player3namedisplayer = findViewById(R.id.player3name);
+                TextView player4namedisplayer = findViewById(R.id.player4name);
+                TextView player1score = findViewById(playerScore1);
+                TextView player2score = findViewById(playerScore2);
+                TextView player3score = findViewById(playerScore3);
+                TextView player4score = findViewById(playerScore4);
                 player1namedisplayer.setBackgroundColor(ContextCompat.getColor(context, dialogbg));
                 player2namedisplayer.setBackgroundColor(ContextCompat.getColor(context, dialogbg));
                 player3namedisplayer.setBackgroundColor(ContextCompat.getColor(context, dialogbg));
@@ -2273,10 +2273,10 @@ editor.putInt("playerTurn", playerTurn);
             final AlertDialog alertD = new AlertDialog.Builder(this).create();
             alertD.setCanceledOnTouchOutside(false);
             alertD.setCancelable(false);
-            TextView playerName =  promptView.findViewById(R.id.playerName);
+            TextView playerName = promptView.findViewById(R.id.playerName);
             int overint = 0;
             playerName.setText(getPlayerName(playerTurn - overint));
-            Button yesbutton =  promptView.findViewById(R.id.yes);
+            Button yesbutton = promptView.findViewById(R.id.yes);
             yesbutton.setOnClickListener(new View.OnClickListener() {
 
 
@@ -2287,7 +2287,7 @@ editor.putInt("playerTurn", playerTurn);
                 }
 
             });
-            Button nobutton =  promptView.findViewById(R.id.no);
+            Button nobutton = promptView.findViewById(R.id.no);
             nobutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -2297,8 +2297,7 @@ editor.putInt("playerTurn", playerTurn);
             });
             alertD.setView(promptView);
             alertD.show();
-        }
-        else{
+        } else {
             Toast toast = Toast.makeText(context, "Click Skip Turn to Exchange your Tiles.", Toast.LENGTH_SHORT);
             toast.show();
         }
@@ -2306,10 +2305,10 @@ editor.putInt("playerTurn", playerTurn);
 
     public void letterclick1(View v) {
         Context context;
-        ImageButton l1 =  findViewById(letter1);
+        ImageButton l1 = findViewById(letter1);
         context = l1.getContext();
-        ImageButton tls1 =  findViewById(R.id.tls1);
-        ImageButton dls1 =  findViewById(R.id.dls1);
+        ImageButton tls1 = findViewById(R.id.tls1);
+        ImageButton dls1 = findViewById(R.id.dls1);
         if (playerWord.length() > 1 && !pressed1) {
             total = total - alphabet.get(le1);
             l1.setImageResource(blank);
@@ -2360,10 +2359,10 @@ editor.putInt("playerTurn", playerTurn);
 
     public void letterclick3(View v) {
         Context context;
-        ImageButton l3 =  findViewById(letter3);
+        ImageButton l3 = findViewById(letter3);
         context = l3.getContext();
-        ImageButton tls3 =  findViewById(R.id.tls3);
-        ImageButton dls3 =  findViewById(R.id.dls3);
+        ImageButton tls3 = findViewById(R.id.tls3);
+        ImageButton dls3 = findViewById(R.id.dls3);
 
         if (playerWord.length() > 2 && !pressed3) {
             total = total - alphabet.get(le3);
@@ -2388,10 +2387,10 @@ editor.putInt("playerTurn", playerTurn);
 
     public void letterclick4(View v) {
         Context context;
-        ImageButton l4 =  findViewById(letter4);
+        ImageButton l4 = findViewById(letter4);
         context = l4.getContext();
-        ImageButton tls4 =  findViewById(R.id.tls4);
-        ImageButton dls4 =  findViewById(R.id.dls4);
+        ImageButton tls4 = findViewById(R.id.tls4);
+        ImageButton dls4 = findViewById(R.id.dls4);
 
         if (playerWord.length() > 3 && !pressed4) {
             total = total - alphabet.get(le4);
@@ -2416,10 +2415,10 @@ editor.putInt("playerTurn", playerTurn);
 
     public void letterclick5(View v) {
         Context context;
-        ImageButton l5 =  findViewById(letter5);
+        ImageButton l5 = findViewById(letter5);
         context = l5.getContext();
-        ImageButton tls5 =  findViewById(R.id.tls5);
-        ImageButton dls5 =  findViewById(R.id.dls5);
+        ImageButton tls5 = findViewById(R.id.tls5);
+        ImageButton dls5 = findViewById(R.id.dls5);
 
         if (playerWord.length() > 4 && !pressed5) {
             total = total - alphabet.get(le5);
@@ -2444,10 +2443,10 @@ editor.putInt("playerTurn", playerTurn);
 
     public void letterclick6(View v) {
         Context context;
-        ImageButton l6 =  findViewById(letter6);
+        ImageButton l6 = findViewById(letter6);
         context = l6.getContext();
-        ImageButton tls6 =  findViewById(R.id.tls6);
-        ImageButton dls6 =  findViewById(R.id.dls6);
+        ImageButton tls6 = findViewById(R.id.tls6);
+        ImageButton dls6 = findViewById(R.id.dls6);
 
         if (playerWord.length() > 5 && !pressed6) {
             total = total - alphabet.get(le6);
@@ -2472,10 +2471,10 @@ editor.putInt("playerTurn", playerTurn);
 
     public void letterclick7(View v) {
         Context context;
-        ImageButton l7 =  findViewById(letter7);
+        ImageButton l7 = findViewById(letter7);
         context = l7.getContext();
-        ImageButton tls7 =  findViewById(R.id.tls7);
-        ImageButton dls7 =  findViewById(R.id.dls7);
+        ImageButton tls7 = findViewById(R.id.tls7);
+        ImageButton dls7 = findViewById(R.id.dls7);
 
         if (playerWord.length() > 6 && !pressed7) {
             total = total - alphabet.get(le7);
@@ -2500,10 +2499,10 @@ editor.putInt("playerTurn", playerTurn);
 
     public void letterclick8(View v) {
         Context context;
-        ImageButton l8 =  findViewById(letter8);
+        ImageButton l8 = findViewById(letter8);
         context = l8.getContext();
-        ImageButton tls8 =  findViewById(R.id.tls8);
-        ImageButton dls8 =  findViewById(R.id.dls8);
+        ImageButton tls8 = findViewById(R.id.tls8);
+        ImageButton dls8 = findViewById(R.id.dls8);
 
         if (playerWord.length() > 7 && !pressed8) {
             total = total - alphabet.get(le8);
@@ -2532,11 +2531,11 @@ editor.putInt("playerTurn", playerTurn);
         final AlertDialog alertD = new AlertDialog.Builder(this).create();
         alertD.setCanceledOnTouchOutside(false);
         alertD.setCancelable(false);
-        TextView playerName =  promptView.findViewById(R.id.playerName);
+        TextView playerName = promptView.findViewById(R.id.playerName);
         playerName.setText(getPlayerName(playerTurn));
-        TextView deleteplayerwordquestion =  promptView.findViewById(R.id.areyoursuretext);
+        TextView deleteplayerwordquestion = promptView.findViewById(R.id.areyoursuretext);
         deleteplayerwordquestion.setText(getString(R.string.skip));
-        Button yesbutton =  promptView.findViewById(R.id.yes);
+        Button yesbutton = promptView.findViewById(R.id.yes);
         yesbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -2549,7 +2548,7 @@ editor.putInt("playerTurn", playerTurn);
                     player2score = player2score + wordTotal;
                     if (player > 2) {
                         playerTurn = 3;
-                    } else{
+                    } else {
                         playerTurn = 1;
                     }
                     reset();
@@ -2557,7 +2556,7 @@ editor.putInt("playerTurn", playerTurn);
                     player3score = player3score + wordTotal;
                     if (player > 3) {
                         playerTurn = 4;
-                    } else{
+                    } else {
                         playerTurn = 1;
                     }
                     reset();
@@ -2572,7 +2571,7 @@ editor.putInt("playerTurn", playerTurn);
             }
 
         });
-        Button nobutton =  promptView.findViewById(R.id.no);
+        Button nobutton = promptView.findViewById(R.id.no);
         nobutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -2593,29 +2592,31 @@ editor.putInt("playerTurn", playerTurn);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         final View promptView = layoutInflater.inflate(R.layout.letterremainder, nullParent);
         final AlertDialog endgame = new AlertDialog.Builder(this).create();
-        TextView playerName =  promptView.findViewById(R.id.playerName);
+        TextView playerName = promptView.findViewById(R.id.playerName);
         playerName.setText(getPlayerName(playerTurn));
-        Button finishButton =  promptView.findViewById(R.id.lastButton);
+        Button finishButton = promptView.findViewById(R.id.lastButton);
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText lastWordBox =  promptView.findViewById(R.id.minusletters);
+                EditText lastWordBox = promptView.findViewById(R.id.minusletters);
                 lastWord = lastWordBox.getText().toString();
-                if(lastWord.length() == 0){
-                    if(playerTurn == 1){
+                if (lastWord.length() == 0) {
+                    if (playerTurn == 1) {
                         player1score = player1score + 50;
                         p1WordArray.add("CLEAR");
                         p1WordScoreArray.add(50);
                     }
-                    if(playerTurn == 2){
+                    if (playerTurn == 2) {
                         player2score = player2score + 50;
                         p2WordArray.add("CLEAR");
-                        p2WordScoreArray.add(50);                    }
-                    if(playerTurn == 3){
+                        p2WordScoreArray.add(50);
+                    }
+                    if (playerTurn == 3) {
                         player3score = player4score + 50;
                         p3WordArray.add("CLEAR");
-                        p3WordScoreArray.add(50);                    }
-                    if(playerTurn == 4){
+                        p3WordScoreArray.add(50);
+                    }
+                    if (playerTurn == 4) {
                         player4score = player4score + 50;
                         p4WordArray.add("CLEAR");
                         p4WordScoreArray.add(50);
@@ -2678,35 +2679,27 @@ editor.putInt("playerTurn", playerTurn);
                 endgame.hide();
                 noWords();
             }
-
         });
         endgame.setView(promptView);
         endgame.show();
     }
 
     public void launchMarket(View v) {
-        try
-        {
+        try {
             Intent rateIntent = rateIntentForUrl("market://details");
             startActivity(rateIntent);
-        }
-        catch (ActivityNotFoundException e)
-        {
+        } catch (ActivityNotFoundException e) {
             Intent rateIntent = rateIntentForUrl("https://play.google.com/store/apps/details");
             startActivity(rateIntent);
         }
     }
 
-    private Intent rateIntentForUrl(String url)
-    {
+    private Intent rateIntentForUrl(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("%s?id=%s", url, getPackageName())));
         int flags = Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_MULTIPLE_TASK;
-        if (Build.VERSION.SDK_INT >= 21)
-        {
+        if (Build.VERSION.SDK_INT >= 21) {
             flags |= Intent.FLAG_ACTIVITY_NEW_DOCUMENT;
-        }
-        else
-        {
+        } else {
             flags |= Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET;
         }
         intent.addFlags(flags);
@@ -2737,7 +2730,7 @@ editor.putInt("playerTurn", playerTurn);
                     currentLine = null;
                     yesno = true;
                     bufferedReader.close();
-                    Button addButton =  findViewById(R.id.addWordButton);
+                    Button addButton = findViewById(R.id.addWordButton);
                     addButton.setEnabled(true);
                 }
             }
@@ -2749,21 +2742,19 @@ editor.putInt("playerTurn", playerTurn);
                 bufferedReader.close();
             } catch (Exception anException) {
                 System.out.println("Buffer exception");
-
             }
         }
         if (!yesno && playerWord.length() > 0) {
             loading.clearAnimation();
             loading.setImageResource(R.drawable.cross);
-            if (dicon  && !dicoverride) {
-                Button addButton =  findViewById(R.id.addWordButton);
+            if (dicon && !dicoverride) {
+                Button addButton = findViewById(R.id.addWordButton);
                 addButton.setEnabled(false);
             } else if (dicon) {
-                Button addButton =  findViewById(R.id.addWordButton);
+                Button addButton = findViewById(R.id.addWordButton);
                 addButton.setEnabled(true);
             }
         }
-
     }
 
     public void whichDic(View v) {
@@ -2772,19 +2763,19 @@ editor.putInt("playerTurn", playerTurn);
         final AlertDialog alertD = new AlertDialog.Builder(this).create();
         alertD.setCanceledOnTouchOutside(false);
         alertD.setCancelable(false);
-        Button done =  promptView.findViewById(R.id.done);
+        Button done = promptView.findViewById(R.id.done);
         final Switch dicoverride1 = promptView.findViewById(R.id.override);
         final Switch diconoff = promptView.findViewById(R.id.onoff);
         final RadioButton radio1 = promptView.findViewById(R.id.ospd);
         final RadioButton radio2 = promptView.findViewById(R.id.sowpods);
-        if(!dicon){
+        if (!dicon) {
             diconoff.setChecked(false);
             dicoverride1.setEnabled(false);
             radio1.setEnabled(false);
             radio2.setEnabled(false);
 
         }
-        if(dicon){
+        if (dicon) {
             diconoff.setChecked(true);
             dicoverride1.setEnabled(true);
             radio1.setEnabled(true);
@@ -2802,7 +2793,7 @@ editor.putInt("playerTurn", playerTurn);
                     dicoption = false;
                 }
                 Context context;
-                context= getApplicationContext();
+                context = getApplicationContext();
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putBoolean("dicon", dicon).apply();
@@ -2810,7 +2801,6 @@ editor.putInt("playerTurn", playerTurn);
                 editor.putBoolean("dicoption", dicoption).apply();
                 alertD.hide();
             }
-
         });
 
         dicoverride1.setOnClickListener(new View.OnClickListener() {
@@ -2845,56 +2835,56 @@ editor.putInt("playerTurn", playerTurn);
     }
 
 
-    public String getPlayerName(int anInt){
+    public String getPlayerName(int anInt) {
         String returnString = "";
-        if(anInt == 0){
+        if (anInt == 0) {
             anInt = player;
         }
-        if(anInt == 1){
+        if (anInt == 1) {
             returnString = player1name;
         }
-        if(anInt == 2){
+        if (anInt == 2) {
             returnString = player2name;
         }
-        if(anInt == 3){
+        if (anInt == 3) {
             returnString = player3name;
         }
-        if(anInt == 4){
+        if (anInt == 4) {
             returnString = player4name;
         }
         return returnString;
     }
 
-    public void setup(){
-        if(dicon ){
+    public void setup() {
+        if (dicon) {
             loading.setVisibility(View.VISIBLE);
         }
         if (!dicon) {
             dicoverride = true;
             loading.setVisibility(View.GONE);
         }
-        if(wordCount > 4){
+        if (wordCount > 4) {
             dicoverride = true;
             loading.setVisibility(View.GONE);
         }
 
-        TextView player1scoreDisplay =  findViewById(R.id.playerScore1);
-        TextView player2scoreDisplay =  findViewById(R.id.playerScore2);
-        TextView player3scoreDisplay =  findViewById(playerScore3);
-        TextView player4scoreDisplay =  findViewById(playerScore4);
+        TextView player1scoreDisplay = findViewById(R.id.playerScore1);
+        TextView player2scoreDisplay = findViewById(R.id.playerScore2);
+        TextView player3scoreDisplay = findViewById(playerScore3);
+        TextView player4scoreDisplay = findViewById(playerScore4);
         player1scoreDisplay.setText(String.valueOf(player1score));
         player2scoreDisplay.setText(String.valueOf(player2score));
         player3scoreDisplay.setText(String.valueOf(player3score));
         player4scoreDisplay.setText(String.valueOf(player4score));
-            TextView player1namedisplayer =  findViewById(R.id.player1name);
-            TextView player2namedisplayer =  findViewById(R.id.player2name);
-        TextView player3namedisplayer =  findViewById(R.id.player3name);
-        TextView player4namedisplayer =  findViewById(R.id.player4name);
+        TextView player1namedisplayer = findViewById(R.id.player1name);
+        TextView player2namedisplayer = findViewById(R.id.player2name);
+        TextView player3namedisplayer = findViewById(R.id.player3name);
+        TextView player4namedisplayer = findViewById(R.id.player4name);
         player1namedisplayer.setText(player1name);
-            player2namedisplayer.setText(player2name);
-              player3namedisplayer.setText(player3name);
-            player4namedisplayer.setText(player4name);
-        if (player1over){
+        player2namedisplayer.setText(player2name);
+        player3namedisplayer.setText(player3name);
+        player4namedisplayer.setText(player4name);
+        if (player1over) {
             player1namedisplayer.setBackgroundColor(ContextCompat.getColor(context, R.color.appgrey));
             player1scoreDisplay.setBackgroundColor(ContextCompat.getColor(context, appgrey));
         }
@@ -2910,28 +2900,28 @@ editor.putInt("playerTurn", playerTurn);
             player4namedisplayer.setBackgroundColor(ContextCompat.getColor(context, appgrey));
             player4scoreDisplay.setBackgroundColor(ContextCompat.getColor(context, appgrey));
         }
-        if(player == 3){
+        if (player == 3) {
             player3namedisplayer.setVisibility(View.VISIBLE);
             player3scoreDisplay.setVisibility(View.VISIBLE);
         }
-        if(player ==4){
+        if (player == 4) {
             player3namedisplayer.setVisibility(View.VISIBLE);
             player3scoreDisplay.setVisibility(View.VISIBLE);
             player4namedisplayer.setVisibility(View.VISIBLE);
             player4scoreDisplay.setVisibility(View.VISIBLE);
         }
-            ImageView loading =  findViewById(R.id.loading);
-            if(dicon) {
-                loading.setImageResource(loader);
+        ImageView loading = findViewById(R.id.loading);
+        if (dicon) {
+            loading.setImageResource(loader);
 
-            }else {
-                loading.clearAnimation();
-                loading.setVisibility(View.GONE);
-            }
-            saved = true;
+        } else {
+            loading.clearAnimation();
+            loading.setVisibility(View.GONE);
+        }
+        saved = true;
     }
 
-    public void scrabbleScorePlatinum(View view){
+    public void scrabbleScorePlatinum(View view) {
         Intent i = new Intent(android.content.Intent.ACTION_VIEW);
         i.setData(Uri.parse("https://play.google.com/store/apps/details?id=lood.corporatezen.scrabblescoreplatinum"));
         startActivity(i);
