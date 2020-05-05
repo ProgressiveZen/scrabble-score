@@ -10,12 +10,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-//import android.support.v4.content.ContextCompat;
-//import android.support.v7.app.AlertDialog;
-//import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -37,6 +33,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -51,7 +48,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import static android.R.color.transparent;
 import static com.example.android.scrabblescore.R.color.appblue;
@@ -87,7 +83,6 @@ import static com.example.android.scrabblescore.R.id.ll4;
 import static com.example.android.scrabblescore.R.id.ll5;
 import static com.example.android.scrabblescore.R.id.ll6;
 import static com.example.android.scrabblescore.R.id.ll7;
-import static com.example.android.scrabblescore.R.id.loading;
 import static com.example.android.scrabblescore.R.id.p1;
 import static com.example.android.scrabblescore.R.id.p1total;
 import static com.example.android.scrabblescore.R.id.p1words;
@@ -112,6 +107,7 @@ import static com.example.android.scrabblescore.R.id.tls8;
 import static com.example.android.scrabblescore.R.id.winner;
 import static com.example.android.scrabblescore.R.layout.endgame;
 
+@SuppressWarnings("ConstantConditions")
 public class MainActivity extends AppCompatActivity {
     boolean twspressed = false;
     boolean dwspressed = false;
@@ -128,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
     boolean pressed7 = false;
     boolean pressed8 = false;
 
-
+    HashMap<String, Integer> alphabet = new HashMap<>();
 
     String playerWord = "";
     String le1;
@@ -143,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
     String player2name = "";
     String player3name = "";
     String player4name = "";
-    Map<String, Integer> alphabet = new HashMap<>();
     ArrayList<String> p1WordArray = new ArrayList<>();
     ArrayList<String> p2WordArray = new ArrayList<>();
     ArrayList<String> p3WordArray = new ArrayList<>();
@@ -195,6 +190,7 @@ int wordCount = 0;
     int player2score = 0;
     int player3score = 0;
     int player4score = 0;
+    ImageView loading;
 
     Context context;
 
@@ -215,9 +211,10 @@ int wordCount = 0;
         //mInterstitialAd.setAdUnitId("ca-app-pub-2568422939080036/3628578813");
               setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         context = getApplicationContext();
-        alphabetCreator();
+        alphabetCreator(alphabet);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
+        loading =  findViewById(R.id.loading);
         saved = settings.getBoolean("saved", false);
         player1name = settings.getString("player1name", player1name);
         player2name = settings.getString("player2name", player2name);
@@ -267,15 +264,15 @@ int wordCount = 0;
         if (saved) {
             setup();
             LayoutInflater layoutInflater = LayoutInflater.from(this);
-            View promptView = layoutInflater.inflate(R.layout.areyousure, nullParent);
+            @SuppressLint("InflateParams") View promptView = layoutInflater.inflate(R.layout.areyousure, null);
             final AlertDialog alertD = new AlertDialog.Builder(this).create();
             alertD.setCanceledOnTouchOutside(false);
             alertD.setCancelable(false);
-            TextView playerName = (TextView) promptView.findViewById(R.id.playerName);
+            TextView playerName = promptView.findViewById(R.id.playerName);
             playerName.setText(getString(R.string.wb));
-            TextView continueornew = (TextView) promptView.findViewById(R.id.areyoursuretext);
+            TextView continueornew = promptView.findViewById(R.id.areyoursuretext);
             continueornew.setText(getString(R.string.wcg));
-            Button yesbutton = (Button) promptView.findViewById(R.id.yes);
+            Button yesbutton = promptView.findViewById(R.id.yes);
             yesbutton.setText(getString(R.string.ng));
             yesbutton.setOnClickListener(new View.OnClickListener() {
 
@@ -287,14 +284,14 @@ int wordCount = 0;
                 }
 
             });
-            Button nobutton = (Button) promptView.findViewById(R.id.no);
+            Button nobutton =  promptView.findViewById(R.id.no);
             nobutton.setText(getString(R.string.cg));
             nobutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Context context;
                     context = getApplicationContext();
-                    ImageView loadingPic = (ImageView) findViewById(R.id.loading);
+                    ImageView loadingPic =  findViewById(R.id.loading);
                     Animation animation = AnimationUtils.loadAnimation(context, R.anim.rotate);
                     loadingPic.startAnimation(animation);
                     alertD.hide();
@@ -315,7 +312,7 @@ int wordCount = 0;
         editor.commit();
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        EditText soft = (EditText) findViewById(R.id.userWord);
+        EditText soft = findViewById(R.id.userWord);
         soft.setSelected(false);
         soft.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -343,26 +340,26 @@ int wordCount = 0;
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
                 enterWord();
-                Button addWord = (Button) findViewById(R.id.addWordButton);
+                Button addWord =  findViewById(R.id.addWordButton);
                 addWord.setText(getString(R.string.adw));
                 if (playerWord.length() < 1) {
                     addWord.setText(getString(R.string.st));
                 }
             }
         });
-        ImageView loadingPic = (ImageView) findViewById(R.id.loading);
+        ImageView loadingPic =  findViewById(R.id.loading);
         loadingPic.setImageResource(loader);
     }
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        TextView player1namedisplayer = (TextView) findViewById(R.id.player1name);
-        TextView player2namedisplayer = (TextView) findViewById(R.id.player2name);
-        TextView player3namedisplayer = (TextView) findViewById(R.id.player3name);
-        TextView player4namedisplayer = (TextView) findViewById(R.id.player4name);
-        TextView player1scoredisplay = (TextView) findViewById(R.id.playerScore1);
-        TextView player2scoredisplay = (TextView) findViewById(R.id.playerScore2);
-        TextView player3scoredisplay = (TextView) findViewById(playerScore3);
-        TextView player4scoredisplay = (TextView) findViewById(playerScore4);
+    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        TextView player1namedisplayer =  findViewById(R.id.player1name);
+        TextView player2namedisplayer =  findViewById(R.id.player2name);
+        TextView player3namedisplayer =  findViewById(R.id.player3name);
+        TextView player4namedisplayer =  findViewById(R.id.player4name);
+        TextView player1scoredisplay =  findViewById(R.id.playerScore1);
+        TextView player2scoredisplay =  findViewById(R.id.playerScore2);
+        TextView player3scoredisplay =  findViewById(playerScore3);
+        TextView player4scoredisplay =  findViewById(playerScore4);
         super.onSaveInstanceState(savedInstanceState);
         player1name = savedInstanceState.getString("player1");
         player2name = savedInstanceState.getString("player2");
@@ -454,21 +451,21 @@ int wordCount = 0;
         p4WordArray = new ArrayList<>();
         p4WordScoreArray = new ArrayList<>();
         LayoutInflater layoutInflater = LayoutInflater.from(this);
-        View promptView = layoutInflater.inflate(R.layout.dialoglayout, nullParent);
+        @SuppressLint("InflateParams") View promptView = layoutInflater.inflate(R.layout.dialoglayout, null);
         final AlertDialog alertD = new AlertDialog.Builder(this).create();
         alertD.setCanceledOnTouchOutside(false);
         alertD.setCancelable(false);
-        Button startbutton = (Button) promptView.findViewById(R.id.start);
-        ImageButton plus = (ImageButton) promptView.findViewById(R.id.plusbutton);
-        ImageButton minus = (ImageButton) promptView.findViewById(R.id.minusbutton);
-        final EditText player3 = (EditText) promptView.findViewById(player3nameinput);
-        final EditText player4 = (EditText) promptView.findViewById(R.id.player4nameinput);
-        final TextView player31 = (TextView) promptView.findViewById(R.id.player3name);
-        final TextView player41 = (TextView) promptView.findViewById(R.id.player4name);
-        final TextView player32 = (TextView) findViewById(playerScore3);
-        final TextView player42 = (TextView) findViewById(R.id.player4name);
-        final TextView player33 = (TextView) findViewById(R.id.player3name);
-        final TextView player43 = (TextView) findViewById(playerScore4);
+        Button startbutton =  promptView.findViewById(R.id.start);
+        ImageButton plus =  promptView.findViewById(R.id.plusbutton);
+        ImageButton minus =  promptView.findViewById(R.id.minusbutton);
+        final EditText player3 =  promptView.findViewById(player3nameinput);
+        final EditText player4 =  promptView.findViewById(R.id.player4nameinput);
+        final TextView player31 =  promptView.findViewById(R.id.player3name);
+        final TextView player41 =  promptView.findViewById(R.id.player4name);
+        final TextView player32 =  findViewById(playerScore3);
+        final TextView player42 =  findViewById(R.id.player4name);
+        final TextView player33 =  findViewById(R.id.player3name);
+        final TextView player43 =  findViewById(playerScore4);
         player4.setVisibility(View.GONE);
         player41.setVisibility(View.GONE);
         player42.setVisibility(View.GONE);
@@ -483,17 +480,18 @@ int wordCount = 0;
                 if (player == 2) {
                     player = 3;
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    assert imm != null;
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     player3.setVisibility(View.VISIBLE);
                     player31.setVisibility(View.VISIBLE);
                     player32.setVisibility(View.VISIBLE);
                     player33.setVisibility(View.VISIBLE);
                     player3over = false;
-                    EditText player2userinput = (EditText) alertD.findViewById(player2nameinput);
+                    EditText player2userinput =  alertD.findViewById(player2nameinput);
                     if(player2userinput != null) {
                         player2userinput.setImeOptions(EditorInfo.IME_ACTION_NEXT);
                     }
-                    EditText player3userinput = (EditText) alertD.findViewById(player3nameinput);
+                    EditText player3userinput =  alertD.findViewById(player3nameinput);
 if(player3userinput != null) {
     player3userinput.setImeOptions(EditorInfo.IME_ACTION_DONE);
                     }
@@ -501,12 +499,13 @@ if(player3userinput != null) {
                     player4over = false;
                     player = 4;
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    assert imm != null;
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     player4.setVisibility(View.VISIBLE);
                     player41.setVisibility(View.VISIBLE);
                     player42.setVisibility(View.VISIBLE);
                     player43.setVisibility(View.VISIBLE);
-                    EditText player3userinput = (EditText) alertD.findViewById(player3nameinput);
+                    EditText player3userinput =  alertD.findViewById(player3nameinput);
 if(player3userinput != null) {
     player3userinput.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 }
@@ -524,10 +523,11 @@ if(player3userinput != null) {
                     player42.setVisibility(View.GONE);
                     player43.setVisibility(View.GONE);
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    assert imm != null;
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     player4over = false;
                     player = 3;
-                    EditText player3userinput = (EditText) alertD.findViewById(player3nameinput);
+                    EditText player3userinput =  alertD.findViewById(player3nameinput);
 if(player3userinput != null) {
     player3userinput.setImeOptions(EditorInfo.IME_ACTION_DONE);
 }
@@ -537,10 +537,11 @@ if(player3userinput != null) {
                     player32.setVisibility(View.GONE);
                     player33.setVisibility(View.GONE);
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    assert imm != null;
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     player = 2;
                     player3over = false;
-                    EditText player2userinput = (EditText) alertD.findViewById(player2nameinput);
+                    EditText player2userinput =  alertD.findViewById(player2nameinput);
 if(player2userinput != null) {
     player2userinput.setImeOptions(EditorInfo.IME_ACTION_DONE);
 }
@@ -554,7 +555,6 @@ if(player2userinput != null) {
                 Context context;
                 context = getApplicationContext();
                 if(dicon ){
-                    ImageView loading = (ImageView) findViewById(R.id.loading);
                     loading.setVisibility(View.VISIBLE);
                     Animation animation = AnimationUtils.loadAnimation(context, R.anim.rotate);
                     loading.startAnimation(animation);
@@ -562,14 +562,14 @@ if(player2userinput != null) {
                 if (!dicon) {
                     dicoverride = true;
                 }
-                EditText player2userinput = (EditText) alertD.findViewById(player2nameinput);
-                EditText player3userinput = (EditText) alertD.findViewById(player3nameinput);
-                EditText player4userinput = (EditText) alertD.findViewById(R.id.player4nameinput);
-                EditText player1userinput = (EditText) alertD.findViewById(R.id.player1nameinput);
-                TextView player1scoreDisplay = (TextView) findViewById(R.id.playerScore1);
-                TextView player2scoreDisplay = (TextView) findViewById(R.id.playerScore2);
-                TextView player3scoreDisplay = (TextView) findViewById(playerScore3);
-                TextView player4scoreDisplay = (TextView) findViewById(playerScore4);
+                EditText player2userinput =  alertD.findViewById(player2nameinput);
+                EditText player3userinput =  alertD.findViewById(player3nameinput);
+                EditText player4userinput =  alertD.findViewById(R.id.player4nameinput);
+                EditText player1userinput =  alertD.findViewById(R.id.player1nameinput);
+                TextView player1scoreDisplay =  findViewById(R.id.playerScore1);
+                TextView player2scoreDisplay =  findViewById(R.id.playerScore2);
+                TextView player3scoreDisplay =  findViewById(playerScore3);
+                TextView player4scoreDisplay =  findViewById(playerScore4);
                 player1scoreDisplay.setText(String.valueOf(player1score));
                 player2scoreDisplay.setText(String.valueOf(player2score));
                 if(player1userinput != null) {
@@ -615,14 +615,14 @@ if(player4userinput != null) {
                     if (player > 3 && isAlpha(player4name)) {
                         player4name = player4name.substring(0, 1).toUpperCase() + player4name.substring(1);
                     }
-                    TextView player1namedisplayer = (TextView) findViewById(R.id.player1name);
-                    TextView player3scoredisplayer = (TextView) findViewById(R.id.playerScore3);
-                    TextView player4scoredisplayer = (TextView) findViewById(R.id.playerScore4);
-                    TextView player2namedisplayer = (TextView) findViewById(R.id.player2name);
+                    TextView player1namedisplayer =  findViewById(R.id.player1name);
+                    TextView player3scoredisplayer =  findViewById(R.id.playerScore3);
+                    TextView player4scoredisplayer =  findViewById(R.id.playerScore4);
+                    TextView player2namedisplayer =  findViewById(R.id.player2name);
                     player1namedisplayer.setText(player1name);
                     player2namedisplayer.setText(player2name);
-                    TextView player3namedisplayer = (TextView) findViewById(R.id.player3name);
-                    TextView player4namedisplayer = (TextView) findViewById(R.id.player4name);
+                    TextView player3namedisplayer =  findViewById(R.id.player3name);
+                    TextView player4namedisplayer =  findViewById(R.id.player4name);
                     player3namedisplayer.setText(player3name);
                     player4namedisplayer.setText(player4name);
                     context = getApplicationContext();
@@ -641,9 +641,6 @@ if(player4userinput != null) {
                     player3scoredisplayer.setBackgroundColor(ContextCompat.getColor(context, transparent));
                     player4namedisplayer.setBackgroundColor(ContextCompat.getColor(context, transparent));
                     player4scoredisplayer.setBackgroundColor(ContextCompat.getColor(context, transparent));
-
-                    ImageView loading = (ImageView) findViewById(R.id.loading);
-
 
                     if(dicon) {
                         loading.setImageResource(loader);
@@ -664,8 +661,7 @@ if(player4userinput != null) {
         alertD.show();
     }
 
-    public void alphabetCreator() {
-        alphabet.clear();
+    public void alphabetCreator(HashMap<String, Integer> alphabet) {
         alphabet.put("a", 1);
         alphabet.put("b", 3);
         alphabet.put("c", 3);
@@ -705,24 +701,24 @@ if(player4userinput != null) {
         pressed6 = false;
         pressed7 = false;
         pressed8 = false;
-        ImageButton twsreset = (ImageButton) findViewById(R.id.tws);
-        ImageButton dwsreset = (ImageButton) findViewById(R.id.dws);
-        ImageButton tls1reset = (ImageButton) findViewById(R.id.tls1);
-        ImageButton dls1reset = (ImageButton) findViewById(R.id.dls1);
-        ImageButton tls2reset = (ImageButton) findViewById(R.id.tls2);
-        ImageButton dls2reset = (ImageButton) findViewById(R.id.dls2);
-        ImageButton tls3reset = (ImageButton) findViewById(R.id.tls3);
-        ImageButton dls3reset = (ImageButton) findViewById(R.id.dls3);
-        ImageButton tls4reset = (ImageButton) findViewById(R.id.tls4);
-        ImageButton dls4reset = (ImageButton) findViewById(R.id.dls4);
-        ImageButton tls5reset = (ImageButton) findViewById(R.id.tls5);
-        ImageButton dls5reset = (ImageButton) findViewById(R.id.dls5);
-        ImageButton tls6reset = (ImageButton) findViewById(R.id.tls6);
-        ImageButton dls6reset = (ImageButton) findViewById(R.id.dls6);
-        ImageButton tls7reset = (ImageButton) findViewById(tls7);
-        ImageButton dls7reset = (ImageButton) findViewById(dls7);
-        ImageButton tls8reset = (ImageButton) findViewById(tls8);
-        ImageButton dls8reset = (ImageButton) findViewById(dls8);
+        ImageButton twsreset =  findViewById(R.id.tws);
+        ImageButton dwsreset =  findViewById(R.id.dws);
+        ImageButton tls1reset =  findViewById(R.id.tls1);
+        ImageButton dls1reset =  findViewById(R.id.dls1);
+        ImageButton tls2reset =  findViewById(R.id.tls2);
+        ImageButton dls2reset =  findViewById(R.id.dls2);
+        ImageButton tls3reset =  findViewById(R.id.tls3);
+        ImageButton dls3reset =  findViewById(R.id.dls3);
+        ImageButton tls4reset =  findViewById(R.id.tls4);
+        ImageButton dls4reset =  findViewById(R.id.dls4);
+        ImageButton tls5reset =  findViewById(R.id.tls5);
+        ImageButton dls5reset =  findViewById(R.id.dls5);
+        ImageButton tls6reset =  findViewById(R.id.tls6);
+        ImageButton dls6reset =  findViewById(R.id.dls6);
+        ImageButton tls7reset =  findViewById(tls7);
+        ImageButton dls7reset =  findViewById(dls7);
+        ImageButton tls8reset =  findViewById(tls8);
+        ImageButton dls8reset =  findViewById(dls8);
         tls1reset.setClickable(true);
         tls2reset.setClickable(true);
         tls3reset.setClickable(true);
@@ -739,16 +735,16 @@ if(player4userinput != null) {
         dls6reset.setClickable(true);
         dls7reset.setClickable(true);
         dls8reset.setClickable(true);
-        ImageButton bonus = (ImageButton) findViewById(R.id.bonus);
-        ImageView l1 = (ImageView) findViewById(letter1);
-        ImageView l2 = (ImageView) findViewById(letter2);
-        ImageView l3 = (ImageView) findViewById(letter3);
-        ImageView l4 = (ImageView) findViewById(letter4);
-        ImageView l5 = (ImageView) findViewById(letter5);
-        ImageView l6 = (ImageView) findViewById(letter6);
-        ImageView l7 = (ImageView) findViewById(letter7);
-        ImageView l8 = (ImageView) findViewById(letter8);
-        EditText eText = (EditText) findViewById(R.id.userWord);
+        ImageButton bonus =  findViewById(R.id.bonus);
+        ImageView l1 =  findViewById(letter1);
+        ImageView l2 =  findViewById(letter2);
+        ImageView l3 =  findViewById(letter3);
+        ImageView l4 =  findViewById(letter4);
+        ImageView l5 =  findViewById(letter5);
+        ImageView l6 =  findViewById(letter6);
+        ImageView l7 =  findViewById(letter7);
+        ImageView l8 =  findViewById(letter8);
+        EditText eText =  findViewById(R.id.userWord);
         playerWord = eText.getText().toString();
         if(playerWord.length() == 0){
             l1.setImageResource(blank);
@@ -862,6 +858,7 @@ tls4reset.setImageResource(R.drawable.tlse);
             le7 = playerWord.substring(6,7);
                 dls7reset.setImageResource(R.drawable.dlse);
                 tls7reset.setImageResource(R.drawable.tlse);
+                tls6reset.setImageResource(R.drawable.tlse);
                 total = alphabet.get(le1) + alphabet.get(le2) + alphabet.get(le3) + alphabet.get(le4) + alphabet.get(le5) + alphabet.get(le6) + alphabet.get(le7);
                 bonus.setImageResource(R.drawable.fifty);
                 bonus.setClickable(false);
@@ -916,8 +913,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void twsOnClick(View v) {
-        ImageButton twsbutton1 = (ImageButton) findViewById(R.id.tws);
-        ImageButton dwsbutton1 = (ImageButton) findViewById(R.id.dws);
+        ImageButton twsbutton1 =  findViewById(R.id.tws);
+        ImageButton dwsbutton1 =  findViewById(R.id.dws);
         if (!twspressed && !le1.equals(" ")) {
             twsbutton1.setImageResource(R.drawable.twss);
             dwsbutton1.setImageResource(dwse);
@@ -933,8 +930,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void dwsOnClick(View v) {
-        ImageButton twsbutton1 = (ImageButton) findViewById(R.id.tws);
-        ImageButton dwsbutton1 = (ImageButton) findViewById(R.id.dws);
+        ImageButton twsbutton1 =  findViewById(R.id.tws);
+        ImageButton dwsbutton1 =  findViewById(R.id.dws);
         if (!dwspressed && !le1.equals(" ")) {
             twsbutton1.setImageResource(R.drawable.twse);
             dwsbutton1.setImageResource(R.drawable.dwss);
@@ -950,8 +947,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setTls1Pressed(View v) {
-        ImageButton tlsbutton1 = (ImageButton) findViewById(tls1);
-        ImageButton dlsbutton1 = (ImageButton) findViewById(dls1);
+        ImageButton tlsbutton1 =  findViewById(tls1);
+        ImageButton dlsbutton1 =  findViewById(dls1);
         if (!tls1Pressed && !le1.equals(" ") && !pressed1) {
             tlsbutton1.setImageResource(R.drawable.tlss);
             dlsbutton1.setImageResource(dlse);
@@ -967,8 +964,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setDls1Pressed(View v) {
-        ImageButton tlsbutton1 = (ImageButton) findViewById(tls1);
-        ImageButton dlsbutton1 = (ImageButton) findViewById(dls1);
+        ImageButton tlsbutton1 =  findViewById(tls1);
+        ImageButton dlsbutton1 =  findViewById(dls1);
         if (!dls1Pressed && !le1.equals(" ") && !pressed1) {
             dlsbutton1.setImageResource(R.drawable.dlss);
             tlsbutton1.setImageResource(tlse);
@@ -984,8 +981,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setTls2Pressed(View v) {
-        ImageButton tlsbutton2 = (ImageButton) findViewById(tls2);
-        ImageButton dlsbutton2 = (ImageButton) findViewById(dls2);
+        ImageButton tlsbutton2 =  findViewById(tls2);
+        ImageButton dlsbutton2 =  findViewById(dls2);
         if (!tls2Pressed && !le2.equals(" ") && !pressed2) {
             tlsbutton2.setImageResource(R.drawable.tlss);
             dlsbutton2.setImageResource(dlse);
@@ -1001,8 +998,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setDls2Pressed(View v) {
-        ImageButton tlsbutton2 = (ImageButton) findViewById(tls2);
-        ImageButton dlsbutton2 = (ImageButton) findViewById(dls2);
+        ImageButton tlsbutton2 =  findViewById(tls2);
+        ImageButton dlsbutton2 =  findViewById(dls2);
         if (!dls2Pressed && !le2.equals(" ") && !pressed2) {
             dlsbutton2.setImageResource(R.drawable.dlss);
             tlsbutton2.setImageResource(tlse);
@@ -1018,8 +1015,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setTls3Pressed(View v) {
-        ImageButton tlsbutton3 = (ImageButton) findViewById(tls3);
-        ImageButton dlsbutton3 = (ImageButton) findViewById(dls3);
+        ImageButton tlsbutton3 =  findViewById(tls3);
+        ImageButton dlsbutton3 =  findViewById(dls3);
         if (!tls3Pressed && !le3.equals(" ") && !pressed3) {
             tlsbutton3.setImageResource(R.drawable.tlss);
             dlsbutton3.setImageResource(dlse);
@@ -1035,8 +1032,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setDls3Pressed(View v) {
-        ImageButton tlsbutton3 = (ImageButton) findViewById(tls3);
-        ImageButton dlsbutton3 = (ImageButton) findViewById(dls3);
+        ImageButton tlsbutton3 =  findViewById(tls3);
+        ImageButton dlsbutton3 =  findViewById(dls3);
         if (!dls3Pressed && !le3.equals(" ") && !pressed3) {
             dlsbutton3.setImageResource(R.drawable.dlss);
             tlsbutton3.setImageResource(tlse);
@@ -1052,8 +1049,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setTls4Pressed(View v) {
-        ImageButton tlsbutton4 = (ImageButton) findViewById(tls4);
-        ImageButton dlsbutton4 = (ImageButton) findViewById(dls4);
+        ImageButton tlsbutton4 =  findViewById(tls4);
+        ImageButton dlsbutton4 =  findViewById(dls4);
         if (!tls4Pressed && !le4.equals(" ") && !pressed4) {
             tlsbutton4.setImageResource(R.drawable.tlss);
             dlsbutton4.setImageResource(dlse);
@@ -1069,8 +1066,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setDls4Pressed(View v) {
-        ImageButton tlsbutton4 = (ImageButton) findViewById(tls4);
-        ImageButton dlsbutton4 = (ImageButton) findViewById(dls4);
+        ImageButton tlsbutton4 =  findViewById(tls4);
+        ImageButton dlsbutton4 =  findViewById(dls4);
         if (!dls4Pressed && !le4.equals(" ") && !pressed4) {
             dlsbutton4.setImageResource(R.drawable.dlss);
             tlsbutton4.setImageResource(tlse);
@@ -1086,8 +1083,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setTls5Pressed(View v) {
-        ImageButton tlsbutton5 = (ImageButton) findViewById(tls5);
-        ImageButton dlsbutton5 = (ImageButton) findViewById(dls5);
+        ImageButton tlsbutton5 =  findViewById(tls5);
+        ImageButton dlsbutton5 =  findViewById(dls5);
         if (!tls5Pressed && !le5.equals(" ") && !pressed5) {
             tlsbutton5.setImageResource(R.drawable.tlss);
             dlsbutton5.setImageResource(dlse);
@@ -1103,8 +1100,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setTls6Pressed(View v) {
-        ImageButton tlsbutton6 = (ImageButton) findViewById(tls6);
-        ImageButton dlsbutton6 = (ImageButton) findViewById(dls6);
+        ImageButton tlsbutton6 = findViewById(tls6);
+        ImageButton dlsbutton6 = findViewById(dls6);
         if (!tls6Pressed && !le6.equals(" ") && !pressed6) {
             tlsbutton6.setImageResource(R.drawable.tlss);
             dlsbutton6.setImageResource(dlse);
@@ -1120,8 +1117,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setDls6Pressed(View v) {
-        ImageButton tlsbutton6 = (ImageButton) findViewById(tls6);
-        ImageButton dlsbutton6 = (ImageButton) findViewById(dls6);
+        ImageButton tlsbutton6 =  findViewById(tls6);
+        ImageButton dlsbutton6 =  findViewById(dls6);
         if (!dls6Pressed && !le6.equals(" ") && !pressed6) {
             dlsbutton6.setImageResource(R.drawable.dlss);
             tlsbutton6.setImageResource(tlse);
@@ -1138,8 +1135,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
 
 
     public void setDls5Pressed(View v) {
-        ImageButton tlsbutton5 = (ImageButton) findViewById(tls5);
-        ImageButton dlsbutton5 = (ImageButton) findViewById(dls5);
+        ImageButton tlsbutton5 =  findViewById(tls5);
+        ImageButton dlsbutton5 =  findViewById(dls5);
         if (!dls5Pressed && !le5.equals(" ") && !pressed5) {
             dlsbutton5.setImageResource(R.drawable.dlss);
             tlsbutton5.setImageResource(tlse);
@@ -1155,8 +1152,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setTls7Pressed(View v) {
-        ImageButton tlsbutton7 = (ImageButton) findViewById(tls7);
-        ImageButton dlsbutton7 = (ImageButton) findViewById(dls7);
+        ImageButton tlsbutton7 =  findViewById(tls7);
+        ImageButton dlsbutton7 =  findViewById(dls7);
         if (!tls7Pressed && !le7.equals(" ") && !pressed7) {
             tlsbutton7.setImageResource(R.drawable.tlss);
             dlsbutton7.setImageResource(dlse);
@@ -1172,8 +1169,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setDls7Pressed(View v) {
-        ImageButton tlsbutton7 = (ImageButton) findViewById(tls7);
-        ImageButton dlsbutton7 = (ImageButton) findViewById(dls7);
+        ImageButton tlsbutton7 =  findViewById(tls7);
+        ImageButton dlsbutton7 =  findViewById(dls7);
         if (!dls7Pressed && !le7.equals(" ") && !pressed7) {
             dlsbutton7.setImageResource(R.drawable.dlss);
             tlsbutton7.setImageResource(tlse);
@@ -1189,8 +1186,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setTls8Pressed(View v) {
-        ImageButton tlsbutton8 = (ImageButton) findViewById(tls8);
-        ImageButton dlsbutton8 = (ImageButton) findViewById(dls8);
+        ImageButton tlsbutton8 =  findViewById(tls8);
+        ImageButton dlsbutton8 =  findViewById(dls8);
         if (!tls8Pressed && !le8.equals(" ") && !pressed8) {
             tlsbutton8.setImageResource(R.drawable.tlss);
             dlsbutton8.setImageResource(dlse);
@@ -1206,8 +1203,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void setDls8Pressed(View v) {
-        ImageButton tlsbutton8 = (ImageButton) findViewById(tls8);
-        ImageButton dlsbutton8 = (ImageButton) findViewById(dls8);
+        ImageButton tlsbutton8 =  findViewById(tls8);
+        ImageButton dlsbutton8 =  findViewById(dls8);
         if (!dls8Pressed && !le8.equals(" ") && !pressed8) {
             dlsbutton8.setImageResource(R.drawable.dlss);
             tlsbutton8.setImageResource(tlse);
@@ -1223,8 +1220,8 @@ l1.setImageResource(l1.getContext().getResources().getIdentifier(le1, "drawable"
     }
 
     public void displayTotalWordScore() {
-        TextView totalWordScore = (TextView) findViewById(R.id.totalWordScore);
-        TextView wordScoreDisplay = (TextView) findViewById(R.id.wordScore);
+        TextView totalWordScore =  findViewById(R.id.totalWordScore);
+        TextView wordScoreDisplay =  findViewById(R.id.wordScore);
         wordTotal = (((total + l1bonus + l2bonus + l3bonus + l4bonus + l5bonus + l6bonus + l7bonus + l8bonus) * wordMultipleBonus) + bonuspoints);
         totalWordScore.setText(getString(R.string.tws2, wordTotal));
         wordScoreDisplay.setText(getString(R.string.ws2, total));
@@ -1272,14 +1269,14 @@ editor.putInt("playerTurn", playerTurn);
     }
     editor.apply();
 
-        TextView p1name = (TextView) findViewById(R.id.player1name);
-        TextView p1score = (TextView) findViewById(R.id.playerScore1);
-        TextView p2name = (TextView) findViewById(R.id.player2name);
-        TextView p2score = (TextView) findViewById(R.id.playerScore2);
-        TextView p3name = (TextView) findViewById(R.id.player3name);
-        TextView p3score = (TextView) findViewById(R.id.playerScore3);
-        TextView p4name = (TextView) findViewById(R.id.player4name);
-        TextView p4score = (TextView) findViewById(R.id.playerScore4);
+        TextView p1name =  findViewById(R.id.player1name);
+        TextView p1score =  findViewById(R.id.playerScore1);
+        TextView p2name =  findViewById(R.id.player2name);
+        TextView p2score =  findViewById(R.id.playerScore2);
+        TextView p3name =  findViewById(R.id.player3name);
+        TextView p3score =  findViewById(R.id.playerScore3);
+        TextView p4name =  findViewById(R.id.player4name);
+        TextView p4score =  findViewById(R.id.playerScore4);
         if (playerTurn == 1 && !player1over) {
             p1name.setBackgroundColor(ContextCompat.getColor(context, appblue));
             p1score.setBackgroundColor(ContextCompat.getColor(context, appblue));
@@ -1348,23 +1345,23 @@ editor.putInt("playerTurn", playerTurn);
 
     public void bonuspoints(View v) {
         if (playerWord.length() == 7 && !bonuspressed && player1score == 0 && player2score == 0) {
-            ImageView bonus = (ImageView) findViewById(R.id.bonus);
+            ImageView bonus =  findViewById(R.id.bonus);
             bonus.setImageResource(R.drawable.fiftys);
             bonuspressed = true;
             bonuspoints = 50;
         } else if (playerWord.length() == 7 && bonuspressed  && player1score == 0 && player2score == 0) {
-            ImageView bonus = (ImageView) findViewById(R.id.bonus);
+            ImageView bonus =  findViewById(R.id.bonus);
             bonus.setImageResource(R.drawable.fiftye);
             bonuspoints = 0;
             bonuspressed = false;
         }
         if (playerWord.length() == 8 && !bonuspressed) {
-            ImageView bonus = (ImageView) findViewById(R.id.bonus);
+            ImageView bonus =  findViewById(R.id.bonus);
             bonus.setImageResource(R.drawable.fiftys);
             bonuspressed = true;
             bonuspoints = 50;
         } else if (playerWord.length() == 8 && bonuspressed ) {
-            ImageView bonus = (ImageView) findViewById(R.id.bonus);
+            ImageView bonus =  findViewById(R.id.bonus);
             bonus.setImageResource(R.drawable.fiftye);
             bonuspoints = 0;
             bonuspressed = false;
@@ -1407,9 +1404,9 @@ editor.putInt("playerTurn", playerTurn);
             final AlertDialog alertD = new AlertDialog.Builder(this).create();
             alertD.setCanceledOnTouchOutside(false);
             alertD.setCancelable(false);
-            TextView playerName = (TextView) promptView.findViewById(R.id.playerName);
+            TextView playerName =  promptView.findViewById(R.id.playerName);
             playerName.setText(getPlayerName(playerTurn));
-            Button yesbutton = (Button) promptView.findViewById(R.id.yes);
+            Button yesbutton =  promptView.findViewById(R.id.yes);
             yesbutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1418,7 +1415,7 @@ editor.putInt("playerTurn", playerTurn);
                 }
 
             });
-            Button nobutton = (Button) promptView.findViewById(R.id.no);
+            Button nobutton =  promptView.findViewById(R.id.no);
             nobutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1437,7 +1434,7 @@ editor.putInt("playerTurn", playerTurn);
             if (playerTurn == 1 && !player1over) {
                 player1score = player1score + wordTotal;
                 playerTurn = 2;
-                TextView playerScoreDisplay1 = (TextView) findViewById(playerScore1);
+                TextView playerScoreDisplay1 =  findViewById(playerScore1);
                 playerScoreDisplay1.setText(String.valueOf(player1score));
                 p1WordArray.add(p1WordArray.size(), playerWord);
                 p1WordScoreArray.add(p1WordScoreArray.size(), wordTotal);
@@ -1449,7 +1446,7 @@ editor.putInt("playerTurn", playerTurn);
                 } else{
                     playerTurn = 1;
                 }
-                TextView playerScoreDisplay2 = (TextView) findViewById(playerScore2);
+                TextView playerScoreDisplay2 =  findViewById(playerScore2);
                 playerScoreDisplay2.setText(String.valueOf(player2score));
                 p2WordArray.add(p2WordArray.size(), playerWord);
                 p2WordScoreArray.add(p2WordScoreArray.size(), wordTotal);
@@ -1461,7 +1458,7 @@ editor.putInt("playerTurn", playerTurn);
                 } else {
                     playerTurn = 1;
                 }
-                TextView playerScoreDisplay3 = (TextView) findViewById(playerScore3);
+                TextView playerScoreDisplay3 =  findViewById(playerScore3);
                 playerScoreDisplay3.setText(String.valueOf(player3score));
                 p3WordArray.add(p3WordArray.size(), playerWord);
                 p3WordScoreArray.add(p3WordScoreArray.size(), wordTotal);
@@ -1469,7 +1466,7 @@ editor.putInt("playerTurn", playerTurn);
             } else if (playerTurn == 4 && !player4over) {
                 player4score = player4score + wordTotal;
                 playerTurn = 1;
-                TextView playerScoreDisplay4 = (TextView) findViewById(playerScore4);
+                TextView playerScoreDisplay4 =  findViewById(playerScore4);
                 playerScoreDisplay4.setText(String.valueOf(player4score));
                 p4WordArray.add(p4WordArray.size(), playerWord);
                 p4WordScoreArray.add(p4WordScoreArray.size(), wordTotal);
@@ -1481,7 +1478,6 @@ editor.putInt("playerTurn", playerTurn);
         }
         checkOver();
         turnNameChange();
-        ImageView loading = (ImageView) findViewById(R.id.loading);
         wordCount++;
         if(wordCount == 5){
             LayoutInflater layoutInflater = LayoutInflater.from(this);
@@ -1489,7 +1485,7 @@ editor.putInt("playerTurn", playerTurn);
             final AlertDialog alertD = new AlertDialog.Builder(this).create();
             alertD.setCanceledOnTouchOutside(false);
             alertD.setCancelable(false);
-            Button nobutton = (Button) promptView.findViewById(R.id.no);
+            Button nobutton =  promptView.findViewById(R.id.no);
             nobutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1511,22 +1507,82 @@ editor.putInt("playerTurn", playerTurn);
             loading.clearAnimation();
         }
 
-        if(wordCount % 5 == 0) {
+       // if(wordCount % 5 == 0) {
 //            if (mInterstitialAd.isLoaded()) {
 //                mInterstitialAd.show();
 //            } else {
 //                Log.d("TAG", "The interstitial wasn't loaded yet.");
 //            }
 //            mInterstitialAd.loadAd(new AdRequest.Builder().build());
-        }
+       // }
     }
-
+//post turn reset for next user
     public void reset() {
-        wordTotal = 0;
-        bonuspoints = 0;
-        wordMultipleBonus = 1;
-        total = 0;
+        //resets edittext and loading icon
         playerWord = "";
+        EditText eText =  findViewById(R.id.userWord);
+        eText.setText("");
+        loading.setImageResource(loader);
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate);
+        loading.startAnimation(animation);
+
+        //resets individual buttons for letters
+        ImageView l1 =  findViewById(R.id.letter1);
+        ImageView l2 =  findViewById(letter2);
+        ImageView l3 =  findViewById(letter3);
+        ImageView l4 =  findViewById(letter4);
+        ImageView l5 =  findViewById(letter5);
+        ImageView l6 =  findViewById(letter6);
+        ImageView l7 =  findViewById(letter7);
+        ImageView l8 =  findViewById(letter8);
+        l1.setImageResource(blank);
+        l2.setImageResource(blank);
+        l3.setImageResource(blank);
+        l4.setImageResource(blank);
+        l5.setImageResource(blank);
+        l6.setImageResource(blank);
+        l7.setImageResource(blank);
+        l8.setImageResource(blank);
+
+        //resets bonus buttons
+        ImageButton twsreset =  findViewById(R.id.tws);
+        ImageButton dwsreset =  findViewById(R.id.dws);
+        ImageButton tls1reset =  findViewById(R.id.tls1);
+        ImageButton dls1reset =  findViewById(R.id.dls1);
+        ImageButton tls2reset =  findViewById(R.id.tls2);
+        ImageButton dls2reset =  findViewById(R.id.dls2);
+        ImageButton tls3reset =  findViewById(R.id.tls3);
+        ImageButton dls3reset =  findViewById(R.id.dls3);
+        ImageButton tls4reset =  findViewById(R.id.tls4);
+        ImageButton dls4reset =  findViewById(R.id.dls4);
+        ImageButton tls5reset =  findViewById(R.id.tls5);
+        ImageButton dls5reset =  findViewById(R.id.dls5);
+        ImageButton tls6reset =  findViewById(R.id.tls6);
+        ImageButton dls6reset =  findViewById(R.id.dls6);
+        ImageButton tls7reset =  findViewById(tls7);
+        ImageButton dls7reset =  findViewById(dls7);
+        ImageButton tls8reset =  findViewById(tls8);
+        ImageButton dls8reset =  findViewById(dls8);
+        ImageButton bonusreset =  findViewById(bonus);
+        bonusreset.setImageResource(R.drawable.fifty);
+        twsreset.setImageResource(R.drawable.tws);
+        dwsreset.setImageResource(R.drawable.dws);
+        tls1reset.setImageResource(tls);
+        tls2reset.setImageResource(tls);
+        tls3reset.setImageResource(tls);
+        tls4reset.setImageResource(tls);
+        dls1reset.setImageResource(R.drawable.dls);
+        dls2reset.setImageResource(R.drawable.dls);
+        dls3reset.setImageResource(R.drawable.dls);
+        dls4reset.setImageResource(R.drawable.dls);
+        tls5reset.setImageResource(tls);
+        tls6reset.setImageResource(tls);
+        tls7reset.setImageResource(tls);
+        tls8reset.setImageResource(tls);
+        dls5reset.setImageResource(R.drawable.dls);
+        dls6reset.setImageResource(R.drawable.dls);
+        dls7reset.setImageResource(R.drawable.dls);
+        dls8reset.setImageResource(R.drawable.dls);
         pressed1 = false;
         pressed2 = false;
         pressed3 = false;
@@ -1561,62 +1617,13 @@ editor.putInt("playerTurn", playerTurn);
         dls3Pressed = false;
         tls4Pressed = false;
         dls4Pressed = false;
-        ImageButton twsreset = (ImageButton) findViewById(R.id.tws);
-        ImageButton dwsreset = (ImageButton) findViewById(R.id.dws);
-        ImageButton tls1reset = (ImageButton) findViewById(R.id.tls1);
-        ImageButton dls1reset = (ImageButton) findViewById(R.id.dls1);
-        ImageButton tls2reset = (ImageButton) findViewById(R.id.tls2);
-        ImageButton dls2reset = (ImageButton) findViewById(R.id.dls2);
-        ImageButton tls3reset = (ImageButton) findViewById(R.id.tls3);
-        ImageButton dls3reset = (ImageButton) findViewById(R.id.dls3);
-        ImageButton tls4reset = (ImageButton) findViewById(R.id.tls4);
-        ImageButton dls4reset = (ImageButton) findViewById(R.id.dls4);
-        ImageButton tls5reset = (ImageButton) findViewById(R.id.tls5);
-        ImageButton dls5reset = (ImageButton) findViewById(R.id.dls5);
-        ImageButton tls6reset = (ImageButton) findViewById(R.id.tls6);
-        ImageButton dls6reset = (ImageButton) findViewById(R.id.dls6);
-        ImageButton tls7reset = (ImageButton) findViewById(tls7);
-        ImageButton dls7reset = (ImageButton) findViewById(dls7);
-        ImageButton tls8reset = (ImageButton) findViewById(tls8);
-        ImageButton dls8reset = (ImageButton) findViewById(dls8);
-        ImageButton bonusreset = (ImageButton) findViewById(bonus);
-        bonusreset.setImageResource(R.drawable.fifty);
-        twsreset.setImageResource(R.drawable.tws);
-        dwsreset.setImageResource(R.drawable.dws);
-        tls1reset.setImageResource(tls);
-        tls2reset.setImageResource(tls);
-        tls3reset.setImageResource(tls);
-        tls4reset.setImageResource(tls);
-        dls1reset.setImageResource(R.drawable.dls);
-        dls2reset.setImageResource(R.drawable.dls);
-        dls3reset.setImageResource(R.drawable.dls);
-        dls4reset.setImageResource(R.drawable.dls);
-        tls5reset.setImageResource(tls);
-        tls6reset.setImageResource(tls);
-        tls7reset.setImageResource(tls);
-        tls8reset.setImageResource(tls);
-        dls5reset.setImageResource(R.drawable.dls);
-        dls6reset.setImageResource(R.drawable.dls);
-        dls7reset.setImageResource(R.drawable.dls);
-        dls8reset.setImageResource(R.drawable.dls);
-        ImageView l1 = (ImageView) findViewById(R.id.letter1);
-        ImageView l2 = (ImageView) findViewById(letter2);
-        ImageView l3 = (ImageView) findViewById(letter3);
-        ImageView l4 = (ImageView) findViewById(letter4);
-        ImageView l5 = (ImageView) findViewById(letter5);
-        ImageView l6 = (ImageView) findViewById(letter6);
-        ImageView l7 = (ImageView) findViewById(letter7);
-        ImageView l8 = (ImageView) findViewById(letter8);
-        l1.setImageResource(blank);
-        l2.setImageResource(blank);
-        l3.setImageResource(blank);
-        l4.setImageResource(blank);
-        l5.setImageResource(blank);
-        l6.setImageResource(blank);
-        l7.setImageResource(blank);
-        l8.setImageResource(blank);
-        EditText eText = (EditText) findViewById(R.id.userWord);
-        eText.setText("");
+
+        //resets formula for word score calculation
+        wordTotal = 0;
+        bonuspoints = 0;
+        wordMultipleBonus = 1;
+        total = 0;
+
         displayTotalWordScore();
     }
 
@@ -1624,23 +1631,23 @@ editor.putInt("playerTurn", playerTurn);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         View promptView = layoutInflater.inflate(R.layout.scoresheet, nullParent);
         final AlertDialog alertD = new AlertDialog.Builder(this).create();
-        TextView p1Display = (TextView) promptView.findViewById(p1);
-        TextView p2Display = (TextView) promptView.findViewById(p2);
+        TextView p1Display =  promptView.findViewById(p1);
+        TextView p2Display =  promptView.findViewById(p2);
         p1Display.setText(player1name);
         p2Display.setText(player2name);
-        TextView p3Display = (TextView) promptView.findViewById(R.id.p3);
-        TextView p4Display = (TextView) promptView.findViewById(p4);
+        TextView p3Display =  promptView.findViewById(R.id.p3);
+        TextView p4Display =  promptView.findViewById(p4);
         p3Display.setText(player3name);
         p4Display.setText(player4name);
-        Button exitButton = (Button) promptView.findViewById(R.id.exit);
-        LinearLayout ll1Display = (LinearLayout) promptView.findViewById(ll1);
-        ImageView ll2Display = (ImageView) promptView.findViewById(ll2);
-        LinearLayout ll3Display = (LinearLayout) promptView.findViewById(ll3);
-        ImageView ll7Display = (ImageView) promptView.findViewById(ll7);
-        LinearLayout ll4Display = (LinearLayout) promptView.findViewById(ll4);
-        LinearLayout ll5Display = (LinearLayout) promptView.findViewById(ll5);
-        ImageView ll6Display = (ImageView) promptView.findViewById(ll6);
-        ImageView ll8Display = (ImageView) promptView.findViewById(ll7);
+        Button exitButton =  promptView.findViewById(R.id.exit);
+        LinearLayout ll1Display =  promptView.findViewById(ll1);
+        ImageView ll2Display =  promptView.findViewById(ll2);
+        LinearLayout ll3Display =  promptView.findViewById(ll3);
+        ImageView ll7Display =  promptView.findViewById(ll7);
+        LinearLayout ll4Display =  promptView.findViewById(ll4);
+        LinearLayout ll5Display =  promptView.findViewById(ll5);
+        ImageView ll6Display =  promptView.findViewById(ll6);
+        ImageView ll8Display =  promptView.findViewById(ll7);
         if (player > 2) {
             ll1Display.setVisibility(View.VISIBLE);
             ll2Display.setVisibility(View.VISIBLE);
@@ -1653,14 +1660,14 @@ editor.putInt("playerTurn", playerTurn);
             ll6Display.setVisibility(View.VISIBLE);
             ll8Display.setVisibility(View.VISIBLE);
         }
-        TextView player1listofwordsdisplay = (TextView) promptView.findViewById(p1words);
-        TextView player2listofwordsdisplay = (TextView) promptView.findViewById(p2words);
-        TextView player3listofwordsdisplay = (TextView) promptView.findViewById(R.id.p3words);
-        TextView player4listofwordsdisplay = (TextView) promptView.findViewById(R.id.p4words);
-        TextView player1totalscore = (TextView) promptView.findViewById(p1total);
-        TextView player2totalscore = (TextView) promptView.findViewById(p2total);
-        TextView player3totalscore = (TextView) promptView.findViewById(R.id.p3total);
-        TextView player4totalscore = (TextView) promptView.findViewById(R.id.p4total);
+        TextView player1listofwordsdisplay =  promptView.findViewById(p1words);
+        TextView player2listofwordsdisplay =  promptView.findViewById(p2words);
+        TextView player3listofwordsdisplay =  promptView.findViewById(R.id.p3words);
+        TextView player4listofwordsdisplay =  promptView.findViewById(R.id.p4words);
+        TextView player1totalscore =  promptView.findViewById(p1total);
+        TextView player2totalscore =  promptView.findViewById(p2total);
+        TextView player3totalscore =  promptView.findViewById(R.id.p3total);
+        TextView player4totalscore =  promptView.findViewById(R.id.p4total);
         exitButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -1669,33 +1676,33 @@ editor.putInt("playerTurn", playerTurn);
             }
         });
         int i = 0;
-        String player1wordsandscore = "";
+        StringBuilder player1wordsandscore = new StringBuilder();
         while(i < p1WordArray.size()){
-            player1wordsandscore = player1wordsandscore + p1WordArray.get(i) + "    " + p1WordScoreArray.get(i) + "\n";
+            player1wordsandscore.append(p1WordArray.get(i)).append("    ").append(p1WordScoreArray.get(i)).append("\n");
             i++;
         }
         i= 0;
-        String player2wordsandscore = "";
+        StringBuilder player2wordsandscore = new StringBuilder();
         while(i < p2WordArray.size()){
-            player2wordsandscore = player2wordsandscore + p2WordArray.get(i) + "    " + p2WordScoreArray.get(i) + "\n";
+            player2wordsandscore.append(p2WordArray.get(i)).append("    ").append(p2WordScoreArray.get(i)).append("\n");
             i++;
         }
         i = 0;
-        String player3wordsandscore = "";
+        StringBuilder player3wordsandscore = new StringBuilder();
         while(i < p3WordArray.size()){
-            player3wordsandscore = player3wordsandscore + p3WordArray.get(i) + "    " + p3WordScoreArray.get(i) + "\n";
+            player3wordsandscore.append(p3WordArray.get(i)).append("    ").append(p3WordScoreArray.get(i)).append("\n");
             i++;
         }
         i = 0;
-        String player4wordsandscore = "";
+        StringBuilder player4wordsandscore = new StringBuilder();
         while(i < p4WordArray.size()){
-            player4wordsandscore = player4wordsandscore + p4WordArray.get(i) + "    " + p4WordScoreArray.get(i) + "\n";
+            player4wordsandscore.append(p4WordArray.get(i)).append("    ").append(p4WordScoreArray.get(i)).append("\n");
             i++;
         }
-        player1listofwordsdisplay.setText(player1wordsandscore);
-        player2listofwordsdisplay.setText(player2wordsandscore);
-        player3listofwordsdisplay.setText(player3wordsandscore);
-        player4listofwordsdisplay.setText(player4wordsandscore);
+        player1listofwordsdisplay.setText(player1wordsandscore.toString());
+        player2listofwordsdisplay.setText(player2wordsandscore.toString());
+        player3listofwordsdisplay.setText(player3wordsandscore.toString());
+        player4listofwordsdisplay.setText(player4wordsandscore.toString());
         player1totalscore.setText(String.valueOf(player1score));
         player2totalscore.setText(String.valueOf(player2score));
         player3totalscore.setText(String.valueOf(player3score));
@@ -1728,11 +1735,11 @@ editor.putInt("playerTurn", playerTurn);
             final AlertDialog alertD = new AlertDialog.Builder(this).create();
             alertD.setCanceledOnTouchOutside(false);
             alertD.setCancelable(false);
-            TextView playerName = (TextView) promptView.findViewById(R.id.playerName);
+            TextView playerName =  promptView.findViewById(R.id.playerName);
             playerName.setText(getPlayerName(turnChangeBackwards()));
-            TextView deleteplayerwordquestion = (TextView) promptView.findViewById(R.id.areyoursuretext);
+            TextView deleteplayerwordquestion =  promptView.findViewById(R.id.areyoursuretext);
             deleteplayerwordquestion.setText(getString(R.string.dlw));
-            Button yesbutton = (Button) promptView.findViewById(R.id.yes);
+            Button yesbutton =  promptView.findViewById(R.id.yes);
             yesbutton.setOnClickListener(new View.OnClickListener() {
 
 
@@ -1743,7 +1750,7 @@ editor.putInt("playerTurn", playerTurn);
                 }
 
             });
-            Button nobutton = (Button) promptView.findViewById(R.id.no);
+            Button nobutton =  promptView.findViewById(R.id.no);
             nobutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1764,14 +1771,14 @@ editor.putInt("playerTurn", playerTurn);
                 player2score = player2score - (p2WordScoreArray.get(p2WordScoreArray.size() - 1));
                 p2WordScoreArray.remove(p2WordScoreArray.size() - 1);
                 p2WordArray.remove(p2WordArray.size() - 1);
-                TextView playerScoreDisplay2 = (TextView) findViewById(playerScore2);
+                TextView playerScoreDisplay2 =  findViewById(playerScore2);
                 playerScoreDisplay2.setText(String.valueOf(player2score));
                 playerTurn = 2;
             }else if(playerTurn == 1 && player2over){
                 player1score = player1score - (p1WordScoreArray.get(p1WordScoreArray.size() - 1));
                 p1WordScoreArray.remove(p1WordScoreArray.size() - 1);
                 p1WordArray.remove(p1WordArray.size() - 1);
-                TextView playerScoreDisplay1 = (TextView) findViewById(playerScore1);
+                TextView playerScoreDisplay1 =  findViewById(playerScore1);
                 playerScoreDisplay1.setText(String.valueOf(player1score));
                 playerTurn = 1;
             }
@@ -1779,14 +1786,14 @@ editor.putInt("playerTurn", playerTurn);
                 player1score = player1score - (p1WordScoreArray.get(p1WordScoreArray.size() - 1));
                 p1WordScoreArray.remove(p1WordScoreArray.size() - 1);
                 p1WordArray.remove(p1WordArray.size() - 1);
-                TextView playerScoreDisplay1 = (TextView) findViewById(playerScore1);
+                TextView playerScoreDisplay1 =  findViewById(playerScore1);
                 playerScoreDisplay1.setText(String.valueOf(player1score));
                 playerTurn = 1;
             } else if (playerTurn == 2 && player1over) {
                 player2score = player2score - (p2WordScoreArray.get(p2WordScoreArray.size() - 1));
                 p2WordScoreArray.remove(p2WordScoreArray.size() - 1);
                 p2WordArray.remove(p2WordArray.size() - 1);
-                TextView playerScoreDisplay2 = (TextView) findViewById(playerScore2);
+                TextView playerScoreDisplay2 =  findViewById(playerScore2);
                 playerScoreDisplay2.setText(String.valueOf(player2score));
                 playerTurn = 2;
             }
@@ -1796,63 +1803,63 @@ editor.putInt("playerTurn", playerTurn);
                 player3score = player3score - (p3WordScoreArray.get(p3WordScoreArray.size() - 1));
                 p3WordScoreArray.remove(p3WordScoreArray.size() - 1);
                 p3WordArray.remove(p3WordArray.size() - 1);
-                TextView playerScoreDisplay3 = (TextView) findViewById(playerScore3);
+                TextView playerScoreDisplay3 =  findViewById(playerScore3);
                 playerScoreDisplay3.setText(String.valueOf(player3score));
                 playerTurn = 3;
             } else if (playerTurn == 1 && player3over && !player2over && player2score > 0) {
                 player2score = player2score - (p2WordScoreArray.get(p2WordScoreArray.size() - 1));
                 p2WordScoreArray.remove(p2WordScoreArray.size() - 1);
                 p2WordArray.remove(p2WordArray.size() - 1);
-                TextView playerScoreDisplay2 = (TextView) findViewById(playerScore2);
+                TextView playerScoreDisplay2 =  findViewById(playerScore2);
                 playerScoreDisplay2.setText(String.valueOf(player2score));
                 playerTurn = 2;
             } else if (playerTurn == 1 && player3over  && player2over && !player1over && player1score > 0) {
                 player1score = player1score - (p1WordScoreArray.get(p1WordScoreArray.size() - 1));
                 p1WordScoreArray.remove(p1WordScoreArray.size() - 1);
                 p1WordArray.remove(p1WordArray.size() - 1);
-                TextView playerScoreDisplay1 = (TextView) findViewById(playerScore1);
+                TextView playerScoreDisplay1 =  findViewById(playerScore1);
                 playerScoreDisplay1.setText(String.valueOf(player1score));
                 playerTurn = 1;
             } else if (playerTurn == 2 && !player1over && player1score > 0) {
                 player1score = player1score - (p1WordScoreArray.get(p1WordScoreArray.size() - 1));
                 p1WordScoreArray.remove(p1WordScoreArray.size() - 1);
                 p1WordArray.remove(p1WordArray.size() - 1);
-                TextView playerScoreDisplay1 = (TextView) findViewById(playerScore1);
+                TextView playerScoreDisplay1 =  findViewById(playerScore1);
                 playerScoreDisplay1.setText(String.valueOf(player1score));
                 playerTurn = 1;
             } else if (playerTurn == 2 && player1over && !player3over && player3score > 0) {
                 player3score = player3score - (p3WordScoreArray.get(p3WordScoreArray.size() - 1));
                 p3WordScoreArray.remove(p3WordScoreArray.size() - 1);
                 p3WordArray.remove(p3WordArray.size() - 1);
-                TextView playerScoreDisplay3 = (TextView) findViewById(playerScore3);
+                TextView playerScoreDisplay3 =  findViewById(playerScore3);
                 playerScoreDisplay3.setText(String.valueOf(player3score));
                 playerTurn = 3;
             } else if (playerTurn == 2 && player1over && !player2over && player3over  && player2score > 0) {
                 player2score = player2score - (p2WordScoreArray.get(p2WordScoreArray.size() - 1));
                 p2WordScoreArray.remove(p2WordScoreArray.size() - 1);
                 p2WordArray.remove(p2WordArray.size() - 1);
-                TextView playerScoreDisplay2 = (TextView) findViewById(playerScore2);
+                TextView playerScoreDisplay2 =  findViewById(playerScore2);
                 playerScoreDisplay2.setText(String.valueOf(player2score));
                 playerTurn = 2;
             } else if (playerTurn == 3 && !player2over && player2score > 0) {
                 player2score = player2score - (p2WordScoreArray.get(p2WordScoreArray.size() - 1));
                 p2WordScoreArray.remove(p2WordScoreArray.size() - 1);
                 p2WordArray.remove(p2WordArray.size() - 1);
-                TextView playerScoreDisplay2 = (TextView) findViewById(playerScore2);
+                TextView playerScoreDisplay2 =  findViewById(playerScore2);
                 playerScoreDisplay2.setText(String.valueOf(player2score));
                 playerTurn = 2;
             } else if (playerTurn == 3 && player2over && !player1over && player1score > 0) {
                 player1score = player1score - (p1WordScoreArray.get(p1WordScoreArray.size() - 1));
                 p1WordScoreArray.remove(p1WordScoreArray.size() - 1);
                 p1WordArray.remove(p1WordArray.size() - 1);
-                TextView playerScoreDisplay1 = (TextView) findViewById(playerScore1);
+                TextView playerScoreDisplay1 =  findViewById(playerScore1);
                 playerScoreDisplay1.setText(String.valueOf(player1score));
                 playerTurn = 1;
             } else if (playerTurn == 3 && player2over && !player3over && player1over  && player3score > 0) {
                 player3score = player3score - (p3WordScoreArray.get(p3WordScoreArray.size() - 1));
                 p3WordScoreArray.remove(p3WordScoreArray.size() - 1);
                 p3WordArray.remove(p3WordArray.size() - 1);
-                TextView playerScoreDisplay3 = (TextView) findViewById(playerScore3);
+                TextView playerScoreDisplay3 =  findViewById(playerScore3);
                 playerScoreDisplay3.setText(String.valueOf(player3score));
                 playerTurn = 3;
             }
@@ -1860,7 +1867,7 @@ editor.putInt("playerTurn", playerTurn);
                 player3score = player3score - (p3WordScoreArray.get(p3WordScoreArray.size() - 1));
                 p3WordScoreArray.remove(p3WordScoreArray.size() - 1);
                 p3WordArray.remove(p3WordArray.size() - 1);
-                TextView playerScoreDisplay3 = (TextView) findViewById(playerScore3);
+                TextView playerScoreDisplay3 =  findViewById(playerScore3);
                 playerScoreDisplay3.setText(String.valueOf(player3score));
                 playerTurn = 3;
             }
@@ -1870,119 +1877,119 @@ editor.putInt("playerTurn", playerTurn);
                 player3score = player3score - (p3WordScoreArray.get(p3WordScoreArray.size() - 1));
                 p3WordScoreArray.remove(p3WordScoreArray.size() - 1);
                 p3WordArray.remove(p3WordArray.size() - 1);
-                TextView playerScoreDisplay3 = (TextView) findViewById(playerScore3);
+                TextView playerScoreDisplay3 =  findViewById(playerScore3);
                 playerScoreDisplay3.setText(String.valueOf(player3score));
                 playerTurn = 3;
             } else if (playerTurn == 4 && player3over && !player2over && player2score > 0) {
                 player2score = player2score - (p2WordScoreArray.get(p2WordScoreArray.size() - 1));
                 p2WordScoreArray.remove(p2WordScoreArray.size() - 1);
                 p2WordArray.remove(p2WordArray.size() - 1);
-                TextView playerScoreDisplay2 = (TextView) findViewById(playerScore2);
+                TextView playerScoreDisplay2 =  findViewById(playerScore2);
                 playerScoreDisplay2.setText(String.valueOf(player2score));
                 playerTurn = 2;
             } else if (playerTurn == 4 && player3over  && player2over && !player1over && player1score > 0) {
                 player1score = player1score - (p1WordScoreArray.get(p1WordScoreArray.size() - 1));
                 p1WordScoreArray.remove(p1WordScoreArray.size() - 1);
                 p1WordArray.remove(p1WordArray.size() - 1);
-                TextView playerScoreDisplay1 = (TextView) findViewById(playerScore1);
+                TextView playerScoreDisplay1 =  findViewById(playerScore1);
                 playerScoreDisplay1.setText(String.valueOf(player1score));
                 playerTurn = 1;
             } else if (playerTurn == 4 && player3over  && player2over && !player4over && player1over  && player4score > 0) {
                 player4score = player4score - (p4WordScoreArray.get(p4WordScoreArray.size() - 1));
                 p4WordScoreArray.remove(p4WordScoreArray.size() - 1);
                 p4WordArray.remove(p4WordArray.size() - 1);
-                TextView playerScoreDisplay4 = (TextView) findViewById(playerScore4);
+                TextView playerScoreDisplay4 =  findViewById(playerScore4);
                 playerScoreDisplay4.setText(String.valueOf(player4score));
                 playerTurn = 4;
             } else if (playerTurn == 3 && !player2over && player2score > 0) {
                 player2score = player2score - (p2WordScoreArray.get(p2WordScoreArray.size() - 1));
                 p2WordScoreArray.remove(p2WordScoreArray.size() - 1);
                 p2WordArray.remove(p2WordArray.size() - 1);
-                TextView playerScoreDisplay2 = (TextView) findViewById(playerScore2);
+                TextView playerScoreDisplay2 =  findViewById(playerScore2);
                 playerScoreDisplay2.setText(String.valueOf(player2score));
                 playerTurn = 2;
             } else if (playerTurn == 3 && player2over && !player1over && player1score > 0) {
                 player1score = player1score - (p1WordScoreArray.get(p1WordScoreArray.size() - 1));
                 p1WordScoreArray.remove(p1WordScoreArray.size() - 1);
                 p1WordArray.remove(p1WordArray.size() - 1);
-                TextView playerScoreDisplay1 = (TextView) findViewById(playerScore1);
+                TextView playerScoreDisplay1 =  findViewById(playerScore1);
                 playerScoreDisplay1.setText(String.valueOf(player1score));
                 playerTurn = 1;
             } else if (playerTurn == 3 && player2over  && player1over && !player4over && player4score > 0) {
                 player4score = player4score - (p4WordScoreArray.get(p4WordScoreArray.size() - 1));
                 p4WordScoreArray.remove(p4WordScoreArray.size() - 1);
                 p4WordArray.remove(p4WordArray.size() - 1);
-                TextView playerScoreDisplay4 = (TextView) findViewById(playerScore4);
+                TextView playerScoreDisplay4 =  findViewById(playerScore4);
                 playerScoreDisplay4.setText(String.valueOf(player4score));
                 playerTurn = 4;
             } else if (playerTurn == 3 && player2over  && player1over  && player4over &&!player3over && player3score > 0) {
                 player3score = player3score - (p3WordScoreArray.get(p3WordScoreArray.size() - 1));
                 p3WordScoreArray.remove(p3WordScoreArray.size() - 1);
                 p3WordArray.remove(p3WordArray.size() - 1);
-                TextView playerScoreDisplay3 = (TextView) findViewById(playerScore3);
+                TextView playerScoreDisplay3 =  findViewById(playerScore3);
                 playerScoreDisplay3.setText(String.valueOf(player3score));
                 playerTurn = 3;
             } else if (playerTurn == 2 && !player1over && player1score > 0) {
                 player1score = player1score - (p1WordScoreArray.get(p1WordScoreArray.size() - 1));
                 p1WordScoreArray.remove(p1WordScoreArray.size() - 1);
                 p1WordArray.remove(p1WordArray.size() - 1);
-                TextView playerScoreDisplay1 = (TextView) findViewById(playerScore1);
+                TextView playerScoreDisplay1 =  findViewById(playerScore1);
                 playerScoreDisplay1.setText(String.valueOf(player1score));
                 playerTurn = 1;
             } else if (playerTurn == 2 && player1over && !player4over && player4score > 0) {
                 player4score = player4score - (p4WordScoreArray.get(p4WordScoreArray.size() - 1));
                 p4WordScoreArray.remove(p4WordScoreArray.size() - 1);
                 p4WordArray.remove(p4WordArray.size() - 1);
-                TextView playerScoreDisplay4 = (TextView) findViewById(playerScore4);
+                TextView playerScoreDisplay4 =  findViewById(playerScore4);
                 playerScoreDisplay4.setText(String.valueOf(player4score));
                 playerTurn = 4;
             } else if (playerTurn == 2 && player1over  && player4over && !player3over && player3score > 0) {
                 player3score = player3score - (p3WordScoreArray.get(p3WordScoreArray.size() - 1));
                 p3WordScoreArray.remove(p3WordScoreArray.size() - 1);
                 p3WordArray.remove(p3WordArray.size() - 1);
-                TextView playerScoreDisplay3 = (TextView) findViewById(playerScore3);
+                TextView playerScoreDisplay3 =  findViewById(playerScore3);
                 playerScoreDisplay3.setText(String.valueOf(player3score));
                 playerTurn = 3;
             } else if (playerTurn == 2 && player1over  && player4over  && player3over && !player2over && player2score > 0) {
                 player2score = player2score - (p2WordScoreArray.get(p2WordScoreArray.size() - 1));
                 p2WordScoreArray.remove(p2WordScoreArray.size() - 1);
                 p2WordArray.remove(p2WordArray.size() - 1);
-                TextView playerScoreDisplay2 = (TextView) findViewById(playerScore2);
+                TextView playerScoreDisplay2 =  findViewById(playerScore2);
                 playerScoreDisplay2.setText(String.valueOf(player2score));
                 playerTurn = 2;
             } else if (playerTurn == 1 && !player4over && player4score > 0) {
                 player4score = player4score - (p4WordScoreArray.get(p4WordScoreArray.size() - 1));
                 p4WordScoreArray.remove(p4WordScoreArray.size() - 1);
                 p4WordArray.remove(p4WordArray.size() - 1);
-                TextView playerScoreDisplay4 = (TextView) findViewById(playerScore4);
+                TextView playerScoreDisplay4 =  findViewById(playerScore4);
                 playerScoreDisplay4.setText(String.valueOf(player4score));
                 playerTurn = 4;
             } else if (playerTurn == 1 && player4over && !player3over && player3score > 0) {
                 player3score = player3score - (p3WordScoreArray.get(p3WordScoreArray.size() - 1));
                 p3WordScoreArray.remove(p3WordScoreArray.size() - 1);
                 p3WordArray.remove(p3WordArray.size() - 1);
-                TextView playerScoreDisplay3 = (TextView) findViewById(playerScore3);
+                TextView playerScoreDisplay3 =  findViewById(playerScore3);
                 playerScoreDisplay3.setText(String.valueOf(player3score));
                 playerTurn = 3;
             } else if (playerTurn == 1 && player4over && player3over && !player2over  && player2score > 0) {
                 player2score = player2score - (p2WordScoreArray.get(p2WordScoreArray.size() - 1));
                 p2WordScoreArray.remove(p2WordScoreArray.size() - 1);
                 p2WordArray.remove(p2WordArray.size() - 1);
-                TextView playerScoreDisplay2 = (TextView) findViewById(playerScore2);
+                TextView playerScoreDisplay2 =  findViewById(playerScore2);
                 playerScoreDisplay2.setText(String.valueOf(player2score));
                 playerTurn = 2;
             } else if (playerTurn == 1 && player4over  && player3over  && player2over && !player1over  && player1score > 0) {
                 player1score = player1score - (p1WordScoreArray.get(p1WordScoreArray.size() - 1));
                 p1WordScoreArray.remove(p1WordScoreArray.size() - 1);
                 p1WordArray.remove(p1WordArray.size() - 1);
-                TextView playerScoreDisplay1 = (TextView) findViewById(playerScore1);
+                TextView playerScoreDisplay1 =  findViewById(playerScore1);
                 playerScoreDisplay1.setText(String.valueOf(player1score));
                 playerTurn = 1;
             }else if(playerTurn == 4 && player1over && player2over && player3over){
                 player4score = player4score - (p4WordScoreArray.get(p4WordScoreArray.size() - 1));
                 p4WordScoreArray.remove(p4WordScoreArray.size() - 1);
                 p4WordArray.remove(p4WordArray.size() - 1);
-                TextView playerScoreDisplay4 = (TextView) findViewById(playerScore4);
+                TextView playerScoreDisplay4 =  findViewById(playerScore4);
                 playerScoreDisplay4.setText(String.valueOf(player4score));
                 playerTurn = 4;
             }
@@ -2003,11 +2010,11 @@ editor.putInt("playerTurn", playerTurn);
             alertD.setCanceledOnTouchOutside(false);
             alertD.setCancelable(false);
 
-            TextView playerName = (TextView) promptView.findViewById(R.id.playerName);
+            TextView playerName =  promptView.findViewById(R.id.playerName);
             playerName.setText(getPlayerName(turnChangeBackwards()));
-            TextView deleteplayerwordquestion = (TextView) promptView.findViewById(R.id.areyoursuretext);
+            TextView deleteplayerwordquestion =  promptView.findViewById(R.id.areyoursuretext);
             deleteplayerwordquestion.setText(getString(R.string.aw2));
-            Button yesbutton = (Button) promptView.findViewById(R.id.yes);
+            Button yesbutton =  promptView.findViewById(R.id.yes);
             yesbutton.setOnClickListener(new View.OnClickListener() {
 
 
@@ -2019,7 +2026,7 @@ editor.putInt("playerTurn", playerTurn);
                 }
 
             });
-            Button nobutton = (Button) promptView.findViewById(R.id.no);
+            Button nobutton =  promptView.findViewById(R.id.no);
             nobutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -2093,14 +2100,14 @@ editor.putInt("playerTurn", playerTurn);
     }
 
     public void noWords() {
-        TextView p1name = (TextView) findViewById(R.id.player1name);
-        TextView p2name = (TextView) findViewById(R.id.player2name);
-        TextView p3name = (TextView) findViewById(R.id.player3name);
-        TextView p4name = (TextView) findViewById(R.id.player4name);
-        TextView p1score = (TextView) findViewById(R.id.playerScore1);
-        TextView p2score = (TextView) findViewById(R.id.playerScore2);
-        TextView p3score = (TextView) findViewById(R.id.playerScore3);
-        TextView p4score = (TextView) findViewById(R.id.playerScore4);
+        TextView p1name =  findViewById(R.id.player1name);
+        TextView p2name =  findViewById(R.id.player2name);
+        TextView p3name =  findViewById(R.id.player3name);
+        TextView p4name =  findViewById(R.id.player4name);
+        TextView p1score =  findViewById(R.id.playerScore1);
+        TextView p2score =  findViewById(R.id.playerScore2);
+        TextView p3score =  findViewById(R.id.playerScore3);
+        TextView p4score =  findViewById(R.id.playerScore4);
         if (playerTurn == 1) {
             player1over = true;
             p1name.setBackgroundColor(ContextCompat.getColor(context, R.color.appgrey));
@@ -2189,20 +2196,20 @@ editor.putInt("playerTurn", playerTurn);
 
     public void endGameFormat() {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
-        View promptView = layoutInflater.inflate(endgame, null);
+        @SuppressLint("InflateParams") View promptView = layoutInflater.inflate(endgame, null);
         final AlertDialog endgame = new AlertDialog.Builder(this).create();
-        TextView p1egDisplay = (TextView) promptView.findViewById(R.id.p1eg);
-        TextView p2egDisplay = (TextView) promptView.findViewById(R.id.p2eg);
-        TextView p1scoreegDisplay = (TextView) promptView.findViewById(R.id.p1scoreeg);
-        TextView p2scoreegDisplay = (TextView) promptView.findViewById(R.id.p2scoreeg);
+        TextView p1egDisplay =  promptView.findViewById(R.id.p1eg);
+        TextView p2egDisplay =  promptView.findViewById(R.id.p2eg);
+        TextView p1scoreegDisplay =  promptView.findViewById(R.id.p1scoreeg);
+        TextView p2scoreegDisplay =  promptView.findViewById(R.id.p2scoreeg);
         p1egDisplay.setText(getString(R.string.colonname, player1name));
         p2egDisplay.setText(getString(R.string.colonname, player2name));
         p1scoreegDisplay.setText(String.valueOf(player1score));
         p2scoreegDisplay.setText(String.valueOf(player2score));
         endgame.setCanceledOnTouchOutside(false);
         endgame.setCancelable(false);
-        Button newGame = (Button) promptView.findViewById(R.id.newgame);
-        TextView winnerDisplay = (TextView) promptView.findViewById(winner);
+        Button newGame =  promptView.findViewById(R.id.newgame);
+        TextView winnerDisplay =  promptView.findViewById(winner);
         String winner;
         SparseArray<String> winnerWord = new SparseArray<>();
         int key = Math.max(player1score, Math.max(player2score, Math.max(player3score, player4score)));
@@ -2211,12 +2218,12 @@ editor.putInt("playerTurn", playerTurn);
         winnerWord.put(player3score, player3name);
         winnerWord.put(player4score, player4name);
         winner = winnerWord.get(key);
-        TextView p3egDisplay = (TextView) promptView.findViewById(R.id.p3eg);
-        TextView p3scoreegDisplay = (TextView) promptView.findViewById(R.id.p3scoreeg);
-        LinearLayout p3vDisplay = (LinearLayout) promptView.findViewById(R.id.p3v);
-        TextView p4egDisplay = (TextView) promptView.findViewById(R.id.p4eg);
-        TextView p4scoreegDisplay = (TextView) promptView.findViewById(R.id.p4scoreeg);
-        LinearLayout p4vDisplay = (LinearLayout) promptView.findViewById(R.id.p4v);
+        TextView p3egDisplay =  promptView.findViewById(R.id.p3eg);
+        TextView p3scoreegDisplay =  promptView.findViewById(R.id.p3scoreeg);
+        LinearLayout p3vDisplay =  promptView.findViewById(R.id.p3v);
+        TextView p4egDisplay =  promptView.findViewById(R.id.p4eg);
+        TextView p4scoreegDisplay =  promptView.findViewById(R.id.p4scoreeg);
+        LinearLayout p4vDisplay =  promptView.findViewById(R.id.p4v);
         if (player > 2) {
             p3vDisplay.setVisibility(View.VISIBLE);
             p3egDisplay.setText(getString(R.string.colonname, player3name));
@@ -2231,14 +2238,14 @@ editor.putInt("playerTurn", playerTurn);
 
             @Override
             public void onClick(View v) {
-                TextView player1namedisplayer = (TextView) findViewById(R.id.player1name);
-                TextView player2namedisplayer = (TextView) findViewById(R.id.player2name);
-                TextView player3namedisplayer = (TextView) findViewById(R.id.player3name);
-                TextView player4namedisplayer = (TextView) findViewById(R.id.player4name);
-                TextView player1score = (TextView) findViewById(playerScore1);
-                TextView player2score = (TextView) findViewById(playerScore2);
-                TextView player3score = (TextView) findViewById(playerScore3);
-                TextView player4score = (TextView) findViewById(playerScore4);
+                TextView player1namedisplayer =  findViewById(R.id.player1name);
+                TextView player2namedisplayer =  findViewById(R.id.player2name);
+                TextView player3namedisplayer =  findViewById(R.id.player3name);
+                TextView player4namedisplayer =  findViewById(R.id.player4name);
+                TextView player1score =  findViewById(playerScore1);
+                TextView player2score =  findViewById(playerScore2);
+                TextView player3score =  findViewById(playerScore3);
+                TextView player4score =  findViewById(playerScore4);
                 player1namedisplayer.setBackgroundColor(ContextCompat.getColor(context, dialogbg));
                 player2namedisplayer.setBackgroundColor(ContextCompat.getColor(context, dialogbg));
                 player3namedisplayer.setBackgroundColor(ContextCompat.getColor(context, dialogbg));
@@ -2266,10 +2273,10 @@ editor.putInt("playerTurn", playerTurn);
             final AlertDialog alertD = new AlertDialog.Builder(this).create();
             alertD.setCanceledOnTouchOutside(false);
             alertD.setCancelable(false);
-            TextView playerName = (TextView) promptView.findViewById(R.id.playerName);
+            TextView playerName =  promptView.findViewById(R.id.playerName);
             int overint = 0;
             playerName.setText(getPlayerName(playerTurn - overint));
-            Button yesbutton = (Button) promptView.findViewById(R.id.yes);
+            Button yesbutton =  promptView.findViewById(R.id.yes);
             yesbutton.setOnClickListener(new View.OnClickListener() {
 
 
@@ -2280,7 +2287,7 @@ editor.putInt("playerTurn", playerTurn);
                 }
 
             });
-            Button nobutton = (Button) promptView.findViewById(R.id.no);
+            Button nobutton =  promptView.findViewById(R.id.no);
             nobutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -2299,10 +2306,10 @@ editor.putInt("playerTurn", playerTurn);
 
     public void letterclick1(View v) {
         Context context;
-        ImageButton l1 = (ImageButton) findViewById(letter1);
+        ImageButton l1 =  findViewById(letter1);
         context = l1.getContext();
-        ImageButton tls1 = (ImageButton) findViewById(R.id.tls1);
-        ImageButton dls1 = (ImageButton) findViewById(R.id.dls1);
+        ImageButton tls1 =  findViewById(R.id.tls1);
+        ImageButton dls1 =  findViewById(R.id.dls1);
         if (playerWord.length() > 1 && !pressed1) {
             total = total - alphabet.get(le1);
             l1.setImageResource(blank);
@@ -2326,10 +2333,10 @@ editor.putInt("playerTurn", playerTurn);
 
     public void letterclick2(View v) {
         Context context;
-        ImageButton l2 = (ImageButton) findViewById(letter2);
+        ImageButton l2 = findViewById(letter2);
         context = l2.getContext();
-        ImageButton tls2 = (ImageButton) findViewById(R.id.tls2);
-        ImageButton dls2 = (ImageButton) findViewById(R.id.dls2);
+        ImageButton tls2 = findViewById(R.id.tls2);
+        ImageButton dls2 = findViewById(R.id.dls2);
         if (playerWord.length() > 1 && !pressed2) {
             total = total - alphabet.get(le2);
             l2.setImageResource(blank);
@@ -2353,10 +2360,10 @@ editor.putInt("playerTurn", playerTurn);
 
     public void letterclick3(View v) {
         Context context;
-        ImageButton l3 = (ImageButton) findViewById(letter3);
+        ImageButton l3 =  findViewById(letter3);
         context = l3.getContext();
-        ImageButton tls3 = (ImageButton) findViewById(R.id.tls3);
-        ImageButton dls3 = (ImageButton) findViewById(R.id.dls3);
+        ImageButton tls3 =  findViewById(R.id.tls3);
+        ImageButton dls3 =  findViewById(R.id.dls3);
 
         if (playerWord.length() > 2 && !pressed3) {
             total = total - alphabet.get(le3);
@@ -2381,10 +2388,10 @@ editor.putInt("playerTurn", playerTurn);
 
     public void letterclick4(View v) {
         Context context;
-        ImageButton l4 = (ImageButton) findViewById(letter4);
+        ImageButton l4 =  findViewById(letter4);
         context = l4.getContext();
-        ImageButton tls4 = (ImageButton) findViewById(R.id.tls4);
-        ImageButton dls4 = (ImageButton) findViewById(R.id.dls4);
+        ImageButton tls4 =  findViewById(R.id.tls4);
+        ImageButton dls4 =  findViewById(R.id.dls4);
 
         if (playerWord.length() > 3 && !pressed4) {
             total = total - alphabet.get(le4);
@@ -2409,10 +2416,10 @@ editor.putInt("playerTurn", playerTurn);
 
     public void letterclick5(View v) {
         Context context;
-        ImageButton l5 = (ImageButton) findViewById(letter5);
+        ImageButton l5 =  findViewById(letter5);
         context = l5.getContext();
-        ImageButton tls5 = (ImageButton) findViewById(R.id.tls5);
-        ImageButton dls5 = (ImageButton) findViewById(R.id.dls5);
+        ImageButton tls5 =  findViewById(R.id.tls5);
+        ImageButton dls5 =  findViewById(R.id.dls5);
 
         if (playerWord.length() > 4 && !pressed5) {
             total = total - alphabet.get(le5);
@@ -2437,10 +2444,10 @@ editor.putInt("playerTurn", playerTurn);
 
     public void letterclick6(View v) {
         Context context;
-        ImageButton l6 = (ImageButton) findViewById(letter6);
+        ImageButton l6 =  findViewById(letter6);
         context = l6.getContext();
-        ImageButton tls6 = (ImageButton) findViewById(R.id.tls6);
-        ImageButton dls6 = (ImageButton) findViewById(R.id.dls6);
+        ImageButton tls6 =  findViewById(R.id.tls6);
+        ImageButton dls6 =  findViewById(R.id.dls6);
 
         if (playerWord.length() > 5 && !pressed6) {
             total = total - alphabet.get(le6);
@@ -2465,10 +2472,10 @@ editor.putInt("playerTurn", playerTurn);
 
     public void letterclick7(View v) {
         Context context;
-        ImageButton l7 = (ImageButton) findViewById(letter7);
+        ImageButton l7 =  findViewById(letter7);
         context = l7.getContext();
-        ImageButton tls7 = (ImageButton) findViewById(R.id.tls7);
-        ImageButton dls7 = (ImageButton) findViewById(R.id.dls7);
+        ImageButton tls7 =  findViewById(R.id.tls7);
+        ImageButton dls7 =  findViewById(R.id.dls7);
 
         if (playerWord.length() > 6 && !pressed7) {
             total = total - alphabet.get(le7);
@@ -2493,10 +2500,10 @@ editor.putInt("playerTurn", playerTurn);
 
     public void letterclick8(View v) {
         Context context;
-        ImageButton l8 = (ImageButton) findViewById(letter8);
+        ImageButton l8 =  findViewById(letter8);
         context = l8.getContext();
-        ImageButton tls8 = (ImageButton) findViewById(R.id.tls8);
-        ImageButton dls8 = (ImageButton) findViewById(R.id.dls8);
+        ImageButton tls8 =  findViewById(R.id.tls8);
+        ImageButton dls8 =  findViewById(R.id.dls8);
 
         if (playerWord.length() > 7 && !pressed8) {
             total = total - alphabet.get(le8);
@@ -2525,11 +2532,11 @@ editor.putInt("playerTurn", playerTurn);
         final AlertDialog alertD = new AlertDialog.Builder(this).create();
         alertD.setCanceledOnTouchOutside(false);
         alertD.setCancelable(false);
-        TextView playerName = (TextView) promptView.findViewById(R.id.playerName);
+        TextView playerName =  promptView.findViewById(R.id.playerName);
         playerName.setText(getPlayerName(playerTurn));
-        TextView deleteplayerwordquestion = (TextView) promptView.findViewById(R.id.areyoursuretext);
+        TextView deleteplayerwordquestion =  promptView.findViewById(R.id.areyoursuretext);
         deleteplayerwordquestion.setText(getString(R.string.skip));
-        Button yesbutton = (Button) promptView.findViewById(R.id.yes);
+        Button yesbutton =  promptView.findViewById(R.id.yes);
         yesbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -2565,7 +2572,7 @@ editor.putInt("playerTurn", playerTurn);
             }
 
         });
-        Button nobutton = (Button) promptView.findViewById(R.id.no);
+        Button nobutton =  promptView.findViewById(R.id.no);
         nobutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -2586,13 +2593,13 @@ editor.putInt("playerTurn", playerTurn);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         final View promptView = layoutInflater.inflate(R.layout.letterremainder, nullParent);
         final AlertDialog endgame = new AlertDialog.Builder(this).create();
-        TextView playerName = (TextView) promptView.findViewById(R.id.playerName);
+        TextView playerName =  promptView.findViewById(R.id.playerName);
         playerName.setText(getPlayerName(playerTurn));
-        Button finishButton = (Button) promptView.findViewById(R.id.lastButton);
+        Button finishButton =  promptView.findViewById(R.id.lastButton);
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText lastWordBox = (EditText) promptView.findViewById(R.id.minusletters);
+                EditText lastWordBox =  promptView.findViewById(R.id.minusletters);
                 lastWord = lastWordBox.getText().toString();
                 if(lastWord.length() == 0){
                     if(playerTurn == 1){
@@ -2700,7 +2707,6 @@ editor.putInt("playerTurn", playerTurn);
         }
         else
         {
-            //noinspection deprecation
             flags |= Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET;
         }
         intent.addFlags(flags);
@@ -2711,10 +2717,9 @@ editor.putInt("playerTurn", playerTurn);
     public void txtLooker(String aString) {
         Context context = getApplicationContext();
         InputStream is = context.getResources().openRawResource(R.raw.ospd);
-        ImageView loadingPic = (ImageView) findViewById(loading);
-        loadingPic.setImageResource(loader);
+        loading.setImageResource(loader);
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate);
-        loadingPic.startAnimation(animation);
+        loading.startAnimation(animation);
         if (!dicoption) {
             is = context.getResources().openRawResource(R.raw.sowpods);
         }
@@ -2726,13 +2731,13 @@ editor.putInt("playerTurn", playerTurn);
             while (currentLine != null) {
                 currentLine = bufferedReader.readLine();
                 if (currentLine.equals(aString)) {
-                    loadingPic.clearAnimation();
-                    loadingPic.setImageResource(R.drawable.tick);
-                    loadingPic.setBackgroundColor(ContextCompat.getColor(context, transparent));
+                    loading.clearAnimation();
+                    loading.setImageResource(R.drawable.tick);
+                    loading.setBackgroundColor(ContextCompat.getColor(context, transparent));
                     currentLine = null;
                     yesno = true;
                     bufferedReader.close();
-                    Button addButton = (Button) findViewById(R.id.addWordButton);
+                    Button addButton =  findViewById(R.id.addWordButton);
                     addButton.setEnabled(true);
                 }
             }
@@ -2748,13 +2753,13 @@ editor.putInt("playerTurn", playerTurn);
             }
         }
         if (!yesno && playerWord.length() > 0) {
-            loadingPic.clearAnimation();
-            loadingPic.setImageResource(R.drawable.cross);
+            loading.clearAnimation();
+            loading.setImageResource(R.drawable.cross);
             if (dicon  && !dicoverride) {
-                Button addButton = (Button) findViewById(R.id.addWordButton);
+                Button addButton =  findViewById(R.id.addWordButton);
                 addButton.setEnabled(false);
             } else if (dicon) {
-                Button addButton = (Button) findViewById(R.id.addWordButton);
+                Button addButton =  findViewById(R.id.addWordButton);
                 addButton.setEnabled(true);
             }
         }
@@ -2767,11 +2772,11 @@ editor.putInt("playerTurn", playerTurn);
         final AlertDialog alertD = new AlertDialog.Builder(this).create();
         alertD.setCanceledOnTouchOutside(false);
         alertD.setCancelable(false);
-        Button done = (Button) promptView.findViewById(R.id.done);
-        final Switch dicoverride1 = (Switch) promptView.findViewById(R.id.override);
-        final Switch diconoff = (Switch) promptView.findViewById(R.id.onoff);
-        final RadioButton radio1 = (RadioButton) promptView.findViewById(R.id.ospd);
-        final RadioButton radio2 = (RadioButton) promptView.findViewById(R.id.sowpods);
+        Button done =  promptView.findViewById(R.id.done);
+        final Switch dicoverride1 = promptView.findViewById(R.id.override);
+        final Switch diconoff = promptView.findViewById(R.id.onoff);
+        final RadioButton radio1 = promptView.findViewById(R.id.ospd);
+        final RadioButton radio2 = promptView.findViewById(R.id.sowpods);
         if(!dicon){
             diconoff.setChecked(false);
             dicoverride1.setEnabled(false);
@@ -2788,7 +2793,7 @@ editor.putInt("playerTurn", playerTurn);
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RadioGroup dicpicker = (RadioGroup) promptView.findViewById(R.id.picdic);
+                RadioGroup dicpicker = promptView.findViewById(R.id.picdic);
                 int selectedId = dicpicker.getCheckedRadioButtonId();
                 if (selectedId == R.id.ospd) {
                     dicoption = true;
@@ -2820,7 +2825,7 @@ editor.putInt("playerTurn", playerTurn);
 
             @Override
             public void onClick(View v) {
-                Boolean switchState = diconoff.isChecked();
+                boolean switchState = diconoff.isChecked();
                 if (switchState) {
                     dicon = true;
                     dicoverride1.setEnabled(true);
@@ -2862,32 +2867,29 @@ editor.putInt("playerTurn", playerTurn);
 
     public void setup(){
         if(dicon ){
-            ImageView loading = (ImageView) findViewById(R.id.loading);
             loading.setVisibility(View.VISIBLE);
         }
         if (!dicon) {
             dicoverride = true;
-            ImageView loading = (ImageView) findViewById(R.id.loading);
             loading.setVisibility(View.GONE);
         }
         if(wordCount > 4){
             dicoverride = true;
-            ImageView loading = (ImageView) findViewById(R.id.loading);
             loading.setVisibility(View.GONE);
         }
 
-        TextView player1scoreDisplay = (TextView) findViewById(R.id.playerScore1);
-        TextView player2scoreDisplay = (TextView) findViewById(R.id.playerScore2);
-        TextView player3scoreDisplay = (TextView) findViewById(playerScore3);
-        TextView player4scoreDisplay = (TextView) findViewById(playerScore4);
+        TextView player1scoreDisplay =  findViewById(R.id.playerScore1);
+        TextView player2scoreDisplay =  findViewById(R.id.playerScore2);
+        TextView player3scoreDisplay =  findViewById(playerScore3);
+        TextView player4scoreDisplay =  findViewById(playerScore4);
         player1scoreDisplay.setText(String.valueOf(player1score));
         player2scoreDisplay.setText(String.valueOf(player2score));
         player3scoreDisplay.setText(String.valueOf(player3score));
         player4scoreDisplay.setText(String.valueOf(player4score));
-            TextView player1namedisplayer = (TextView) findViewById(R.id.player1name);
-            TextView player2namedisplayer = (TextView) findViewById(R.id.player2name);
-        TextView player3namedisplayer = (TextView) findViewById(R.id.player3name);
-        TextView player4namedisplayer = (TextView) findViewById(R.id.player4name);
+            TextView player1namedisplayer =  findViewById(R.id.player1name);
+            TextView player2namedisplayer =  findViewById(R.id.player2name);
+        TextView player3namedisplayer =  findViewById(R.id.player3name);
+        TextView player4namedisplayer =  findViewById(R.id.player4name);
         player1namedisplayer.setText(player1name);
             player2namedisplayer.setText(player2name);
               player3namedisplayer.setText(player3name);
@@ -2918,7 +2920,7 @@ editor.putInt("playerTurn", playerTurn);
             player4namedisplayer.setVisibility(View.VISIBLE);
             player4scoreDisplay.setVisibility(View.VISIBLE);
         }
-            ImageView loading = (ImageView) findViewById(R.id.loading);
+            ImageView loading =  findViewById(R.id.loading);
             if(dicon) {
                 loading.setImageResource(loader);
 

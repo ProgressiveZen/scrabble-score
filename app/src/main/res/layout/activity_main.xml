@@ -75,7 +75,6 @@ android:baselineAligned="false"
                 android:layout_width="match_parent"
                 android:contentDescription="@string/cs"
                 android:layout_height="wrap_content"
-
                 android:adjustViewBounds="true"
                 android:onClick="setTls1Pressed"
                 android:padding="0dp"
