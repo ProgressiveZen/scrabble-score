@@ -127,14 +127,14 @@ public class MainActivity extends AppCompatActivity {
     HashMap<String, Integer> alphabet = new HashMap<>();
 
     String playerWord = "";
-    String le1;
-    String le2;
-    String le3;
-    String le4;
-    String le5;
-    String le6;
-    String le7;
-    String le8;
+    String le1 = " ";
+    String le2 = " ";
+    String le3 = " ";
+    String le4 = " ";
+    String le5 = " ";
+    String le6 = " ";
+    String le7 = " ";
+    String le8 = " ";
     String player1name = "";
     String player2name = "";
     String player3name = "";
@@ -916,16 +916,18 @@ public class MainActivity extends AppCompatActivity {
     public void twsOnClick(View v) {
         ImageButton twsbutton1 = findViewById(R.id.tws);
         ImageButton dwsbutton1 = findViewById(R.id.dws);
-        if (!twspressed && !le1.equals(" ")) {
-            twsbutton1.setImageResource(R.drawable.twss);
-            dwsbutton1.setImageResource(dwse);
-            dwspressed = false;
-            twspressed = true;
-            wordMultipleBonus = 3;
-        } else if (twspressed && !le1.equals(" ")) {
-            twsbutton1.setImageResource(R.drawable.twse);
-            twspressed = false;
-            wordMultipleBonus = 1;
+        if(playerWord.length() != 0 && !le1.equals(" ")) {
+            if (!twspressed) {
+                twsbutton1.setImageResource(R.drawable.twss);
+                dwsbutton1.setImageResource(dwse);
+                dwspressed = false;
+                twspressed = true;
+                wordMultipleBonus = 3;
+            } else if (twspressed) {
+                twsbutton1.setImageResource(R.drawable.twse);
+                twspressed = false;
+                wordMultipleBonus = 1;
+            }
         }
         displayTotalWordScore();
     }
@@ -933,16 +935,18 @@ public class MainActivity extends AppCompatActivity {
     public void dwsOnClick(View v) {
         ImageButton twsbutton1 = findViewById(R.id.tws);
         ImageButton dwsbutton1 = findViewById(R.id.dws);
-        if (!dwspressed && !le1.equals(" ")) {
-            twsbutton1.setImageResource(R.drawable.twse);
-            dwsbutton1.setImageResource(R.drawable.dwss);
-            twspressed = false;
-            dwspressed = true;
-            wordMultipleBonus = 2;
-        } else if (dwspressed && !le1.equals(" ")) {
-            dwsbutton1.setImageResource(dwse);
-            dwspressed = false;
-            wordMultipleBonus = 1;
+        if(playerWord.length() != 0 && !le1.equals(" ")) {
+            if (!dwspressed) {
+                twsbutton1.setImageResource(R.drawable.twse);
+                dwsbutton1.setImageResource(R.drawable.dwss);
+                twspressed = false;
+                dwspressed = true;
+                wordMultipleBonus = 2;
+            } else if (dwspressed) {
+                dwsbutton1.setImageResource(dwse);
+                dwspressed = false;
+                wordMultipleBonus = 1;
+            }
         }
         displayTotalWordScore();
     }
@@ -950,16 +954,18 @@ public class MainActivity extends AppCompatActivity {
     public void setTls1Pressed(View v) {
         ImageButton tlsbutton1 = findViewById(tls1);
         ImageButton dlsbutton1 = findViewById(dls1);
-        if (!tls1Pressed && !le1.equals(" ") && !pressed1) {
-            tlsbutton1.setImageResource(R.drawable.tlss);
-            dlsbutton1.setImageResource(dlse);
-            tls1Pressed = true;
-            dls1Pressed = false;
-            l1bonus = (alphabet.get(le1) * 2);
-        } else if (tls1Pressed && !le1.equals(" ") && !pressed1) {
-            tlsbutton1.setImageResource(tlse);
-            tls1Pressed = false;
-            l1bonus = 0;
+        if(!le1.equals(" ") && !pressed1 && playerWord.length() != 0) {
+            if (!tls1Pressed) {
+                tlsbutton1.setImageResource(R.drawable.tlss);
+                dlsbutton1.setImageResource(dlse);
+                tls1Pressed = true;
+                dls1Pressed = false;
+                l1bonus = (alphabet.get(le1) * 2);
+            } else if (tls1Pressed) {
+                tlsbutton1.setImageResource(tlse);
+                tls1Pressed = false;
+                l1bonus = 0;
+            }
         }
         displayTotalWordScore();
     }
@@ -967,16 +973,18 @@ public class MainActivity extends AppCompatActivity {
     public void setDls1Pressed(View v) {
         ImageButton tlsbutton1 = findViewById(tls1);
         ImageButton dlsbutton1 = findViewById(dls1);
-        if (!dls1Pressed && !le1.equals(" ") && !pressed1) {
-            dlsbutton1.setImageResource(R.drawable.dlss);
-            tlsbutton1.setImageResource(tlse);
-            dls1Pressed = true;
-            tls1Pressed = false;
-            l1bonus = alphabet.get(le1);
-        } else if (dls1Pressed && !le1.equals(" ") && !pressed1) {
-            dlsbutton1.setImageResource(dlse);
-            dls1Pressed = false;
-            l1bonus = 0;
+        if(!le1.equals(" ") && !pressed1 && playerWord.length() != 0) {
+            if (!dls1Pressed) {
+                dlsbutton1.setImageResource(R.drawable.dlss);
+                tlsbutton1.setImageResource(tlse);
+                dls1Pressed = true;
+                tls1Pressed = false;
+                l1bonus = alphabet.get(le1);
+            } else if (dls1Pressed) {
+                dlsbutton1.setImageResource(dlse);
+                dls1Pressed = false;
+                l1bonus = 0;
+            }
         }
         displayTotalWordScore();
     }
@@ -984,16 +992,18 @@ public class MainActivity extends AppCompatActivity {
     public void setTls2Pressed(View v) {
         ImageButton tlsbutton2 = findViewById(tls2);
         ImageButton dlsbutton2 = findViewById(dls2);
-        if (!tls2Pressed && !le2.equals(" ") && !pressed2) {
-            tlsbutton2.setImageResource(R.drawable.tlss);
-            dlsbutton2.setImageResource(dlse);
-            tls2Pressed = true;
-            dls2Pressed = false;
-            l2bonus = (alphabet.get(le2) * 2);
-        } else if (tls2Pressed && le2.equals(" ") && !pressed2) {
-            tlsbutton2.setImageResource(tlse);
-            tls2Pressed = false;
-            l2bonus = 0;
+        if(!le2.equals(" ") && !pressed2 && playerWord.length()!=0) {
+            if (!tls2Pressed) {
+                tlsbutton2.setImageResource(R.drawable.tlss);
+                dlsbutton2.setImageResource(dlse);
+                tls2Pressed = true;
+                dls2Pressed = false;
+                l2bonus = (alphabet.get(le2) * 2);
+            } else if (tls2Pressed) {
+                tlsbutton2.setImageResource(tlse);
+                tls2Pressed = false;
+                l2bonus = 0;
+            }
         }
         displayTotalWordScore();
     }
@@ -1001,16 +1011,18 @@ public class MainActivity extends AppCompatActivity {
     public void setDls2Pressed(View v) {
         ImageButton tlsbutton2 = findViewById(tls2);
         ImageButton dlsbutton2 = findViewById(dls2);
-        if (!dls2Pressed && !le2.equals(" ") && !pressed2) {
-            dlsbutton2.setImageResource(R.drawable.dlss);
-            tlsbutton2.setImageResource(tlse);
-            dls2Pressed = true;
-            tls2Pressed = false;
-            l2bonus = alphabet.get(le2);
-        } else if (dls2Pressed && !le2.equals(" ") && !pressed2) {
-            dlsbutton2.setImageResource(dlse);
-            dls2Pressed = false;
-            l2bonus = 0;
+        if(!le2.equals(" ") && !pressed2 && playerWord.length() != 0) {
+            if (!dls2Pressed) {
+                dlsbutton2.setImageResource(R.drawable.dlss);
+                tlsbutton2.setImageResource(tlse);
+                dls2Pressed = true;
+                tls2Pressed = false;
+                l2bonus = alphabet.get(le2);
+            } else if (dls2Pressed && !le2.equals(" ") && !pressed2) {
+                dlsbutton2.setImageResource(dlse);
+                dls2Pressed = false;
+                l2bonus = 0;
+            }
         }
         displayTotalWordScore();
     }
@@ -1018,33 +1030,37 @@ public class MainActivity extends AppCompatActivity {
     public void setTls3Pressed(View v) {
         ImageButton tlsbutton3 = findViewById(tls3);
         ImageButton dlsbutton3 = findViewById(dls3);
-        if (!tls3Pressed && !le3.equals(" ") && !pressed3) {
-            tlsbutton3.setImageResource(R.drawable.tlss);
-            dlsbutton3.setImageResource(dlse);
-            tls3Pressed = true;
-            dls3Pressed = false;
-            l3bonus = (alphabet.get(le3) * 2);
-        } else if (tls3Pressed && !le3.equals(" ") && !pressed3) {
-            tlsbutton3.setImageResource(tlse);
-            tls3Pressed = false;
-            l3bonus = 0;
-        }
+        if (!le3.equals(" ") && !pressed3 && playerWord.length() != 0){
+            if (!tls3Pressed) {
+                tlsbutton3.setImageResource(R.drawable.tlss);
+                dlsbutton3.setImageResource(dlse);
+                tls3Pressed = true;
+                dls3Pressed = false;
+                l3bonus = (alphabet.get(le3) * 2);
+            } else if (tls3Pressed) {
+                tlsbutton3.setImageResource(tlse);
+                tls3Pressed = false;
+                l3bonus = 0;
+            }
+    }
         displayTotalWordScore();
     }
 
     public void setDls3Pressed(View v) {
         ImageButton tlsbutton3 = findViewById(tls3);
         ImageButton dlsbutton3 = findViewById(dls3);
-        if (!dls3Pressed && !le3.equals(" ") && !pressed3) {
-            dlsbutton3.setImageResource(R.drawable.dlss);
-            tlsbutton3.setImageResource(tlse);
-            dls3Pressed = true;
-            tls3Pressed = false;
-            l3bonus = alphabet.get(le3);
-        } else if (dls3Pressed && !le3.equals(" ") && !pressed3) {
-            dlsbutton3.setImageResource(dlse);
-            dls3Pressed = false;
-            l3bonus = 0;
+        if (!le3.equals(" ") && !pressed3 && playerWord.length() != 0) {
+            if (!dls3Pressed) {
+                dlsbutton3.setImageResource(R.drawable.dlss);
+                tlsbutton3.setImageResource(tlse);
+                dls3Pressed = true;
+                tls3Pressed = false;
+                l3bonus = alphabet.get(le3);
+            } else if (dls3Pressed) {
+                dlsbutton3.setImageResource(dlse);
+                dls3Pressed = false;
+                l3bonus = 0;
+            }
         }
         displayTotalWordScore();
     }
@@ -1052,16 +1068,18 @@ public class MainActivity extends AppCompatActivity {
     public void setTls4Pressed(View v) {
         ImageButton tlsbutton4 = findViewById(tls4);
         ImageButton dlsbutton4 = findViewById(dls4);
-        if (!tls4Pressed && !le4.equals(" ") && !pressed4) {
-            tlsbutton4.setImageResource(R.drawable.tlss);
-            dlsbutton4.setImageResource(dlse);
-            tls4Pressed = true;
-            dls4Pressed = false;
-            l4bonus = (alphabet.get(le4) * 2);
-        } else if (tls4Pressed && !le4.equals(" ") && !pressed4) {
-            tlsbutton4.setImageResource(tlse);
-            tls4Pressed = false;
-            l4bonus = 0;
+        if(!le4.equals(" ") && !pressed4 && playerWord.length() != 0) {
+            if (!tls4Pressed) {
+                tlsbutton4.setImageResource(R.drawable.tlss);
+                dlsbutton4.setImageResource(dlse);
+                tls4Pressed = true;
+                dls4Pressed = false;
+                l4bonus = (alphabet.get(le4) * 2);
+            } else if (tls4Pressed) {
+                tlsbutton4.setImageResource(tlse);
+                tls4Pressed = false;
+                l4bonus = 0;
+            }
         }
         displayTotalWordScore();
     }
@@ -1069,16 +1087,18 @@ public class MainActivity extends AppCompatActivity {
     public void setDls4Pressed(View v) {
         ImageButton tlsbutton4 = findViewById(tls4);
         ImageButton dlsbutton4 = findViewById(dls4);
-        if (!dls4Pressed && !le4.equals(" ") && !pressed4) {
-            dlsbutton4.setImageResource(R.drawable.dlss);
-            tlsbutton4.setImageResource(tlse);
-            dls4Pressed = true;
-            tls4Pressed = false;
-            l4bonus = alphabet.get(le4);
-        } else if (dls4Pressed && !le4.equals(" ") && !pressed4) {
-            dlsbutton4.setImageResource(dlse);
-            dls4Pressed = false;
-            l4bonus = 0;
+        if(!le4.equals(" ") && !pressed4 && playerWord.length() != 0) {
+            if (!dls4Pressed) {
+                dlsbutton4.setImageResource(R.drawable.dlss);
+                tlsbutton4.setImageResource(tlse);
+                dls4Pressed = true;
+                tls4Pressed = false;
+                l4bonus = alphabet.get(le4);
+            } else if (dls4Pressed) {
+                dlsbutton4.setImageResource(dlse);
+                dls4Pressed = false;
+                l4bonus = 0;
+            }
         }
         displayTotalWordScore();
     }
@@ -1086,33 +1106,57 @@ public class MainActivity extends AppCompatActivity {
     public void setTls5Pressed(View v) {
         ImageButton tlsbutton5 = findViewById(tls5);
         ImageButton dlsbutton5 = findViewById(dls5);
-        if (!tls5Pressed && !le5.equals(" ") && !pressed5) {
-            tlsbutton5.setImageResource(R.drawable.tlss);
-            dlsbutton5.setImageResource(dlse);
-            tls5Pressed = true;
-            dls5Pressed = false;
-            l5bonus = (alphabet.get(le5) * 2);
-        } else if (tls5Pressed && !le5.equals(" ") && !pressed5) {
-            tlsbutton5.setImageResource(tlse);
-            tls5Pressed = false;
-            l5bonus = 0;
+        if(!le5.equals(" ") && !pressed5 && playerWord.length() != 0) {
+            if (!tls5Pressed) {
+                tlsbutton5.setImageResource(R.drawable.tlss);
+                dlsbutton5.setImageResource(dlse);
+                tls5Pressed = true;
+                dls5Pressed = false;
+                l5bonus = (alphabet.get(le5) * 2);
+            } else if (tls5Pressed) {
+                tlsbutton5.setImageResource(tlse);
+                tls5Pressed = false;
+                l5bonus = 0;
+            }
         }
         displayTotalWordScore();
     }
 
-    public void setTls6Pressed(View v) {
+    public void setDls5Pressed(View v) {
+        ImageButton tlsbutton5 = findViewById(tls5);
+        ImageButton dlsbutton5 = findViewById(dls5);
+        if(!le5.equals(" ") && !pressed5 && playerWord.length() != 0) {
+            if (!dls5Pressed) {
+                dlsbutton5.setImageResource(R.drawable.dlss);
+                tlsbutton5.setImageResource(tlse);
+                dls5Pressed = true;
+                tls5Pressed = false;
+                l5bonus = alphabet.get(le5);
+            } else if (dls5Pressed) {
+                dlsbutton5.setImageResource(dlse);
+                dls5Pressed = false;
+                l5bonus = 0;
+            }
+        }
+            displayTotalWordScore();
+        }
+
+
+        public void setTls6Pressed(View v) {
         ImageButton tlsbutton6 = findViewById(tls6);
         ImageButton dlsbutton6 = findViewById(dls6);
-        if (!tls6Pressed && !le6.equals(" ") && !pressed6) {
-            tlsbutton6.setImageResource(R.drawable.tlss);
-            dlsbutton6.setImageResource(dlse);
-            tls6Pressed = true;
-            dls6Pressed = false;
-            l6bonus = (alphabet.get(le6) * 2);
-        } else if (tls6Pressed && !le6.equals(" ") && !pressed6) {
-            tlsbutton6.setImageResource(tlse);
-            tls6Pressed = false;
-            l6bonus = 0;
+        if(!le6.equals(" ") && !pressed6 && playerWord.length() != 0) {
+            if (!tls6Pressed) {
+                tlsbutton6.setImageResource(R.drawable.tlss);
+                dlsbutton6.setImageResource(dlse);
+                tls6Pressed = true;
+                dls6Pressed = false;
+                l6bonus = (alphabet.get(le6) * 2);
+            } else if (tls6Pressed) {
+                tlsbutton6.setImageResource(tlse);
+                tls6Pressed = false;
+                l6bonus = 0;
+            }
         }
         displayTotalWordScore();
     }
@@ -1120,34 +1164,18 @@ public class MainActivity extends AppCompatActivity {
     public void setDls6Pressed(View v) {
         ImageButton tlsbutton6 = findViewById(tls6);
         ImageButton dlsbutton6 = findViewById(dls6);
-        if (!dls6Pressed && !le6.equals(" ") && !pressed6) {
-            dlsbutton6.setImageResource(R.drawable.dlss);
-            tlsbutton6.setImageResource(tlse);
-            dls6Pressed = true;
-            tls6Pressed = false;
-            l6bonus = alphabet.get(le6);
-        } else if (dls6Pressed && !le6.equals(" ") && !pressed6) {
-            dlsbutton6.setImageResource(dlse);
-            dls6Pressed = false;
-            l6bonus = 0;
-        }
-        displayTotalWordScore();
-    }
-
-
-    public void setDls5Pressed(View v) {
-        ImageButton tlsbutton5 = findViewById(tls5);
-        ImageButton dlsbutton5 = findViewById(dls5);
-        if (!dls5Pressed && !le5.equals(" ") && !pressed5) {
-            dlsbutton5.setImageResource(R.drawable.dlss);
-            tlsbutton5.setImageResource(tlse);
-            dls5Pressed = true;
-            tls5Pressed = false;
-            l5bonus = alphabet.get(le5);
-        } else if (dls5Pressed && !le5.equals(" ") && !pressed5) {
-            dlsbutton5.setImageResource(dlse);
-            dls5Pressed = false;
-            l5bonus = 0;
+        if(!le6.equals(" ") && !pressed6 && playerWord.length() != 0) {
+            if (!dls6Pressed) {
+                dlsbutton6.setImageResource(R.drawable.dlss);
+                tlsbutton6.setImageResource(tlse);
+                dls6Pressed = true;
+                tls6Pressed = false;
+                l6bonus = alphabet.get(le6);
+            } else if (dls6Pressed) {
+                dlsbutton6.setImageResource(dlse);
+                dls6Pressed = false;
+                l6bonus = 0;
+            }
         }
         displayTotalWordScore();
     }
@@ -1155,16 +1183,18 @@ public class MainActivity extends AppCompatActivity {
     public void setTls7Pressed(View v) {
         ImageButton tlsbutton7 = findViewById(tls7);
         ImageButton dlsbutton7 = findViewById(dls7);
-        if (!tls7Pressed && !le7.equals(" ") && !pressed7) {
-            tlsbutton7.setImageResource(R.drawable.tlss);
-            dlsbutton7.setImageResource(dlse);
-            tls7Pressed = true;
-            dls7Pressed = false;
-            l7bonus = (alphabet.get(le7) * 2);
-        } else if (tls7Pressed && !le7.equals(" ") && !pressed7) {
-            tlsbutton7.setImageResource(tlse);
-            tls7Pressed = false;
-            l7bonus = 0;
+        if(!le7.equals(" ") && !pressed7 && playerWord.length() != 0) {
+            if (!tls7Pressed) {
+                tlsbutton7.setImageResource(R.drawable.tlss);
+                dlsbutton7.setImageResource(dlse);
+                tls7Pressed = true;
+                dls7Pressed = false;
+                l7bonus = (alphabet.get(le7) * 2);
+            } else if (tls7Pressed) {
+                tlsbutton7.setImageResource(tlse);
+                tls7Pressed = false;
+                l7bonus = 0;
+            }
         }
         displayTotalWordScore();
     }
@@ -1172,16 +1202,18 @@ public class MainActivity extends AppCompatActivity {
     public void setDls7Pressed(View v) {
         ImageButton tlsbutton7 = findViewById(tls7);
         ImageButton dlsbutton7 = findViewById(dls7);
-        if (!dls7Pressed && !le7.equals(" ") && !pressed7) {
-            dlsbutton7.setImageResource(R.drawable.dlss);
-            tlsbutton7.setImageResource(tlse);
-            dls7Pressed = true;
-            tls7Pressed = false;
-            l7bonus = alphabet.get(le7);
-        } else if (dls6Pressed && !le7.equals(" ") && !pressed7) {
-            dlsbutton7.setImageResource(dlse);
-            dls7Pressed = false;
-            l7bonus = 0;
+        if(!le7.equals(" ") && !pressed7 && playerWord.length() != 0) {
+            if (!dls7Pressed) {
+                dlsbutton7.setImageResource(R.drawable.dlss);
+                tlsbutton7.setImageResource(tlse);
+                dls7Pressed = true;
+                tls7Pressed = false;
+                l7bonus = alphabet.get(le7);
+            } else if (dls6Pressed) {
+                dlsbutton7.setImageResource(dlse);
+                dls7Pressed = false;
+                l7bonus = 0;
+            }
         }
         displayTotalWordScore();
     }
@@ -1189,16 +1221,18 @@ public class MainActivity extends AppCompatActivity {
     public void setTls8Pressed(View v) {
         ImageButton tlsbutton8 = findViewById(tls8);
         ImageButton dlsbutton8 = findViewById(dls8);
-        if (!tls8Pressed && !le8.equals(" ") && !pressed8) {
-            tlsbutton8.setImageResource(R.drawable.tlss);
-            dlsbutton8.setImageResource(dlse);
-            tls8Pressed = true;
-            dls8Pressed = false;
-            l8bonus = (alphabet.get(le8) * 2);
-        } else if (tls8Pressed && !le8.equals(" ") && !pressed8) {
-            tlsbutton8.setImageResource(tlse);
-            tls8Pressed = false;
-            l8bonus = 0;
+        if(!le8.equals(" ") && !pressed8 && playerWord.length() != 0) {
+            if (!tls8Pressed) {
+                tlsbutton8.setImageResource(R.drawable.tlss);
+                dlsbutton8.setImageResource(dlse);
+                tls8Pressed = true;
+                dls8Pressed = false;
+                l8bonus = (alphabet.get(le8) * 2);
+            } else if (tls8Pressed) {
+                tlsbutton8.setImageResource(tlse);
+                tls8Pressed = false;
+                l8bonus = 0;
+            }
         }
         displayTotalWordScore();
     }
@@ -1206,16 +1240,18 @@ public class MainActivity extends AppCompatActivity {
     public void setDls8Pressed(View v) {
         ImageButton tlsbutton8 = findViewById(tls8);
         ImageButton dlsbutton8 = findViewById(dls8);
-        if (!dls8Pressed && !le8.equals(" ") && !pressed8) {
-            dlsbutton8.setImageResource(R.drawable.dlss);
-            tlsbutton8.setImageResource(tlse);
-            dls8Pressed = true;
-            tls8Pressed = false;
-            l8bonus = alphabet.get(le8);
-        } else if (dls8Pressed && !le8.equals(" ") && !pressed8) {
-            dlsbutton8.setImageResource(dlse);
-            dls8Pressed = false;
-            l8bonus = 0;
+        if(!le8.equals(" ") && !pressed8 && playerWord.length() != 0) {
+            if (!dls8Pressed) {
+                dlsbutton8.setImageResource(R.drawable.dlss);
+                tlsbutton8.setImageResource(tlse);
+                dls8Pressed = true;
+                tls8Pressed = false;
+                l8bonus = alphabet.get(le8);
+            } else if (dls8Pressed) {
+                dlsbutton8.setImageResource(dlse);
+                dls8Pressed = false;
+                l8bonus = 0;
+            }
         }
         displayTotalWordScore();
     }
@@ -1729,7 +1765,7 @@ public class MainActivity extends AppCompatActivity {
         if (turnChangeBackwards() == 1 && player1score == 0 || turnChangeBackwards() == 2 && player2score == 0 || turnChangeBackwards() == 3 && player3score == 0 || turnChangeBackwards() == 4 && player4score == 0) {
             Context context;
             context = getApplicationContext();
-            Toast toast = Toast.makeText(context, getPlayerName(turnChangeBackwards()) + ", You have no Words.", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(context, getPlayerName(turnChangeBackwards()-1) + ", You have no Words.", Toast.LENGTH_SHORT);
             toast.show();
         } else {
             LayoutInflater layoutInflater = LayoutInflater.from(this);
