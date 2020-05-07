@@ -40,6 +40,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.android.scrabblescore.R;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
@@ -205,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -1567,8 +1569,14 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Log.d("TAG", "The interstitial wasn't loaded yet.");
             }
-             mInterstitialAd.loadAd(new AdRequest.Builder().build());
-         }
+             mInterstitialAd.setAdListener(new AdListener() {
+                 @Override
+                 public void onAdClosed() {
+                     // Load the next interstitial.
+                     mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                 }
+
+             });         }
     }
 
     //post turn reset for next user
