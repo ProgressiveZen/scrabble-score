@@ -109,6 +109,7 @@ import static com.example.android.scrabblescore.R.layout.endgame;
 
 @SuppressWarnings("ConstantConditions")
 public class MainActivity extends AppCompatActivity {
+    final ViewGroup nullParent = null;
     boolean twspressed = false;
     boolean dwspressed = false;
     boolean player1over = false;
@@ -123,9 +124,7 @@ public class MainActivity extends AppCompatActivity {
     boolean pressed6 = false;
     boolean pressed7 = false;
     boolean pressed8 = false;
-
     HashMap<String, Integer> alphabet = new HashMap<>();
-
     String playerWord = "";
     String le1 = " ";
     String le2 = " ";
@@ -191,10 +190,7 @@ public class MainActivity extends AppCompatActivity {
     int player3score = 0;
     int player4score = 0;
     ImageView loading;
-
     Context context;
-
-    final ViewGroup nullParent = null;
 
     //private InterstitialAd mInterstitialAd;
 
@@ -214,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
         alphabetCreator(alphabet);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
+
         loading = findViewById(R.id.loading);
         saved = settings.getBoolean("saved", false);
         player1name = settings.getString("player1name", player1name);
@@ -295,8 +292,14 @@ public class MainActivity extends AppCompatActivity {
                     Animation animation = AnimationUtils.loadAnimation(context, R.anim.rotate);
                     loadingPic.startAnimation(animation);
                     alertD.hide();
+                    if (player1over && player2over && player == 2) {
+                        endGameFormat();
+                    } else if (player1over && player2over && player3over && player == 3) {
+                        endGameFormat();
+                    } else if (player1over && player2over && player3over && player4over && player == 4) {
+                        endGameFormat();
+                    }
                 }
-
             });
             alertD.setView(promptView);
             alertD.show();
@@ -459,6 +462,7 @@ public class MainActivity extends AppCompatActivity {
         Button startbutton = promptView.findViewById(R.id.start);
         ImageButton plus = promptView.findViewById(R.id.plusbutton);
         ImageButton minus = promptView.findViewById(R.id.minusbutton);
+        final TextView nop = promptView.findViewById(R.id.nop);
         final EditText player3 = promptView.findViewById(player3nameinput);
         final EditText player4 = promptView.findViewById(R.id.player4nameinput);
         final TextView player31 = promptView.findViewById(R.id.player3name);
@@ -480,6 +484,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (player == 2) {
                     player = 3;
+                    nop.setText(getString(R.string.ThreePlayer));
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     assert imm != null;
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
@@ -499,6 +504,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (player == 3) {
                     player4over = false;
                     player = 4;
+                    nop.setText(getString(R.string.FourPlayer));
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     assert imm != null;
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
@@ -528,6 +534,7 @@ public class MainActivity extends AppCompatActivity {
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     player4over = false;
                     player = 3;
+                    nop.setText(getString(R.string.ThreePlayer));
                     EditText player3userinput = alertD.findViewById(player3nameinput);
                     if (player3userinput != null) {
                         player3userinput.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -542,6 +549,7 @@ public class MainActivity extends AppCompatActivity {
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     player = 2;
                     player3over = false;
+                    nop.setText(getString(R.string.TwoPlayer));
                     EditText player2userinput = alertD.findViewById(player2nameinput);
                     if (player2userinput != null) {
                         player2userinput.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -1042,7 +1050,7 @@ public class MainActivity extends AppCompatActivity {
                 tls3Pressed = false;
                 l3bonus = 0;
             }
-    }
+        }
         displayTotalWordScore();
     }
 
@@ -1138,11 +1146,11 @@ public class MainActivity extends AppCompatActivity {
                 l5bonus = 0;
             }
         }
-            displayTotalWordScore();
-        }
+        displayTotalWordScore();
+    }
 
 
-        public void setTls6Pressed(View v) {
+    public void setTls6Pressed(View v) {
         ImageButton tlsbutton6 = findViewById(tls6);
         ImageButton dlsbutton6 = findViewById(dls6);
         if(!le6.equals(" ") && !pressed6 && playerWord.length() != 0) {
@@ -2648,7 +2656,7 @@ public class MainActivity extends AppCompatActivity {
                         p2WordScoreArray.add(50);
                     }
                     if (playerTurn == 3) {
-                        player3score = player4score + 50;
+                        player3score = player3score + 50;
                         p3WordArray.add("CLEAR");
                         p3WordScoreArray.add(50);
                     }

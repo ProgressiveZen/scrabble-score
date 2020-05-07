@@ -19,11 +19,14 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="ssp">Scrabble Score Platinum Available Now\nClick Here to download now</string>
-<string name="nop"># of Players</string>
+<string name="nop">2 Player</string>
     <string name="p1n">Player 1 Name:</string>
     <string name="p2n">Player 2 Name:</string>
     <string name="p3n">Player 3 Name:</string>
     <string name="p4n">Player 4 Name:</string>
+    <string name="TwoPlayer">2 Player</string>
+    <string name="ThreePlayer">3 Player</string>
+    <string name="FourPlayer">4 Player</string>
     <string name="ds">Dictionary Setup</string>
     <string name="ed">Enable Dictionary: </string>
     <string name="pn">Please note: This is a platinum feature and will only work for the first 5 words on the free version.</string>
@@ -42,7 +45,8 @@
     <string name="enter">enter</string>
     <string name="wo">Would you like to Override?</string>
     <string name="sb">Score Board</string>
-    <string name="exit">Exit</string>
+    <string name="close">Close</string>
+
     <string name="sspn">Scrabble Score dictionary \nfeature demo has finished.\nTo use the dictionary for all\nyour words and get rid of the ads\ndownload Scrabble Score Platinum now!</string>
 <string name="cg">Continue Game</string>
     <string name="skip">Would you like to exchange your tiles and skip your turn?</string>
