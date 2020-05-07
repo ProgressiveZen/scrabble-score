@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -39,9 +40,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.android.scrabblescore.R;
-//import com.google.android.gms.ads.AdRequest;
-//import com.google.android.gms.ads.AdView;
-//import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -192,19 +196,23 @@ public class MainActivity extends AppCompatActivity {
     ImageView loading;
     Context context;
 
-    //private InterstitialAd mInterstitialAd;
+    private InterstitialAd mInterstitialAd;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //AdRequest adRequest = new AdRequest.Builder().build();
-        //AdView mAdView;
-        //mAdView = (AdView) findViewById(R.id.adView);
-        //mAdView.loadAd(adRequest);
-        // mInterstitialAd = new InterstitialAd(this);
-        //mInterstitialAd.setAdUnitId("ca-app-pub-2568422939080036/3628578813");
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         context = getApplicationContext();
         alphabetCreator(alphabet);
@@ -1553,14 +1561,14 @@ public class MainActivity extends AppCompatActivity {
             loading.clearAnimation();
         }
 
-        // if(wordCount % 5 == 0) {
-//            if (mInterstitialAd.isLoaded()) {
-//                mInterstitialAd.show();
-//            } else {
-//                Log.d("TAG", "The interstitial wasn't loaded yet.");
-//            }
-//            mInterstitialAd.loadAd(new AdRequest.Builder().build());
-        // }
+         if(wordCount % 5 == 0) {
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+            } else {
+                Log.d("TAG", "The interstitial wasn't loaded yet.");
+            }
+             mInterstitialAd.loadAd(new AdRequest.Builder().build());
+         }
     }
 
     //post turn reset for next user

@@ -27,7 +27,7 @@ dependencies {
     })
     //noinspection GradleCompatible,GradleDeprecatedConfiguration
     implementation 'com.android.support:appcompat-v7:25.3.1'
-    //implementation 'com.google.android.gms:play-services-ads:19.1.0'
+    implementation 'com.google.android.gms:play-services-ads:19.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     //noinspection GradleCompatible
     implementation 'com.android.support:support-v4:23.0.0'

@@ -35,7 +35,8 @@ android:contentDescription="@string/cs"
             android:imeOptions="actionDone"
             android:inputType="textCapSentences"
             android:maxLines="1"
-            android:textAllCaps="true" />
+            android:textAllCaps="true"
+            android:autofillHints="Click here to enter a word" />
 
         <ImageView
             android:id="@+id/loading"
@@ -98,7 +99,6 @@ android:baselineAligned="false"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
-
             <ImageButton
                 android:id="@+id/letter2"
                 android:contentDescription="@string/cs"
@@ -106,8 +106,8 @@ android:baselineAligned="false"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:padding="0dp"
-                android:scaleType="centerInside"
                 android:src="@drawable/c"
+                android:scaleType="centerInside"
                 android:onClick="letterclick2"
                 />
 
@@ -122,7 +122,6 @@ android:baselineAligned="false"
                 android:padding="0dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/tls" />
-
             <ImageButton
                 android:id="@+id/dls2"
                 android:contentDescription="@string/cs"
@@ -613,12 +612,12 @@ android:baselineAligned="false"
             android:layout_weight="1"
             />
     </LinearLayout>
-<!--    <com.google.android.gms.ads.AdView-->
-<!--        xmlns:ads="http://schemas.android.com/apk/res-auto"-->
-<!--        android:id="@+id/adView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="50dp"-->
-<!--        ads:adSize="BANNER"-->
-<!--        ads:adUnitId="ca-app-pub-2568422939080036/3545468709">-->
-<!--    </com.google.android.gms.ads.AdView>-->
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+           android:layout_width="match_parent"
+            android:layout_height="50dp"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+    </com.google.android.gms.ads.AdView>
 </LinearLayout>
