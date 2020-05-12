@@ -286,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     dialogBox();
-                    alertD.hide();
+                    alertD.dismiss();
                 }
 
             });
@@ -300,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
                     ImageView loadingPic = findViewById(R.id.loading);
                     Animation animation = AnimationUtils.loadAnimation(context, R.anim.rotate);
                     loadingPic.startAnimation(animation);
-                    alertD.hide();
+                    alertD.dismiss();
                     if (player1over && player2over && player == 2) {
                         endGameFormat();
                     } else if (player1over && player2over && player3over && player == 3) {
@@ -667,7 +667,7 @@ public class MainActivity extends AppCompatActivity {
                         loading.clearAnimation();
                         loading.setVisibility(View.GONE);
                     }
-                    alertD.hide();
+                    alertD.dismiss();
                 }
             }
 
@@ -1464,7 +1464,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     addToScore2();
-                    alertD.hide();
+                    alertD.dismiss();
                 }
 
             });
@@ -1472,7 +1472,7 @@ public class MainActivity extends AppCompatActivity {
             nobutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    alertD.hide();
+                    alertD.dismiss();
                 }
 
             });
@@ -1543,7 +1543,7 @@ public class MainActivity extends AppCompatActivity {
             nobutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    alertD.hide();
+                    alertD.dismiss();
             }
             });
             alertD.setView(promptView);
@@ -1561,7 +1561,7 @@ public class MainActivity extends AppCompatActivity {
             loading.setVisibility(View.GONE);
             loading.clearAnimation();
         }
-        if (wordCount % 5 == 0 && wordCount > 5) {
+        if (wordCount % 5 == 0) {
             if (mInterstitialAd.isLoaded()) {
                 mInterstitialAd.show();
             } else {
@@ -1733,7 +1733,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                alertD.hide();
+                alertD.dismiss();
             }
         });
         int i = 0;
@@ -1807,7 +1807,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     deleteLastTurn();
-                    alertD.hide();
+                    alertD.dismiss();
                 }
 
             });
@@ -1815,7 +1815,7 @@ public class MainActivity extends AppCompatActivity {
             nobutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    alertD.hide();
+                    alertD.dismiss();
                 }
 
             });
@@ -2082,7 +2082,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     playerTurn = turnChangeBackwards();
                     turnNameChange();
-                    alertD.hide();
+                    alertD.dismiss();
                 }
 
             });
@@ -2090,7 +2090,7 @@ public class MainActivity extends AppCompatActivity {
             nobutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    alertD.hide();
+                    alertD.dismiss();
                 }
 
             });
@@ -2318,7 +2318,7 @@ public class MainActivity extends AppCompatActivity {
                 wordCount = 0;
                 dialogBox();
                 playerTurn = 1;
-                endgame.hide();
+                endgame.dismiss();
             }
         });
         winnerDisplay.setText(winner);
@@ -2344,7 +2344,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     lastScreen();
-                    alertD.hide();
+                    alertD.dismiss();
                 }
 
             });
@@ -2352,7 +2352,7 @@ public class MainActivity extends AppCompatActivity {
             nobutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    alertD.hide();
+                    alertD.dismiss();
                 }
 
             });
@@ -2629,7 +2629,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 checkOver();
                 turnNameChange();
-                alertD.hide();
+                alertD.dismiss();
             }
 
         });
@@ -2637,7 +2637,7 @@ public class MainActivity extends AppCompatActivity {
         nobutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertD.hide();
+                alertD.dismiss();
                 Context context;
                 context = getApplicationContext();
                 Toast toast = Toast.makeText(context, "Enter your word", Toast.LENGTH_SHORT);
@@ -2739,7 +2739,7 @@ public class MainActivity extends AppCompatActivity {
                     p4WordArray.add(lastWord);
                     p4WordScoreArray.add(0 - lastTotal);
                 }
-                endgame.hide();
+                endgame.dismiss();
                 noWords();
             }
         });
@@ -2862,7 +2862,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.putBoolean("dicon", dicon).apply();
                 editor.putBoolean("dicoverride", dicoverride).apply();
                 editor.putBoolean("dicoption", dicoption).apply();
-                alertD.hide();
+                alertD.dismiss();
             }
         });
 
