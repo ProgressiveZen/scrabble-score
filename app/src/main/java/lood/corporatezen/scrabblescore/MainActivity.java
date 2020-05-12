@@ -186,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
     boolean dls7Pressed;
     boolean tls8Pressed;
     boolean dls8Pressed;
+    ArrayList<Player> players = new ArrayList<>();
     boolean yesno = false;
     boolean bonuspressed = false;
     boolean saved;
@@ -239,7 +240,6 @@ public class MainActivity extends AppCompatActivity {
         dicoverride = settings.getBoolean("dicoverride", true);
         playerTurn = settings.getInt("playerTurn", playerTurn);
         player = settings.getInt("player", player);
-        System.out.println("Player: " + player);
         wordCount = settings.getInt("wordcount", 0);
         int size = settings.getInt("list_size1", 0);
         int size2 = settings.getInt("list_size2", 0);
@@ -263,7 +263,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         turnNameChange();
-        // recovering the instance state
         if (player1name.length() == 0) {
             saved = false;
         }
@@ -311,7 +310,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             alertD.setView(promptView);
-             System.out.println("WTF7");
             alertD.show();;
         }
         if (savedInstanceState != null) {
@@ -407,7 +405,6 @@ public class MainActivity extends AppCompatActivity {
         displayTotalWordScore();
     }
 
-    // invoked when the activity may be temporarily destroyed, save the instance state here
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
@@ -674,7 +671,6 @@ public class MainActivity extends AppCompatActivity {
 
         });
         alertD.setView(promptView);
-         System.out.println("WTF8");
             alertD.show();;
     }
 
@@ -1280,6 +1276,10 @@ public class MainActivity extends AppCompatActivity {
         wordScoreDisplay.setText(getString(R.string.ws2, total));
     }
 
+    public void createPlayers(){
+        //method of restoring player classes
+    }
+
     public void turnNameChange() {
         Context context;
         context = getApplicationContext();
@@ -1477,7 +1477,6 @@ public class MainActivity extends AppCompatActivity {
 
             });
             alertD.setView(promptView);
-             System.out.println("WTF9");
             alertD.show();;
         }
     }
@@ -1547,7 +1546,6 @@ public class MainActivity extends AppCompatActivity {
             }
             });
             alertD.setView(promptView);
-            System.out.println("WTF10");
             alertD.show();;
         }
         if (wordCount > 4) {
@@ -1577,17 +1575,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //post turn reset for next user
     public void reset() {
-        //resets edittext and loading icon
         playerWord = "";
         EditText eText = findViewById(R.id.userWord);
         eText.setText("");
         loading.setImageResource(loader);
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate);
         loading.startAnimation(animation);
-
-        //resets individual buttons for letters
         ImageView l1 = findViewById(R.id.letter1);
         ImageView l2 = findViewById(letter2);
         ImageView l3 = findViewById(letter3);
@@ -1604,8 +1598,6 @@ public class MainActivity extends AppCompatActivity {
         l6.setImageResource(blank);
         l7.setImageResource(blank);
         l8.setImageResource(blank);
-
-        //resets bonus buttons
         ImageButton twsreset = findViewById(R.id.tws);
         ImageButton dwsreset = findViewById(R.id.dws);
         ImageButton tls1reset = findViewById(R.id.tls1);
@@ -1678,13 +1670,10 @@ public class MainActivity extends AppCompatActivity {
         dls3Pressed = false;
         tls4Pressed = false;
         dls4Pressed = false;
-
-        //resets formula for word score calculation
         wordTotal = 0;
         bonuspoints = 0;
         wordMultipleBonus = 1;
         total = 0;
-
         displayTotalWordScore();
     }
 
@@ -1769,7 +1758,6 @@ public class MainActivity extends AppCompatActivity {
         player3totalscore.setText(String.valueOf(player3score));
         player4totalscore.setText(String.valueOf(player4score));
         alertD.setView(promptView);
-         System.out.println("WTF1");
             alertD.show();;
     }
 
@@ -1820,7 +1808,6 @@ public class MainActivity extends AppCompatActivity {
 
             });
             alertD.setView(promptView);
-             System.out.println("WTF2");
             alertD.show();;
         }
     }
@@ -2095,7 +2082,6 @@ public class MainActivity extends AppCompatActivity {
 
             });
             alertD.setView(promptView);
-             System.out.println("WTF3");
             alertD.show();;
         }
     }
@@ -2357,7 +2343,6 @@ public class MainActivity extends AppCompatActivity {
 
             });
             alertD.setView(promptView);
-             System.out.println("WTF4");
             alertD.show();;
         } else {
             Toast toast = Toast.makeText(context, "Click Skip Turn to Exchange your Tiles.", Toast.LENGTH_SHORT);
@@ -2646,7 +2631,6 @@ public class MainActivity extends AppCompatActivity {
 
         });
         alertD.setView(promptView);
-         System.out.println("WTF5");
             alertD.show();;
     }
 
@@ -2768,7 +2752,6 @@ public class MainActivity extends AppCompatActivity {
         intent.addFlags(flags);
         return intent;
     }
-
 
     public void txtLooker(String aString) {
         Context context = getApplicationContext();
@@ -2892,7 +2875,6 @@ public class MainActivity extends AppCompatActivity {
 
         });
         alertD.setView(promptView);
-         System.out.println("WTF6");
             alertD.show();;
     }
 
