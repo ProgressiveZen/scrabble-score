@@ -1533,19 +1533,6 @@ public class MainActivity extends AppCompatActivity {
         checkOver();
         turnNameChange();
         wordCount++;
-        if (wordCount % 5 == 0 && wordCount > 5) {
-            if (mInterstitialAd.isLoaded()) {
-                mInterstitialAd.show();
-            } else {
-                Log.d("TAG", "The interstitial wasn't loaded yet.");
-            }
-            mInterstitialAd.setAdListener(new AdListener() {
-                @Override
-                public void onAdClosed() {
-                    mInterstitialAd.loadAd(new AdRequest.Builder().build());
-                }
-            });
-        }
         if (wordCount == 5) {
             LayoutInflater layoutInflater = LayoutInflater.from(this);
             View promptView = layoutInflater.inflate(R.layout.scrabblescoreplatinum, nullParent);
@@ -1574,6 +1561,20 @@ public class MainActivity extends AppCompatActivity {
             loading.setVisibility(View.GONE);
             loading.clearAnimation();
         }
+        if (wordCount % 5 == 0 && wordCount > 5) {
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+            } else {
+                Log.d("TAG", "The interstitial wasn't loaded yet.");
+            }
+            mInterstitialAd.setAdListener(new AdListener() {
+                @Override
+                public void onAdClosed() {
+                    mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                }
+            });
+        }
+
     }
 
     //post turn reset for next user
@@ -2870,10 +2871,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dicoverride = dicoverride1.isChecked();
             }
-
         });
         diconoff.setOnClickListener(new View.OnClickListener() {
-
 
             @Override
             public void onClick(View v) {
