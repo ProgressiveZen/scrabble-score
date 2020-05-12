@@ -204,14 +204,14 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
         AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
@@ -220,7 +220,6 @@ public class MainActivity extends AppCompatActivity {
         alphabetCreator(alphabet);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
-
         loading = findViewById(R.id.loading);
         saved = settings.getBoolean("saved", false);
         player1name = settings.getString("player1name", player1name);
@@ -312,7 +311,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             alertD.setView(promptView);
-            alertD.show();
+             System.out.println("WTF7");
+            alertD.show();;
         }
         if (savedInstanceState != null) {
             displayTotalWordScore();
@@ -323,7 +323,6 @@ public class MainActivity extends AppCompatActivity {
         }
         editor.putBoolean("saved", saved).apply();
         editor.commit();
-
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         EditText soft = findViewById(R.id.userWord);
         soft.setSelected(false);
@@ -660,7 +659,6 @@ public class MainActivity extends AppCompatActivity {
                     player3scoredisplayer.setBackgroundColor(ContextCompat.getColor(context, transparent));
                     player4namedisplayer.setBackgroundColor(ContextCompat.getColor(context, transparent));
                     player4scoredisplayer.setBackgroundColor(ContextCompat.getColor(context, transparent));
-
                     if (dicon) {
                         loading.setImageResource(loader);
                         Animation animation = AnimationUtils.loadAnimation(context, R.anim.rotate);
@@ -675,9 +673,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
-
         alertD.setView(promptView);
-        alertD.show();
+         System.out.println("WTF8");
+            alertD.show();;
     }
 
     public void alphabetCreator(HashMap<String, Integer> alphabet) {
@@ -1479,7 +1477,8 @@ public class MainActivity extends AppCompatActivity {
 
             });
             alertD.setView(promptView);
-            alertD.show();
+             System.out.println("WTF9");
+            alertD.show();;
         }
     }
 
@@ -1534,6 +1533,19 @@ public class MainActivity extends AppCompatActivity {
         checkOver();
         turnNameChange();
         wordCount++;
+        if (wordCount % 5 == 0 && wordCount > 5) {
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+            } else {
+                Log.d("TAG", "The interstitial wasn't loaded yet.");
+            }
+            mInterstitialAd.setAdListener(new AdListener() {
+                @Override
+                public void onAdClosed() {
+                    mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                }
+            });
+        }
         if (wordCount == 5) {
             LayoutInflater layoutInflater = LayoutInflater.from(this);
             View promptView = layoutInflater.inflate(R.layout.scrabblescoreplatinum, nullParent);
@@ -1545,11 +1557,11 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     alertD.hide();
-                }
-
+            }
             });
             alertD.setView(promptView);
-            alertD.show();
+            System.out.println("WTF10");
+            alertD.show();;
         }
         if (wordCount > 4) {
             dicon = false;
@@ -1562,21 +1574,6 @@ public class MainActivity extends AppCompatActivity {
             loading.setVisibility(View.GONE);
             loading.clearAnimation();
         }
-
-         if(wordCount % 5 == 0) {
-            if (mInterstitialAd.isLoaded()) {
-                mInterstitialAd.show();
-            } else {
-                Log.d("TAG", "The interstitial wasn't loaded yet.");
-            }
-             mInterstitialAd.setAdListener(new AdListener() {
-                 @Override
-                 public void onAdClosed() {
-                     // Load the next interstitial.
-                     mInterstitialAd.loadAd(new AdRequest.Builder().build());
-                 }
-
-             });         }
     }
 
     //post turn reset for next user
@@ -1771,7 +1768,8 @@ public class MainActivity extends AppCompatActivity {
         player3totalscore.setText(String.valueOf(player3score));
         player4totalscore.setText(String.valueOf(player4score));
         alertD.setView(promptView);
-        alertD.show();
+         System.out.println("WTF1");
+            alertD.show();;
     }
 
     public boolean isAlpha(String name) {
@@ -1821,7 +1819,8 @@ public class MainActivity extends AppCompatActivity {
 
             });
             alertD.setView(promptView);
-            alertD.show();
+             System.out.println("WTF2");
+            alertD.show();;
         }
     }
 
@@ -2095,7 +2094,8 @@ public class MainActivity extends AppCompatActivity {
 
             });
             alertD.setView(promptView);
-            alertD.show();
+             System.out.println("WTF3");
+            alertD.show();;
         }
     }
 
@@ -2356,7 +2356,8 @@ public class MainActivity extends AppCompatActivity {
 
             });
             alertD.setView(promptView);
-            alertD.show();
+             System.out.println("WTF4");
+            alertD.show();;
         } else {
             Toast toast = Toast.makeText(context, "Click Skip Turn to Exchange your Tiles.", Toast.LENGTH_SHORT);
             toast.show();
@@ -2644,7 +2645,8 @@ public class MainActivity extends AppCompatActivity {
 
         });
         alertD.setView(promptView);
-        alertD.show();
+         System.out.println("WTF5");
+            alertD.show();;
     }
 
     public void lastScreen() {
@@ -2891,7 +2893,8 @@ public class MainActivity extends AppCompatActivity {
 
         });
         alertD.setView(promptView);
-        alertD.show();
+         System.out.println("WTF6");
+            alertD.show();;
     }
 
 
