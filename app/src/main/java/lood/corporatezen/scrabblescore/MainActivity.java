@@ -53,6 +53,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import static android.R.color.transparent;
 import static com.example.android.scrabblescore.R.color.appblue;
@@ -95,8 +96,10 @@ import static com.example.android.scrabblescore.R.id.p2;
 import static com.example.android.scrabblescore.R.id.p2total;
 import static com.example.android.scrabblescore.R.id.p2words;
 import static com.example.android.scrabblescore.R.id.p4;
+import static com.example.android.scrabblescore.R.id.player2name;
 import static com.example.android.scrabblescore.R.id.player2nameinput;
 import static com.example.android.scrabblescore.R.id.player3nameinput;
+import static com.example.android.scrabblescore.R.id.player4nameinput;
 import static com.example.android.scrabblescore.R.id.playerScore1;
 import static com.example.android.scrabblescore.R.id.playerScore2;
 import static com.example.android.scrabblescore.R.id.playerScore3;
@@ -117,10 +120,10 @@ public class MainActivity extends AppCompatActivity {
     final ViewGroup nullParent = null;
     boolean twspressed = false;
     boolean dwspressed = false;
-    boolean player1over = false;
-    boolean player2over = false;
-    boolean player3over = false;
-    boolean player4over = false;
+//    boolean player1over = false;
+//    boolean player2over = false;
+//    boolean player3over = false;
+//    boolean player4over = false;
     boolean pressed1 = false;
     boolean pressed2 = false;
     boolean pressed3 = false;
@@ -139,10 +142,6 @@ public class MainActivity extends AppCompatActivity {
     String le6 = " ";
     String le7 = " ";
     String le8 = " ";
-    String player1name = "";
-    String player2name = "";
-    String player3name = "";
-    String player4name = "";
     ArrayList<String> p1WordArray = new ArrayList<>();
     ArrayList<String> p2WordArray = new ArrayList<>();
     ArrayList<String> p3WordArray = new ArrayList<>();
@@ -162,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     int l7bonus = 0;
     int l8bonus = 0;
     int lastTotal;
-    int player = 2;
+    //int player = 2;
     int bonuspoints = 0;
     int wordTotal;
     int wordCount = 0;
@@ -191,12 +190,12 @@ public class MainActivity extends AppCompatActivity {
     boolean bonuspressed = false;
     boolean saved;
     int playerTurn = 1;
-    int player1score = 0;
-    int player2score = 0;
-    int player3score = 0;
-    int player4score = 0;
     ImageView loading;
     Context context;
+    EditText player1userinput;
+    EditText player2userinput;
+    EditText player3userinput;
+    EditText player4userinput;
 
     private InterstitialAd mInterstitialAd;
 
@@ -223,23 +222,15 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = settings.edit();
         loading = findViewById(R.id.loading);
         saved = settings.getBoolean("saved", false);
-        player1name = settings.getString("player1name", player1name);
-        player2name = settings.getString("player2name", player2name);
-        player3name = settings.getString("player3name", player3name);
-        player4name = settings.getString("player4name", player4name);
-        player1score = settings.getInt("player1score", player1score);
-        player2score = settings.getInt("player2score", player2score);
-        player3score = settings.getInt("player3score", player3score);
-        player4score = settings.getInt("player4score", player4score);
-        player1over = settings.getBoolean("player1over", false);
-        player2over = settings.getBoolean("player2over", false);
-        player3over = settings.getBoolean("player3over", false);
-        player4over = settings.getBoolean("player4over", false);
+        players.get(1).setOver(settings.getBoolean("player1over", false));
+        players.get(2).setOver(settings.getBoolean("player1over", false));
+        players.get(3).setOver(settings.getBoolean("player1over", false));
+        players.get(4).setOver(settings.getBoolean("player1over", false));
         dicon = settings.getBoolean("dicon", true);
         dicoption = settings.getBoolean("dicopton", true);
         dicoverride = settings.getBoolean("dicoverride", true);
         playerTurn = settings.getInt("playerTurn", playerTurn);
-        player = settings.getInt("player", player);
+        //player = settings.getInt("player", player);
         wordCount = settings.getInt("wordcount", 0);
         int size = settings.getInt("list_size1", 0);
         int size2 = settings.getInt("list_size2", 0);
@@ -262,8 +253,8 @@ public class MainActivity extends AppCompatActivity {
             p4WordScoreArray.add(settings.getInt("p4wordscore" + i, 0));
         }
 
-        turnNameChange();
-        if (player1name.length() == 0) {
+        turnNameChange(players.get(playerTurn));
+        if (players.get(1).getName().length() == 0) {
             saved = false;
         }
         if (saved) {
@@ -300,17 +291,17 @@ public class MainActivity extends AppCompatActivity {
                     Animation animation = AnimationUtils.loadAnimation(context, R.anim.rotate);
                     loadingPic.startAnimation(animation);
                     alertD.dismiss();
-                    if (player1over && player2over && player == 2) {
+                    if (players.get(1).isOver() && players.get(2).isOver() && players.size() == 2) {
                         endGameFormat();
-                    } else if (player1over && player2over && player3over && player == 3) {
+                    } else if (players.get(1).isOver() && players.get(2).isOver() && players.get(3).isOver() && players.size() == 3) {
                         endGameFormat();
-                    } else if (player1over && player2over && player3over && player4over && player == 4) {
+                    } else if (players.get(1).isOver() && players.get(2).isOver() && players.get(3).isOver() && players.get(4).isOver() && players.size() == 4) {
                         endGameFormat();
                     }
                 }
             });
             alertD.setView(promptView);
-            alertD.show();;
+            alertD.show();
         }
         if (savedInstanceState != null) {
             displayTotalWordScore();
@@ -372,14 +363,14 @@ public class MainActivity extends AppCompatActivity {
         TextView player3scoredisplay = findViewById(playerScore3);
         TextView player4scoredisplay = findViewById(playerScore4);
         super.onSaveInstanceState(savedInstanceState);
-        player1name = savedInstanceState.getString("player1");
-        player2name = savedInstanceState.getString("player2");
-        player3name = savedInstanceState.getString("player3");
-        player4name = savedInstanceState.getString("player4");
-        player1score = savedInstanceState.getInt("p1score");
-        player2score = savedInstanceState.getInt("p2score");
-        player3score = savedInstanceState.getInt("p3score");
-        player4score = savedInstanceState.getInt("p4score");
+        players.get(1).setName(savedInstanceState.getString("player1"));
+        players.get(2).setName(savedInstanceState.getString("player2"));
+        players.get(3).setName(savedInstanceState.getString("player3"));
+        players.get(4).setName(savedInstanceState.getString("player4"));
+        players.get(1).setScore(savedInstanceState.getInt("p1score"));
+        players.get(2).setScore(savedInstanceState.getInt("p2score"));
+        players.get(3).setScore(savedInstanceState.getInt("p3score"));
+        players.get(4).setScore(savedInstanceState.getInt("p4score"));
         p1WordArray = savedInstanceState.getStringArrayList("p1wordlist");
         p2WordArray = savedInstanceState.getStringArrayList("p2wordlist");
         p3WordArray = savedInstanceState.getStringArrayList("p3wordlist");
@@ -389,33 +380,32 @@ public class MainActivity extends AppCompatActivity {
         p3WordScoreArray = savedInstanceState.getIntegerArrayList("p3wordscorelist");
         p4WordScoreArray = savedInstanceState.getIntegerArrayList("p4wordscorelist");
         playerTurn = savedInstanceState.getInt("playerTurn");
-        player1over = savedInstanceState.getBoolean("p1over");
-        player2over = savedInstanceState.getBoolean("p2over");
-        player3over = savedInstanceState.getBoolean("p3over");
-        player4over = savedInstanceState.getBoolean("p4over");
-        player = savedInstanceState.getInt("player");
-        player1namedisplayer.setText(player1name);
-        player2namedisplayer.setText(player2name);
-        player3namedisplayer.setText(player3name);
-        player4namedisplayer.setText(player4name);
-        player1scoredisplay.setText(String.valueOf(player1score));
-        player2scoredisplay.setText(String.valueOf(player2score));
-        player3scoredisplay.setText(String.valueOf(player3score));
-        player4scoredisplay.setText(String.valueOf(player4score));
+//        player1over = savedInstanceState.getBoolean("p1over");
+//        player2over = savedInstanceState.getBoolean("p2over");
+//        player3over = savedInstanceState.getBoolean("p3over");
+//        player4over = savedInstanceState.getBoolean("p4over");
+        player1namedisplayer.setText(players.get(1).getName());
+        player2namedisplayer.setText(players.get(2).getName());
+        player3namedisplayer.setText(players.get(3).getName());
+        player4namedisplayer.setText(players.get(4).getName());
+        player1scoredisplay.setText(String.valueOf(players.get(1).getScore()));
+        player2scoredisplay.setText(String.valueOf(players.get(2).getScore()));
+        player3scoredisplay.setText(String.valueOf(players.get(3).getScore()));
+        player4scoredisplay.setText(String.valueOf(players.get(4).getScore()));
         displayTotalWordScore();
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putString("player1", player1name);
-        savedInstanceState.putString("player2", player2name);
-        savedInstanceState.putInt("p1score", player1score);
-        savedInstanceState.putInt("p2score", player2score);
-        savedInstanceState.putString("player3", player3name);
-        savedInstanceState.putString("player4", player4name);
-        savedInstanceState.putInt("p3score", player3score);
-        savedInstanceState.putInt("p4score", player4score);
+        savedInstanceState.putString("player1", players.get(1).getName());
+        savedInstanceState.putString("player2", players.get(2).getName());
+        savedInstanceState.putString("player3", players.get(3).getName());
+        savedInstanceState.putString("player4", players.get(4).getName());
+        savedInstanceState.putInt("p1score", players.get(1).getScore());
+        savedInstanceState.putInt("p2score", players.get(2).getScore());
+        savedInstanceState.putInt("p3score", players.get(3).getScore());
+        savedInstanceState.putInt("p4score", players.get(4).getScore());
         savedInstanceState.putStringArrayList("p1wordlist", p1WordArray);
         savedInstanceState.putStringArrayList("p2wordlist", p2WordArray);
         savedInstanceState.putIntegerArrayList("p1wordscorelist", p1WordScoreArray);
@@ -425,11 +415,10 @@ public class MainActivity extends AppCompatActivity {
         savedInstanceState.putIntegerArrayList("p3wordscorelist", p4WordScoreArray);
         savedInstanceState.putIntegerArrayList("p3wordscorelist", p4WordScoreArray);
         savedInstanceState.putInt("playerTurn", playerTurn);
-        savedInstanceState.putBoolean("p1over", player1over);
-        savedInstanceState.putBoolean("p2over", player2over);
-        savedInstanceState.putBoolean("p3over", player3over);
-        savedInstanceState.putBoolean("p4over", player4over);
-        savedInstanceState.putInt("player", player);
+        savedInstanceState.putBoolean("p1over", players.get(1).isOver());
+        savedInstanceState.putBoolean("p1over", players.get(2).isOver());
+        savedInstanceState.putBoolean("p1over", players.get(3).isOver());
+        savedInstanceState.putBoolean("p1over", players.get(4).isOver());
     }
 
     public void dialogBox() {
@@ -442,24 +431,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean("saved", true).apply();
         editor.commit();
         wordCount = 0;
-        player1score = 0;
-        player2score = 0;
-        player1over = false;
-        player2over = false;
-        player3score = 0;
-        player4score = 0;
-        player = 2;
         playerTurn = 1;
-        player3over = false;
-        player4over = false;
-        p1WordArray = new ArrayList<>();
-        p1WordScoreArray = new ArrayList<>();
-        p2WordArray = new ArrayList<>();
-        p2WordScoreArray = new ArrayList<>();
-        p3WordArray = new ArrayList<>();
-        p3WordScoreArray = new ArrayList<>();
-        p4WordArray = new ArrayList<>();
-        p4WordScoreArray = new ArrayList<>();
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         @SuppressLint("InflateParams") View promptView = layoutInflater.inflate(R.layout.dialoglayout, null);
         final AlertDialog alertD = new AlertDialog.Builder(this).create();
@@ -469,36 +441,36 @@ public class MainActivity extends AppCompatActivity {
         ImageButton plus = promptView.findViewById(R.id.plusbutton);
         ImageButton minus = promptView.findViewById(R.id.minusbutton);
         final TextView nop = promptView.findViewById(R.id.nop);
-        final EditText player3 = promptView.findViewById(player3nameinput);
-        final EditText player4 = promptView.findViewById(R.id.player4nameinput);
+        player1userinput = findViewById(R.id.player1nameinput);
+        player2userinput = findViewById(R.id.player2nameinput);
+        player3userinput = findViewById(R.id.player3nameinput);
+        player4userinput = findViewById(R.id.player4nameinput);
         final TextView player31 = promptView.findViewById(R.id.player3name);
         final TextView player41 = promptView.findViewById(R.id.player4name);
         final TextView player32 = findViewById(playerScore3);
         final TextView player42 = findViewById(R.id.player4name);
         final TextView player33 = findViewById(R.id.player3name);
         final TextView player43 = findViewById(playerScore4);
-        player4.setVisibility(View.GONE);
+        player4userinput.setVisibility(View.GONE);
         player41.setVisibility(View.GONE);
         player42.setVisibility(View.GONE);
         player43.setVisibility(View.GONE);
-        player3.setVisibility(View.GONE);
+        player3userinput.setVisibility(View.GONE);
         player31.setVisibility(View.GONE);
         player32.setVisibility(View.GONE);
         player33.setVisibility(View.GONE);
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (player == 2) {
-                    player = 3;
+                if (players.size() == 2) {
                     nop.setText(getString(R.string.ThreePlayer));
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     assert imm != null;
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                    player3.setVisibility(View.VISIBLE);
+                    player3userinput.setVisibility(View.VISIBLE);
                     player31.setVisibility(View.VISIBLE);
                     player32.setVisibility(View.VISIBLE);
                     player33.setVisibility(View.VISIBLE);
-                    player3over = false;
                     EditText player2userinput = alertD.findViewById(player2nameinput);
                     if (player2userinput != null) {
                         player2userinput.setImeOptions(EditorInfo.IME_ACTION_NEXT);
@@ -507,14 +479,12 @@ public class MainActivity extends AppCompatActivity {
                     if (player3userinput != null) {
                         player3userinput.setImeOptions(EditorInfo.IME_ACTION_DONE);
                     }
-                } else if (player == 3) {
-                    player4over = false;
-                    player = 4;
-                    nop.setText(getString(R.string.FourPlayer));
+                } else if (players.size() == 3) {
+                nop.setText(getString(R.string.FourPlayer));
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     assert imm != null;
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                    player4.setVisibility(View.VISIBLE);
+                    player4userinput.setVisibility(View.VISIBLE);
                     player41.setVisibility(View.VISIBLE);
                     player42.setVisibility(View.VISIBLE);
                     player43.setVisibility(View.VISIBLE);
@@ -530,31 +500,29 @@ public class MainActivity extends AppCompatActivity {
         minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (player == 4) {
-                    player4.setVisibility(View.GONE);
+                if (players.size() == 4) {
+                    players.remove(4);
+                    player4userinput.setVisibility(View.GONE);
                     player41.setVisibility(View.GONE);
                     player42.setVisibility(View.GONE);
                     player43.setVisibility(View.GONE);
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     assert imm != null;
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                    player4over = false;
-                    player = 3;
                     nop.setText(getString(R.string.ThreePlayer));
                     EditText player3userinput = alertD.findViewById(player3nameinput);
                     if (player3userinput != null) {
                         player3userinput.setImeOptions(EditorInfo.IME_ACTION_DONE);
                     }
-                } else if (player == 3) {
-                    player3.setVisibility(View.GONE);
+                } else if (players.size() == 3) {
+                    player3userinput.setVisibility(View.GONE);
                     player31.setVisibility(View.GONE);
                     player32.setVisibility(View.GONE);
                     player33.setVisibility(View.GONE);
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     assert imm != null;
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                    player = 2;
-                    player3over = false;
+                    players.remove(3);
                     nop.setText(getString(R.string.TwoPlayer));
                     EditText player2userinput = alertD.findViewById(player2nameinput);
                     if (player2userinput != null) {
@@ -577,77 +545,60 @@ public class MainActivity extends AppCompatActivity {
                 if (!dicon) {
                     dicoverride = true;
                 }
-                EditText player2userinput = alertD.findViewById(player2nameinput);
-                EditText player3userinput = alertD.findViewById(player3nameinput);
-                EditText player4userinput = alertD.findViewById(R.id.player4nameinput);
-                EditText player1userinput = alertD.findViewById(R.id.player1nameinput);
                 TextView player1scoreDisplay = findViewById(R.id.playerScore1);
                 TextView player2scoreDisplay = findViewById(R.id.playerScore2);
                 TextView player3scoreDisplay = findViewById(playerScore3);
                 TextView player4scoreDisplay = findViewById(playerScore4);
-                player1scoreDisplay.setText(String.valueOf(player1score));
-                player2scoreDisplay.setText(String.valueOf(player2score));
+                player1scoreDisplay.setText(String.valueOf(players.get(1).getScore()));
+                player2scoreDisplay.setText(String.valueOf(players.get(2).getScore()));
+                player3scoreDisplay.setText(String.valueOf(players.get(3).getScore()));
+                player4scoreDisplay.setText(String.valueOf(players.get(4).getScore()));
                 if (player1userinput != null) {
-                    player1name = player1userinput.getText().toString();
+                    players.add(new Player(player1userinput.getText().toString()));
                 }
                 if (player2userinput != null) {
-                    player2name = player2userinput.getText().toString();
+                    players.add(new Player(player2userinput.getText().toString()));
                 }
-                player3scoreDisplay.setText(String.valueOf(player3score));
-                player4scoreDisplay.setText(String.valueOf(player4score));
                 if (player3userinput != null) {
-                    player3name = player3userinput.getText().toString();
+                    players.add(new Player(player3userinput.getText().toString());
                 }
                 if (player4userinput != null) {
-                    player4name = player4userinput.getText().toString();
+                    players.add(new Player(player4userinput.getText().toString());
                 }
-                if (player1name.length() == 0) {
+                if (players.get(1).getName().length() == 0) {
                     context = getApplicationContext();
                     Toast toast = Toast.makeText(context, "Player 1 please enter your name", Toast.LENGTH_SHORT);
                     toast.show();
-                } else if (player2name.length() == 0) {
+                } else if (players.get(2).getName().length() == 0) {
                     context = getApplicationContext();
                     Toast toast = Toast.makeText(context, "Player 2 please enter your name", Toast.LENGTH_SHORT);
                     toast.show();
-                } else if (player > 2 && player3name.length() == 0) {
+                } else if (players.size() > 2 && players.get(3).getName().length() == 0) {
                     context = getApplicationContext();
                     Toast toast = Toast.makeText(context, "Player 3 please enter your name", Toast.LENGTH_SHORT);
                     toast.show();
-                } else if (player > 3 && player4name.length() == 0) {
+                } else if (players.size() > 3 && players.get(4).getName().length() == 0) {
                     context = getApplicationContext();
                     Toast toast = Toast.makeText(context, "Player 4 please enter your name", Toast.LENGTH_SHORT);
                     toast.show();
-                } else {
-                    if (isAlpha(player1name)) {
-                        player1name = player1name.substring(0, 1).toUpperCase() + player1name.substring(1);
-                    }
-                    if (isAlpha(player2name)) {
-                        player2name = player2name.substring(0, 1).toUpperCase() + player2name.substring(1);
-                    }
-                    if (player > 2 && isAlpha(player3name)) {
-                        player3name = player3name.substring(0, 1).toUpperCase() + player3name.substring(1);
-                    }
-                    if (player > 3 && isAlpha(player4name)) {
-                        player4name = player4name.substring(0, 1).toUpperCase() + player4name.substring(1);
-                    }
+                }
                     TextView player1namedisplayer = findViewById(R.id.player1name);
-                    TextView player3scoredisplayer = findViewById(R.id.playerScore3);
-                    TextView player4scoredisplayer = findViewById(R.id.playerScore4);
                     TextView player2namedisplayer = findViewById(R.id.player2name);
-                    player1namedisplayer.setText(player1name);
-                    player2namedisplayer.setText(player2name);
                     TextView player3namedisplayer = findViewById(R.id.player3name);
                     TextView player4namedisplayer = findViewById(R.id.player4name);
-                    player3namedisplayer.setText(player3name);
-                    player4namedisplayer.setText(player4name);
+                    TextView player3scoredisplayer = findViewById(R.id.playerScore3);
+                    TextView player4scoredisplayer = findViewById(R.id.playerScore4);
+                    player1namedisplayer.setText(players.get(1).getName());
+                    player1namedisplayer.setText(players.get(2).getName());
+                    player3namedisplayer.setText(players.get(3).getName());
+                    player4namedisplayer.setText(players.get(4).getName());
                     context = getApplicationContext();
                     SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
                     SharedPreferences.Editor editor = settings.edit();
-                    editor.putString("player1name", player1name).apply();
-                    editor.putString("player2name", player2name).apply();
-                    editor.putString("player3name", player3name).apply();
-                    editor.putString("player4name", player4name).apply();
-                    editor.putInt("player", player).apply();
+                    editor.putString("player1name", players.get(1).getName()).apply();
+                    editor.putString("player2name", players.get(2).getName()).apply();
+                    editor.putString("player3name", players.get(3).getName()).apply();
+                    editor.putString("player4name", players.get(4).getName()).apply();
                     player1namedisplayer.setBackgroundColor(ContextCompat.getColor(context, appblue));
                     player1scoreDisplay.setBackgroundColor(ContextCompat.getColor(context, appblue));
                     player2namedisplayer.setBackgroundColor(ContextCompat.getColor(context, transparent));
@@ -668,8 +619,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-
-        });
+            );
         alertD.setView(promptView);
             alertD.show();;
     }
@@ -1280,46 +1230,15 @@ public class MainActivity extends AppCompatActivity {
         //method of restoring player classes
     }
 
-    public void turnNameChange() {
+    public void turnNameChange(Player player) {
         Context context;
         context = getApplicationContext();
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putInt("player1score", player1score);
-        editor.putInt("player2score", player2score);
-        editor.putInt("player3score", player3score);
-        editor.putInt("player4score", player4score);
+        player.saveTurn(context,settings, player.getName(),player.getScore(),);
         editor.putInt("playerTurn", playerTurn);
         editor.putInt("wordcount", wordCount);
         editor.putInt("list_size1", p1WordScoreArray.size());
-        for (int i = 0; i < p1WordScoreArray.size(); i++) {
-            editor.putInt("p1wordscore" + i, p1WordScoreArray.get(i));
-        }
-        editor.putInt("list_size2", p2WordScoreArray.size());
-        for (int i = 0; i < p2WordScoreArray.size(); i++) {
-            editor.putInt("p2wordscore" + i, p2WordScoreArray.get(i));
-        }
-        editor.putInt("list_size3", p3WordScoreArray.size());
-        for (int i = 0; i < p3WordScoreArray.size(); i++) {
-            editor.putInt("p3wordscore" + i, p3WordScoreArray.get(i));
-        }
-        editor.putInt("list_size4", p4WordScoreArray.size());
-        for (int i = 0; i < p4WordScoreArray.size(); i++) {
-            editor.putInt("p4wordscore" + i, p4WordScoreArray.get(i));
-        }
-
-        for (int i = 0; i < p1WordArray.size(); i++) {
-            editor.putString("p1word" + i, p1WordArray.get(i));
-        }
-        for (int i = 0; i < p2WordArray.size(); i++) {
-            editor.putString("p2word" + i, p2WordArray.get(i));
-        }
-        for (int i = 0; i < p3WordArray.size(); i++) {
-            editor.putString("p3word" + i, p3WordArray.get(i));
-        }
-        for (int i = 0; i < p4WordArray.size(); i++) {
-            editor.putString("p4word" + i, p4WordArray.get(i));
-        }
         editor.apply();
 
         TextView p1name = findViewById(R.id.player1name);
@@ -1330,66 +1249,66 @@ public class MainActivity extends AppCompatActivity {
         TextView p3score = findViewById(R.id.playerScore3);
         TextView p4name = findViewById(R.id.player4name);
         TextView p4score = findViewById(R.id.playerScore4);
-        if (playerTurn == 1 && !player1over) {
+        if (!players.get(1).isOver()) {
             p1name.setBackgroundColor(ContextCompat.getColor(context, appblue));
             p1score.setBackgroundColor(ContextCompat.getColor(context, appblue));
-            if (!player2over) {
+            if (!players.get(2).isOver()) {
                 p2name.setBackgroundColor(ContextCompat.getColor(context, transparent));
                 p2score.setBackgroundColor(ContextCompat.getColor(context, transparent));
             }
-            if (!player3over) {
+            if (!players.get(3).isOver()) {
                 p3name.setBackgroundColor(ContextCompat.getColor(context, transparent));
                 p3score.setBackgroundColor(ContextCompat.getColor(context, transparent));
             }
-            if (!player4over) {
+            if (!players.get(4).isOver()) {
                 p4name.setBackgroundColor(ContextCompat.getColor(context, transparent));
                 p4score.setBackgroundColor(ContextCompat.getColor(context, transparent));
             }
         }
-        if (playerTurn == 2 && !player2over) {
+        if (!players.get(2).isOver()) {
             p2name.setBackgroundColor(ContextCompat.getColor(context, appblue));
             p2score.setBackgroundColor(ContextCompat.getColor(context, appblue));
-            if (!player1over) {
+            if (!players.get(1).isOver()) {
                 p1name.setBackgroundColor(ContextCompat.getColor(context, transparent));
                 p1score.setBackgroundColor(ContextCompat.getColor(context, transparent));
             }
-            if (!player3over) {
+            if (!players.get(3).isOver()) {
                 p3name.setBackgroundColor(ContextCompat.getColor(context, transparent));
                 p3score.setBackgroundColor(ContextCompat.getColor(context, transparent));
             }
-            if (!player4over) {
+            if (!players.get(4).isOver()) {
                 p4name.setBackgroundColor(ContextCompat.getColor(context, transparent));
                 p4score.setBackgroundColor(ContextCompat.getColor(context, transparent));
             }
         }
-        if (playerTurn == 3 && !player3over) {
+        if (!players.get(3).isOver()) {
             p3name.setBackgroundColor(ContextCompat.getColor(context, appblue));
             p3score.setBackgroundColor(ContextCompat.getColor(context, appblue));
-            if (!player1over) {
+            if (!players.get(1).isOver()) {
                 p1name.setBackgroundColor(ContextCompat.getColor(context, transparent));
                 p1score.setBackgroundColor(ContextCompat.getColor(context, transparent));
             }
-            if (!player2over) {
+            if (!players.get(2).isOver()) {
                 p2name.setBackgroundColor(ContextCompat.getColor(context, transparent));
                 p2score.setBackgroundColor(ContextCompat.getColor(context, transparent));
             }
-            if (!player4over) {
+            if (!players.get(4).isOver()) {
                 p4name.setBackgroundColor(ContextCompat.getColor(context, transparent));
                 p4score.setBackgroundColor(ContextCompat.getColor(context, transparent));
             }
         }
-        if (playerTurn == 4 && !player4over) {
+        if (playerTurn == 4 && !players.get(4).isOver()) {
             p4name.setBackgroundColor(ContextCompat.getColor(context, appblue));
             p4score.setBackgroundColor(ContextCompat.getColor(context, appblue));
-            if (!player1over) {
+            if (!players.get(1).isOver()) {
                 p1name.setBackgroundColor(ContextCompat.getColor(context, transparent));
                 p1score.setBackgroundColor(ContextCompat.getColor(context, transparent));
             }
-            if (!player3over) {
+            if (!players.get(3).isOver()) {
                 p3name.setBackgroundColor(ContextCompat.getColor(context, transparent));
                 p3score.setBackgroundColor(ContextCompat.getColor(context, transparent));
             }
-            if (!player2over) {
+            if (!players.get(2).isOver()) {
                 p2name.setBackgroundColor(ContextCompat.getColor(context, transparent));
                 p2score.setBackgroundColor(ContextCompat.getColor(context, transparent));
             }
@@ -1397,12 +1316,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void bonuspoints(View v) {
-        if (playerWord.length() == 7 && !bonuspressed && player1score == 0 && player2score == 0) {
+        if (playerWord.length() == 7 && !bonuspressed && players.get(1).getScore() == 0 && players.get(2).getScore() == 0) {
             ImageView bonus = findViewById(R.id.bonus);
             bonus.setImageResource(R.drawable.fiftys);
             bonuspressed = true;
             bonuspoints = 50;
-        } else if (playerWord.length() == 7 && bonuspressed && player1score == 0 && player2score == 0) {
+        } else if (playerWord.length() == 7 && bonuspressed && players.get(1).getScore() == 0 && players.get(2).getScore() == 0) {
             ImageView bonus = findViewById(R.id.bonus);
             bonus.setImageResource(R.drawable.fiftye);
             bonuspoints = 0;
@@ -1423,24 +1342,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkOver() {
-        if (player1over && playerTurn == 1) {
+        if (players.get(1).isOver() && playerTurn == 1) {
             playerTurn = 2;
         }
-        if (player2over && playerTurn == 2) {
-            if (player > 2) {
+        if (players.get(2).isOver() && playerTurn == 2) {
+            if (players.size() > 2) {
                 playerTurn = 3;
             } else {
                 playerTurn = 1;
             }
         }
-        if (player3over && playerTurn == 3) {
-            if (player > 3) {
+        if (players.get(3).isOver() && playerTurn == 3) {
+            if (players.size() > 3) {
                 playerTurn = 4;
             } else {
                 playerTurn = 1;
             }
         }
-        if (player4over && playerTurn == 4) {
+        if (players.get(4).isOver() && playerTurn == 4) {
             playerTurn = 1;
         }
     }
@@ -1458,7 +1377,7 @@ public class MainActivity extends AppCompatActivity {
             alertD.setCanceledOnTouchOutside(false);
             alertD.setCancelable(false);
             TextView playerName = promptView.findViewById(R.id.playerName);
-            playerName.setText(getPlayerName(playerTurn));
+            playerName.setText(players.get(playerTurn).getName());
             Button yesbutton = promptView.findViewById(R.id.yes);
             yesbutton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1485,42 +1404,42 @@ public class MainActivity extends AppCompatActivity {
         checkOver();
         if (!le1.equals(" ")) {
             if (playerTurn == 1 && !player1over) {
-                player1score = player1score + wordTotal;
+                players.get(1).setScore(wordTotal);
                 playerTurn = 2;
                 TextView playerScoreDisplay1 = findViewById(playerScore1);
-                playerScoreDisplay1.setText(String.valueOf(player1score));
+                playerScoreDisplay1.setText(String.valueOf(players.get(1).getScore()));
                 p1WordArray.add(p1WordArray.size(), playerWord);
                 p1WordScoreArray.add(p1WordScoreArray.size(), wordTotal);
                 reset();
             } else if (playerTurn == 2 && !player2over) {
-                player2score = player2score + wordTotal;
+                players.get(2).setScore(wordTotal);
                 if (player > 2) {
                     playerTurn = 3;
                 } else {
                     playerTurn = 1;
                 }
                 TextView playerScoreDisplay2 = findViewById(playerScore2);
-                playerScoreDisplay2.setText(String.valueOf(player2score));
+                playerScoreDisplay2.setText(String.valueOf(players.get(2).getScore()));
                 p2WordArray.add(p2WordArray.size(), playerWord);
                 p2WordScoreArray.add(p2WordScoreArray.size(), wordTotal);
                 reset();
             } else if (playerTurn == 3 && !player3over) {
-                player3score = player3score + wordTotal;
+                players.get(3).setScore(wordTotal);
                 if (player > 3) {
                     playerTurn = 4;
                 } else {
                     playerTurn = 1;
                 }
                 TextView playerScoreDisplay3 = findViewById(playerScore3);
-                playerScoreDisplay3.setText(String.valueOf(player3score));
+                playerScoreDisplay3.setText(String.valueOf(players.get(3).getScore()));
                 p3WordArray.add(p3WordArray.size(), playerWord);
                 p3WordScoreArray.add(p3WordScoreArray.size(), wordTotal);
                 reset();
             } else if (playerTurn == 4 && !player4over) {
-                player4score = player4score + wordTotal;
+                players.get(4).setScore(wordTotal);
                 playerTurn = 1;
                 TextView playerScoreDisplay4 = findViewById(playerScore4);
-                playerScoreDisplay4.setText(String.valueOf(player4score));
+                playerScoreDisplay4.setText(String.valueOf(players.get(4).getScore()));
                 p4WordArray.add(p4WordArray.size(), playerWord);
                 p4WordScoreArray.add(p4WordScoreArray.size(), wordTotal);
                 reset();
@@ -1530,7 +1449,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         checkOver();
-        turnNameChange();
+        turnNameChange(players.get());
         wordCount++;
         if (wordCount == 5) {
             LayoutInflater layoutInflater = LayoutInflater.from(this);
@@ -1683,12 +1602,12 @@ public class MainActivity extends AppCompatActivity {
         final AlertDialog alertD = new AlertDialog.Builder(this).create();
         TextView p1Display = promptView.findViewById(p1);
         TextView p2Display = promptView.findViewById(p2);
-        p1Display.setText(player1name);
-        p2Display.setText(player2name);
         TextView p3Display = promptView.findViewById(R.id.p3);
         TextView p4Display = promptView.findViewById(p4);
-        p3Display.setText(player3name);
-        p4Display.setText(player4name);
+        p1Display.setText(players.get(1).getName());
+        p2Display.setText(players.get(2).getName());
+        p3Display.setText(players.get(3).getName());
+        p4Display.setText(players.get(4).getName());
         Button exitButton = promptView.findViewById(R.id.exit);
         LinearLayout ll1Display = promptView.findViewById(ll1);
         ImageView ll2Display = promptView.findViewById(ll2);
@@ -1753,10 +1672,10 @@ public class MainActivity extends AppCompatActivity {
         player2listofwordsdisplay.setText(player2wordsandscore.toString());
         player3listofwordsdisplay.setText(player3wordsandscore.toString());
         player4listofwordsdisplay.setText(player4wordsandscore.toString());
-        player1totalscore.setText(String.valueOf(player1score));
-        player2totalscore.setText(String.valueOf(player2score));
-        player3totalscore.setText(String.valueOf(player3score));
-        player4totalscore.setText(String.valueOf(player4score));
+        player1totalscore.setText(String.valueOf(players.get(1).getScore()));
+        player2totalscore.setText(String.valueOf(players.get(2).getScore()));
+        player3totalscore.setText(String.valueOf(players.get(3).getScore()));
+        player4totalscore.setText(String.valueOf(players.get(4).getScore()));
         alertD.setView(promptView);
             alertD.show();;
     }
@@ -1773,10 +1692,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void areYouSure2(View v) {
-        if (turnChangeBackwards() == 1 && player1score == 0 || turnChangeBackwards() == 2 && player2score == 0 || turnChangeBackwards() == 3 && player3score == 0 || turnChangeBackwards() == 4 && player4score == 0) {
+        if (turnChangeBackwards() == 1 && players.get(1).getScore() == 0 || turnChangeBackwards() == 2 && players.get(2).getScore() == 0 || turnChangeBackwards() == 3 && players.get(3).getScore() == 0 || turnChangeBackwards() == 4 && players.get(4).getScore() == 0) {
             Context context;
             context = getApplicationContext();
-            Toast toast = Toast.makeText(context, getPlayerName(turnChangeBackwards()-1) + ", You have no Words.", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(context, players.get(turnChangeBackwards()-1).getName() + ", You have no Words.", Toast.LENGTH_SHORT);
             toast.show();
         } else {
             LayoutInflater layoutInflater = LayoutInflater.from(this);
@@ -1785,7 +1704,7 @@ public class MainActivity extends AppCompatActivity {
             alertD.setCanceledOnTouchOutside(false);
             alertD.setCancelable(false);
             TextView playerName = promptView.findViewById(R.id.playerName);
-            playerName.setText(getPlayerName(turnChangeBackwards()));
+            playerName.setText(players.get(turnChangeBackwards()).getName());
             TextView deleteplayerwordquestion = promptView.findViewById(R.id.areyoursuretext);
             deleteplayerwordquestion.setText(getString(R.string.dlw));
             Button yesbutton = promptView.findViewById(R.id.yes);
@@ -1812,16 +1731,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    //work on this
     public void deleteLastTurn() {
         checkOver();
-
+        Iterator i = players.iterator();
+        int nextPlayer;
+        if(i.hasNext()){
+            nextPlayer = player++;
+        }else{
+            nextPlayer = 1;
+        }
         if (player == 2) {
-            if (playerTurn == 1 && !player2over && player2score > 0) {
-                player2score = player2score - (p2WordScoreArray.get(p2WordScoreArray.size() - 1));
-                p2WordScoreArray.remove(p2WordScoreArray.size() - 1);
-                p2WordArray.remove(p2WordArray.size() - 1);
+            if (playerTurn == 1 && !players.get(nextPlayer).isOver() && players.get(nextPlayer).getScore() > 0) {
+                players.get(nextPlayer).deleteLastTurn();
+             //   player2score = player2score - (p2WordScoreArray.get(p2WordScoreArray.size() - 1));
+              //  p2WordScoreArray.remove(p2WordScoreArray.size() - 1);
+              //  p2WordArray.remove(p2WordArray.size() - 1);
                 TextView playerScoreDisplay2 = findViewById(playerScore2);
-                playerScoreDisplay2.setText(String.valueOf(player2score));
+                playerScoreDisplay2.setText(String.valueOf(players.get(nextPlayer).getScore()));
                 playerTurn = 2;
             } else if (playerTurn == 1 && player2over) {
                 player1score = player1score - (p1WordScoreArray.get(p1WordScoreArray.size() - 1));
@@ -2045,7 +1973,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void areYouSure3(View v) {
-        if (turnChangeBackwards() == 1 && player1score == 0 || turnChangeBackwards() == 2 && player2score == 0 || turnChangeBackwards() == 3 && player3score == 0 || turnChangeBackwards() == 4 && player4score == 0) {
+        if (turnChangeBackwards() == 1 && players.get(1).getScore() == 0 ||
+                turnChangeBackwards() == 2 && players.get(2).getScore() == 0 ||
+                turnChangeBackwards() == 3 && players.get(3).getScore() == 0 ||
+                turnChangeBackwards() == 4 && players.get(4).getScore() == 0) {
             Context context;
             context = getApplicationContext();
             Toast toast = Toast.makeText(context, "No words have been entered.", Toast.LENGTH_SHORT);
@@ -2058,7 +1989,7 @@ public class MainActivity extends AppCompatActivity {
             alertD.setCancelable(false);
 
             TextView playerName = promptView.findViewById(R.id.playerName);
-            playerName.setText(getPlayerName(turnChangeBackwards()));
+            playerName.setText(players.get(turnChangeBackwards()).getName());
             TextView deleteplayerwordquestion = promptView.findViewById(R.id.areyoursuretext);
             deleteplayerwordquestion.setText(getString(R.string.aw2));
             Button yesbutton = promptView.findViewById(R.id.yes);
@@ -2249,8 +2180,8 @@ public class MainActivity extends AppCompatActivity {
         TextView p2egDisplay = promptView.findViewById(R.id.p2eg);
         TextView p1scoreegDisplay = promptView.findViewById(R.id.p1scoreeg);
         TextView p2scoreegDisplay = promptView.findViewById(R.id.p2scoreeg);
-        p1egDisplay.setText(getString(R.string.colonname, player1name));
-        p2egDisplay.setText(getString(R.string.colonname, player2name));
+        p1egDisplay.setText(getString(R.string.colonname, players.get(1).getName()));
+        p2egDisplay.setText(getString(R.string.colonname, players.get(2).getName()));
         p1scoreegDisplay.setText(String.valueOf(player1score));
         p2scoreegDisplay.setText(String.valueOf(player2score));
         endgame.setCanceledOnTouchOutside(false);
@@ -2260,10 +2191,10 @@ public class MainActivity extends AppCompatActivity {
         String winner;
         SparseArray<String> winnerWord = new SparseArray<>();
         int key = Math.max(player1score, Math.max(player2score, Math.max(player3score, player4score)));
-        winnerWord.put(player1score, player1name);
-        winnerWord.put(player2score, player2name);
-        winnerWord.put(player3score, player3name);
-        winnerWord.put(player4score, player4name);
+        winnerWord.put(player1score, players.get(1).getName());
+        winnerWord.put(player2score, players.get(2).getName());
+        winnerWord.put(player3score, players.get(3).getName());
+        winnerWord.put(player4score, players.get(4).getName());
         winner = winnerWord.get(key);
         TextView p3egDisplay = promptView.findViewById(R.id.p3eg);
         TextView p3scoreegDisplay = promptView.findViewById(R.id.p3scoreeg);
@@ -2273,12 +2204,12 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout p4vDisplay = promptView.findViewById(R.id.p4v);
         if (player > 2) {
             p3vDisplay.setVisibility(View.VISIBLE);
-            p3egDisplay.setText(getString(R.string.colonname, player3name));
+            p3egDisplay.setText(getString(R.string.colonname, players.get(3).getName()));
             p3scoreegDisplay.setText(String.valueOf(player3score));
         }
         if (player == 4) {
             p4vDisplay.setVisibility(View.VISIBLE);
-            p4egDisplay.setText(getString(R.string.colonname, player4name));
+            p4egDisplay.setText(getString(R.string.colonname, players.get(4).getName()));
             p4scoreegDisplay.setText(String.valueOf(player4score));
         }
         newGame.setOnClickListener(new View.OnClickListener() {
@@ -2322,7 +2253,7 @@ public class MainActivity extends AppCompatActivity {
             alertD.setCancelable(false);
             TextView playerName = promptView.findViewById(R.id.playerName);
             int overint = 0;
-            playerName.setText(getPlayerName(playerTurn - overint));
+            playerName.setText(players.get(playerTurn - overint).getName());
             Button yesbutton = promptView.findViewById(R.id.yes);
             yesbutton.setOnClickListener(new View.OnClickListener() {
 
@@ -2579,7 +2510,7 @@ public class MainActivity extends AppCompatActivity {
         alertD.setCanceledOnTouchOutside(false);
         alertD.setCancelable(false);
         TextView playerName = promptView.findViewById(R.id.playerName);
-        playerName.setText(getPlayerName(playerTurn));
+        playerName.setText(players.get(playerTurn).getName());
         TextView deleteplayerwordquestion = promptView.findViewById(R.id.areyoursuretext);
         deleteplayerwordquestion.setText(getString(R.string.skip));
         Button yesbutton = promptView.findViewById(R.id.yes);
@@ -2640,7 +2571,7 @@ public class MainActivity extends AppCompatActivity {
         final View promptView = layoutInflater.inflate(R.layout.letterremainder, nullParent);
         final AlertDialog endgame = new AlertDialog.Builder(this).create();
         TextView playerName = promptView.findViewById(R.id.playerName);
-        playerName.setText(getPlayerName(playerTurn));
+        playerName.setText(players.get(playerTurn).getName());
         Button finishButton = promptView.findViewById(R.id.lastButton);
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -2879,25 +2810,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public String getPlayerName(int anInt) {
-        String returnString = "";
-        if (anInt == 0) {
-            anInt = player;
-        }
-        if (anInt == 1) {
-            returnString = player1name;
-        }
-        if (anInt == 2) {
-            returnString = player2name;
-        }
-        if (anInt == 3) {
-            returnString = player3name;
-        }
-        if (anInt == 4) {
-            returnString = player4name;
-        }
-        return returnString;
-    }
+//    public String getPlayerName(int anInt) {
+//        String returnString = "";
+//        if (anInt == 0) {
+//            anInt = player;
+//        }
+//        if (anInt == 1) {
+//            returnString = player1name;
+//        }
+//        if (anInt == 2) {
+//            returnString = player2name;
+//        }
+//        if (anInt == 3) {
+//            returnString = player3name;
+//        }
+//        if (anInt == 4) {
+//            returnString = player4name;
+//        }
+//        return returnString;
+//    }
 
     public void setup() {
         if (dicon) {
@@ -2916,39 +2847,39 @@ public class MainActivity extends AppCompatActivity {
         TextView player2scoreDisplay = findViewById(R.id.playerScore2);
         TextView player3scoreDisplay = findViewById(playerScore3);
         TextView player4scoreDisplay = findViewById(playerScore4);
-        player1scoreDisplay.setText(String.valueOf(player1score));
-        player2scoreDisplay.setText(String.valueOf(player2score));
-        player3scoreDisplay.setText(String.valueOf(player3score));
-        player4scoreDisplay.setText(String.valueOf(player4score));
+        player1scoreDisplay.setText(String.valueOf(players.get(1).getScore()));
+        player2scoreDisplay.setText(String.valueOf(players.get(2).getScore()));
+        player3scoreDisplay.setText(String.valueOf(players.get(3).getScore()));
+        player4scoreDisplay.setText(String.valueOf(players.get(4).getScore()));
         TextView player1namedisplayer = findViewById(R.id.player1name);
         TextView player2namedisplayer = findViewById(R.id.player2name);
         TextView player3namedisplayer = findViewById(R.id.player3name);
         TextView player4namedisplayer = findViewById(R.id.player4name);
-        player1namedisplayer.setText(player1name);
-        player2namedisplayer.setText(player2name);
-        player3namedisplayer.setText(player3name);
-        player4namedisplayer.setText(player4name);
-        if (player1over) {
+        player1namedisplayer.setText(players.get(1).getName());
+        player2namedisplayer.setText(players.get(2).getName());
+        player3namedisplayer.setText(players.get(3).getName());
+        player4namedisplayer.setText(players.get(4).getName());
+        if (players.get(1).isOver()) {
             player1namedisplayer.setBackgroundColor(ContextCompat.getColor(context, R.color.appgrey));
             player1scoreDisplay.setBackgroundColor(ContextCompat.getColor(context, appgrey));
         }
-        if (player2over) {
+        if (players.get(2).isOver()) {
             player2namedisplayer.setBackgroundColor(ContextCompat.getColor(context, appgrey));
             player2scoreDisplay.setBackgroundColor(ContextCompat.getColor(context, appgrey));
         }
-        if (player3over) {
+        if (players.get(3).isOver()) {
             player3namedisplayer.setBackgroundColor(ContextCompat.getColor(context, appgrey));
             player3scoreDisplay.setBackgroundColor(ContextCompat.getColor(context, appgrey));
         }
-        if (player4over) {
+        if (players.get(4).isOver()) {
             player4namedisplayer.setBackgroundColor(ContextCompat.getColor(context, appgrey));
             player4scoreDisplay.setBackgroundColor(ContextCompat.getColor(context, appgrey));
         }
-        if (player == 3) {
+        if (players.size() == 3) {
             player3namedisplayer.setVisibility(View.VISIBLE);
             player3scoreDisplay.setVisibility(View.VISIBLE);
         }
-        if (player == 4) {
+        if (players.size() == 4) {
             player3namedisplayer.setVisibility(View.VISIBLE);
             player3scoreDisplay.setVisibility(View.VISIBLE);
             player4namedisplayer.setVisibility(View.VISIBLE);
