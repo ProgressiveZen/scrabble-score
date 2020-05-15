@@ -12,9 +12,11 @@ public class Player {
     private ArrayList<Integer> wordScoreArray;
     private int score;
     private boolean over;
+    private int player;
 
-    public Player(String name) {
+    public Player(String name, int player) {
         this.name = name;
+        this.player = player;
         wordArray = new ArrayList<>();
         wordScoreArray = new ArrayList<>();
         score = 0;
@@ -29,27 +31,42 @@ public class Player {
         this.over = over;
     }
 
-    public void saveTurn(Context context, SharedPreferences settings, String name,
-                         int score, int wordScore
-                         ){
-        //method for locally saving and storage saving    }
+    public void addWord(String word, int wordScore){
+        wordArray.add(wordArray.size(), word);
+        wordScoreArray.add(wordScoreArray.size(), wordScore);
+    }
+
+    //end turn/save turn
+    public void saveTurn(SharedPreferences settings, String newWord, int wordScore){
+        wordScoreArray.add(wordScore);
+        wordArray.add(newWord);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putInt(name + "player1score", wordScore);
+        editor.putInt(player + "score", score);
         for (int i = 0; i < wordScoreArray.size(); i++) {
-            editor.putInt(name + "p1wordscore" + i, wordScoreArray.get(i));
+            editor.putInt(player + "wordscorearray" + i, wordScoreArray.get(i));
         }
         for (int i = 0; i < wordArray.size(); i++) {
-            editor.putString(name + "p1word" + i, wordArray.get(i));
+            editor.putString(player + "word" + i, wordArray.get(i));
         }
 editor.apply();
+    }
+
+    public void add50(){
+        setScore(getScore()+50);
+    }
+
+    public void subtractRemainingLetters(int lastTotal){
+        setScore(score-lastTotal);
     }
 
     public boolean isOver() {
         return over;
     }
 
-    public void setOver(boolean over) {
+    public void setOver(SharedPreferences settings, boolean over) {
         this.over = over;
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean(player + "over", over).apply();
     }
 
     public String getName() {
