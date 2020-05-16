@@ -3,14 +3,16 @@ package lood.corporatezen.scrabblescore;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 
 public class Player {
     private String name;
+    MutableLiveData<Integer> score = new MutableLiveData<Integer>();
     private ArrayList<String> wordArray;
     private ArrayList<Integer> wordScoreArray;
-    private int score;
     private boolean over;
     private int player;
 
@@ -19,17 +21,19 @@ public class Player {
         this.player = player;
         wordArray = new ArrayList<>();
         wordScoreArray = new ArrayList<>();
-        score = 0;
+        score.setValue(0);
         over = false;
     }
 
     public Player(String name, ArrayList<String> wordArray, ArrayList<Integer> wordScoreArray, int score, boolean over) {
-        this.name = name;
+        this.name= name;
         this.wordArray = wordArray;
         this.wordScoreArray = wordScoreArray;
-        this.score = score;
+        this.score.setValue(score);
         this.over = over;
     }
+
+
 
     public void addWord(String word, int wordScore){
         wordArray.add(wordArray.size(), word);
@@ -41,7 +45,7 @@ public class Player {
         wordScoreArray.add(wordScore);
         wordArray.add(newWord);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putInt(player + "score", score);
+        editor.putInt(player + "score", score.getValue());
         for (int i = 0; i < wordScoreArray.size(); i++) {
             editor.putInt(player + "wordscorearray" + i, wordScoreArray.get(i));
         }
@@ -56,7 +60,7 @@ editor.apply();
     }
 
     public void subtractRemainingLetters(int lastTotal){
-        setScore(score-lastTotal);
+        setScore(score.getValue() -lastTotal);
     }
 
     public boolean isOver() {
@@ -68,7 +72,7 @@ editor.apply();
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean(player + "over", over).apply();
     }
-
+    
     public String getName() {
         return name;
     }
@@ -94,16 +98,16 @@ editor.apply();
     }
 
     public void deleteLastTurn(){
-        score = score - (wordScoreArray.get(wordScoreArray.size() - 1));
+        score.setValue(score.getValue() - (wordScoreArray.get(wordScoreArray.size() - 1)));
         wordScoreArray.remove(wordScoreArray.size() - 1);
         wordArray.remove(wordArray.size() - 1);
     }
 
     public int getScore() {
-        return score;
+        return score.getValue();
     }
 
     public void setScore(int score) {
-        this.score  = this.score + score;
+        this.score.setValue(this.score.getValue() + score);
     }
 }
