@@ -1,116 +1,117 @@
-        package lood.corporatezen.scrabblescore;
+package lood.corporatezen.scrabblescore;
 
-        import android.annotation.SuppressLint;
-        import android.content.ActivityNotFoundException;
-        import android.content.Context;
-        import android.content.Intent;
-        import android.content.SharedPreferences;
-        import android.content.pm.ActivityInfo;
-        import android.net.Uri;
-        import android.os.Build;
-        import android.os.Bundle;
-        import android.preference.PreferenceManager;
-        import android.text.Editable;
-        import android.text.TextWatcher;
-        import android.util.Log;
-        import android.util.SparseArray;
-        import android.view.KeyEvent;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.view.WindowManager;
-        import android.view.animation.Animation;
-        import android.view.animation.AnimationUtils;
-        import android.view.inputmethod.EditorInfo;
-        import android.view.inputmethod.InputMethodManager;
-        import android.widget.Button;
-        import android.widget.EditText;
-        import android.widget.ImageButton;
-        import android.widget.ImageView;
-        import android.widget.LinearLayout;
-        import android.widget.RadioButton;
-        import android.widget.RadioGroup;
-        import android.widget.Switch;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.util.SparseArray;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import androidx.annotation.NonNull;
-        import androidx.appcompat.app.AlertDialog;
-        import androidx.appcompat.app.AppCompatActivity;
-        import androidx.core.content.ContextCompat;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.preference.PreferenceManager;
 
-        import com.example.android.scrabblescore.R;
-        import com.google.android.gms.ads.AdListener;
-        import com.google.android.gms.ads.AdRequest;
-        import com.google.android.gms.ads.AdView;
-        import com.google.android.gms.ads.InterstitialAd;
-        import com.google.android.gms.ads.MobileAds;
-        import com.google.android.gms.ads.initialization.InitializationStatus;
-        import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.example.android.scrabblescore.R;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
-        import java.io.BufferedReader;
-        import java.io.InputStream;
-        import java.io.InputStreamReader;
-        import java.util.ArrayList;
-        import java.util.HashMap;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-        import static android.R.color.transparent;
-        import static com.example.android.scrabblescore.R.color.appblue;
-        import static com.example.android.scrabblescore.R.color.appgrey;
-        import static com.example.android.scrabblescore.R.color.dialogbg;
-        import static com.example.android.scrabblescore.R.drawable.blank;
-        import static com.example.android.scrabblescore.R.drawable.dlse;
-        import static com.example.android.scrabblescore.R.drawable.dwse;
-        import static com.example.android.scrabblescore.R.drawable.loader;
-        import static com.example.android.scrabblescore.R.drawable.tls;
-        import static com.example.android.scrabblescore.R.drawable.tlse;
-        import static com.example.android.scrabblescore.R.id.bonus;
-        import static com.example.android.scrabblescore.R.id.dls1;
-        import static com.example.android.scrabblescore.R.id.dls2;
-        import static com.example.android.scrabblescore.R.id.dls3;
-        import static com.example.android.scrabblescore.R.id.dls4;
-        import static com.example.android.scrabblescore.R.id.dls5;
-        import static com.example.android.scrabblescore.R.id.dls6;
-        import static com.example.android.scrabblescore.R.id.dls7;
-        import static com.example.android.scrabblescore.R.id.dls8;
-        import static com.example.android.scrabblescore.R.id.letter1;
-        import static com.example.android.scrabblescore.R.id.letter2;
-        import static com.example.android.scrabblescore.R.id.letter3;
-        import static com.example.android.scrabblescore.R.id.letter4;
-        import static com.example.android.scrabblescore.R.id.letter5;
-        import static com.example.android.scrabblescore.R.id.letter6;
-        import static com.example.android.scrabblescore.R.id.letter7;
-        import static com.example.android.scrabblescore.R.id.letter8;
-        import static com.example.android.scrabblescore.R.id.ll1;
-        import static com.example.android.scrabblescore.R.id.ll2;
-        import static com.example.android.scrabblescore.R.id.ll3;
-        import static com.example.android.scrabblescore.R.id.ll4;
-        import static com.example.android.scrabblescore.R.id.ll5;
-        import static com.example.android.scrabblescore.R.id.ll6;
-        import static com.example.android.scrabblescore.R.id.ll7;
-        import static com.example.android.scrabblescore.R.id.p1;
-        import static com.example.android.scrabblescore.R.id.p1total;
-        import static com.example.android.scrabblescore.R.id.p1words;
-        import static com.example.android.scrabblescore.R.id.p2;
-        import static com.example.android.scrabblescore.R.id.p2total;
-        import static com.example.android.scrabblescore.R.id.p2words;
-        import static com.example.android.scrabblescore.R.id.p4;
-        import static com.example.android.scrabblescore.R.id.player2nameinput;
-        import static com.example.android.scrabblescore.R.id.player3nameinput;
-        import static com.example.android.scrabblescore.R.id.playerScore1;
-        import static com.example.android.scrabblescore.R.id.playerScore2;
-        import static com.example.android.scrabblescore.R.id.playerScore3;
-        import static com.example.android.scrabblescore.R.id.playerScore4;
-        import static com.example.android.scrabblescore.R.id.tls1;
-        import static com.example.android.scrabblescore.R.id.tls2;
-        import static com.example.android.scrabblescore.R.id.tls3;
-        import static com.example.android.scrabblescore.R.id.tls4;
-        import static com.example.android.scrabblescore.R.id.tls5;
-        import static com.example.android.scrabblescore.R.id.tls6;
-        import static com.example.android.scrabblescore.R.id.tls7;
-        import static com.example.android.scrabblescore.R.id.tls8;
-        import static com.example.android.scrabblescore.R.id.winner;
-        import static com.example.android.scrabblescore.R.layout.endgame;
+import static android.R.color.transparent;
+import static com.example.android.scrabblescore.R.color.appblue;
+import static com.example.android.scrabblescore.R.color.appgrey;
+import static com.example.android.scrabblescore.R.color.dialogbg;
+import static com.example.android.scrabblescore.R.drawable.blank;
+import static com.example.android.scrabblescore.R.drawable.dlse;
+import static com.example.android.scrabblescore.R.drawable.dwse;
+import static com.example.android.scrabblescore.R.drawable.loader;
+import static com.example.android.scrabblescore.R.drawable.tls;
+import static com.example.android.scrabblescore.R.drawable.tlse;
+import static com.example.android.scrabblescore.R.id.bonus;
+import static com.example.android.scrabblescore.R.id.dls1;
+import static com.example.android.scrabblescore.R.id.dls2;
+import static com.example.android.scrabblescore.R.id.dls3;
+import static com.example.android.scrabblescore.R.id.dls4;
+import static com.example.android.scrabblescore.R.id.dls5;
+import static com.example.android.scrabblescore.R.id.dls6;
+import static com.example.android.scrabblescore.R.id.dls7;
+import static com.example.android.scrabblescore.R.id.dls8;
+import static com.example.android.scrabblescore.R.id.letter1;
+import static com.example.android.scrabblescore.R.id.letter2;
+import static com.example.android.scrabblescore.R.id.letter3;
+import static com.example.android.scrabblescore.R.id.letter4;
+import static com.example.android.scrabblescore.R.id.letter5;
+import static com.example.android.scrabblescore.R.id.letter6;
+import static com.example.android.scrabblescore.R.id.letter7;
+import static com.example.android.scrabblescore.R.id.letter8;
+import static com.example.android.scrabblescore.R.id.ll1;
+import static com.example.android.scrabblescore.R.id.ll2;
+import static com.example.android.scrabblescore.R.id.ll3;
+import static com.example.android.scrabblescore.R.id.ll4;
+import static com.example.android.scrabblescore.R.id.ll5;
+import static com.example.android.scrabblescore.R.id.ll6;
+import static com.example.android.scrabblescore.R.id.ll7;
+import static com.example.android.scrabblescore.R.id.p1;
+import static com.example.android.scrabblescore.R.id.p1total;
+import static com.example.android.scrabblescore.R.id.p1words;
+import static com.example.android.scrabblescore.R.id.p2;
+import static com.example.android.scrabblescore.R.id.p2total;
+import static com.example.android.scrabblescore.R.id.p2words;
+import static com.example.android.scrabblescore.R.id.p4;
+import static com.example.android.scrabblescore.R.id.player2nameinput;
+import static com.example.android.scrabblescore.R.id.player3nameinput;
+import static com.example.android.scrabblescore.R.id.playerScore1;
+import static com.example.android.scrabblescore.R.id.playerScore2;
+import static com.example.android.scrabblescore.R.id.playerScore3;
+import static com.example.android.scrabblescore.R.id.playerScore4;
+import static com.example.android.scrabblescore.R.id.tls1;
+import static com.example.android.scrabblescore.R.id.tls2;
+import static com.example.android.scrabblescore.R.id.tls3;
+import static com.example.android.scrabblescore.R.id.tls4;
+import static com.example.android.scrabblescore.R.id.tls5;
+import static com.example.android.scrabblescore.R.id.tls6;
+import static com.example.android.scrabblescore.R.id.tls7;
+import static com.example.android.scrabblescore.R.id.tls8;
+import static com.example.android.scrabblescore.R.id.winner;
+import static com.example.android.scrabblescore.R.layout.endgame;
 
 @SuppressWarnings("ConstantConditions")
 public class MainActivity extends AppCompatActivity {
@@ -195,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
     int player3score = 0;
     int player4score = 0;
     ImageView loading;
+    LinearLayout platinum1;
     Context context;
 
     private InterstitialAd mInterstitialAd;
@@ -204,17 +206,20 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-        AdView mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        if (!Platinum.INSTANCE.isPlatinum(this)) {
+            MobileAds.initialize(this, new OnInitializationCompleteListener() {
+                @Override
+                public void onInitializationComplete(InitializationStatus initializationStatus) {
+                }
+            });
+            mInterstitialAd = new InterstitialAd(this);
+            mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+            mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            AdView mAdView = findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        }
+        ScrabbleBilling.INSTANCE.build(this, "somesku");
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         context = getApplicationContext();
         alphabetCreator(alphabet);
@@ -239,7 +244,6 @@ public class MainActivity extends AppCompatActivity {
         dicoverride = settings.getBoolean("dicoverride", true);
         playerTurn = settings.getInt("playerTurn", playerTurn);
         player = settings.getInt("player", player);
-        System.out.println("Player: " + player);
         wordCount = settings.getInt("wordcount", 0);
         int size = settings.getInt("list_size1", 0);
         int size2 = settings.getInt("list_size2", 0);
@@ -311,8 +315,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             alertD.setView(promptView);
-            System.out.println("WTF7");
-            alertD.show();;
+            alertD.show();
         }
         if (savedInstanceState != null) {
             displayTotalWordScore();
@@ -361,6 +364,17 @@ public class MainActivity extends AppCompatActivity {
         });
         ImageView loadingPic = findViewById(R.id.loading);
         loadingPic.setImageResource(loader);
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        pref.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                if(key.equals(Platinum.INSTANCE.getKey())){
+                    Toast.makeText(context, "pref updated", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
     }
 
     @Override
@@ -674,8 +688,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
         alertD.setView(promptView);
-        System.out.println("WTF8");
-        alertD.show();;
+        alertD.show();
     }
 
     public void alphabetCreator(HashMap<String, Integer> alphabet) {
@@ -932,7 +945,7 @@ public class MainActivity extends AppCompatActivity {
     public void twsOnClick(View v) {
         ImageButton twsbutton1 = findViewById(R.id.tws);
         ImageButton dwsbutton1 = findViewById(R.id.dws);
-        if(playerWord.length() != 0 && !le1.equals(" ")) {
+        if (playerWord.length() != 0 && !le1.equals(" ")) {
             if (!twspressed) {
                 twsbutton1.setImageResource(R.drawable.twss);
                 dwsbutton1.setImageResource(dwse);
@@ -951,7 +964,7 @@ public class MainActivity extends AppCompatActivity {
     public void dwsOnClick(View v) {
         ImageButton twsbutton1 = findViewById(R.id.tws);
         ImageButton dwsbutton1 = findViewById(R.id.dws);
-        if(playerWord.length() != 0 && !le1.equals(" ")) {
+        if (playerWord.length() != 0 && !le1.equals(" ")) {
             if (!dwspressed) {
                 twsbutton1.setImageResource(R.drawable.twse);
                 dwsbutton1.setImageResource(R.drawable.dwss);
@@ -970,7 +983,7 @@ public class MainActivity extends AppCompatActivity {
     public void setTls1Pressed(View v) {
         ImageButton tlsbutton1 = findViewById(tls1);
         ImageButton dlsbutton1 = findViewById(dls1);
-        if(!le1.equals(" ") && !pressed1 && playerWord.length() != 0) {
+        if (!le1.equals(" ") && !pressed1 && playerWord.length() != 0) {
             if (!tls1Pressed) {
                 tlsbutton1.setImageResource(R.drawable.tlss);
                 dlsbutton1.setImageResource(dlse);
@@ -989,7 +1002,7 @@ public class MainActivity extends AppCompatActivity {
     public void setDls1Pressed(View v) {
         ImageButton tlsbutton1 = findViewById(tls1);
         ImageButton dlsbutton1 = findViewById(dls1);
-        if(!le1.equals(" ") && !pressed1 && playerWord.length() != 0) {
+        if (!le1.equals(" ") && !pressed1 && playerWord.length() != 0) {
             if (!dls1Pressed) {
                 dlsbutton1.setImageResource(R.drawable.dlss);
                 tlsbutton1.setImageResource(tlse);
@@ -1008,7 +1021,7 @@ public class MainActivity extends AppCompatActivity {
     public void setTls2Pressed(View v) {
         ImageButton tlsbutton2 = findViewById(tls2);
         ImageButton dlsbutton2 = findViewById(dls2);
-        if(!le2.equals(" ") && !pressed2 && playerWord.length()!=0) {
+        if (!le2.equals(" ") && !pressed2 && playerWord.length() != 0) {
             if (!tls2Pressed) {
                 tlsbutton2.setImageResource(R.drawable.tlss);
                 dlsbutton2.setImageResource(dlse);
@@ -1027,7 +1040,7 @@ public class MainActivity extends AppCompatActivity {
     public void setDls2Pressed(View v) {
         ImageButton tlsbutton2 = findViewById(tls2);
         ImageButton dlsbutton2 = findViewById(dls2);
-        if(!le2.equals(" ") && !pressed2 && playerWord.length() != 0) {
+        if (!le2.equals(" ") && !pressed2 && playerWord.length() != 0) {
             if (!dls2Pressed) {
                 dlsbutton2.setImageResource(R.drawable.dlss);
                 tlsbutton2.setImageResource(tlse);
@@ -1046,7 +1059,7 @@ public class MainActivity extends AppCompatActivity {
     public void setTls3Pressed(View v) {
         ImageButton tlsbutton3 = findViewById(tls3);
         ImageButton dlsbutton3 = findViewById(dls3);
-        if (!le3.equals(" ") && !pressed3 && playerWord.length() != 0){
+        if (!le3.equals(" ") && !pressed3 && playerWord.length() != 0) {
             if (!tls3Pressed) {
                 tlsbutton3.setImageResource(R.drawable.tlss);
                 dlsbutton3.setImageResource(dlse);
@@ -1084,7 +1097,7 @@ public class MainActivity extends AppCompatActivity {
     public void setTls4Pressed(View v) {
         ImageButton tlsbutton4 = findViewById(tls4);
         ImageButton dlsbutton4 = findViewById(dls4);
-        if(!le4.equals(" ") && !pressed4 && playerWord.length() != 0) {
+        if (!le4.equals(" ") && !pressed4 && playerWord.length() != 0) {
             if (!tls4Pressed) {
                 tlsbutton4.setImageResource(R.drawable.tlss);
                 dlsbutton4.setImageResource(dlse);
@@ -1103,7 +1116,7 @@ public class MainActivity extends AppCompatActivity {
     public void setDls4Pressed(View v) {
         ImageButton tlsbutton4 = findViewById(tls4);
         ImageButton dlsbutton4 = findViewById(dls4);
-        if(!le4.equals(" ") && !pressed4 && playerWord.length() != 0) {
+        if (!le4.equals(" ") && !pressed4 && playerWord.length() != 0) {
             if (!dls4Pressed) {
                 dlsbutton4.setImageResource(R.drawable.dlss);
                 tlsbutton4.setImageResource(tlse);
@@ -1122,7 +1135,7 @@ public class MainActivity extends AppCompatActivity {
     public void setTls5Pressed(View v) {
         ImageButton tlsbutton5 = findViewById(tls5);
         ImageButton dlsbutton5 = findViewById(dls5);
-        if(!le5.equals(" ") && !pressed5 && playerWord.length() != 0) {
+        if (!le5.equals(" ") && !pressed5 && playerWord.length() != 0) {
             if (!tls5Pressed) {
                 tlsbutton5.setImageResource(R.drawable.tlss);
                 dlsbutton5.setImageResource(dlse);
@@ -1141,7 +1154,7 @@ public class MainActivity extends AppCompatActivity {
     public void setDls5Pressed(View v) {
         ImageButton tlsbutton5 = findViewById(tls5);
         ImageButton dlsbutton5 = findViewById(dls5);
-        if(!le5.equals(" ") && !pressed5 && playerWord.length() != 0) {
+        if (!le5.equals(" ") && !pressed5 && playerWord.length() != 0) {
             if (!dls5Pressed) {
                 dlsbutton5.setImageResource(R.drawable.dlss);
                 tlsbutton5.setImageResource(tlse);
@@ -1161,7 +1174,7 @@ public class MainActivity extends AppCompatActivity {
     public void setTls6Pressed(View v) {
         ImageButton tlsbutton6 = findViewById(tls6);
         ImageButton dlsbutton6 = findViewById(dls6);
-        if(!le6.equals(" ") && !pressed6 && playerWord.length() != 0) {
+        if (!le6.equals(" ") && !pressed6 && playerWord.length() != 0) {
             if (!tls6Pressed) {
                 tlsbutton6.setImageResource(R.drawable.tlss);
                 dlsbutton6.setImageResource(dlse);
@@ -1180,7 +1193,7 @@ public class MainActivity extends AppCompatActivity {
     public void setDls6Pressed(View v) {
         ImageButton tlsbutton6 = findViewById(tls6);
         ImageButton dlsbutton6 = findViewById(dls6);
-        if(!le6.equals(" ") && !pressed6 && playerWord.length() != 0) {
+        if (!le6.equals(" ") && !pressed6 && playerWord.length() != 0) {
             if (!dls6Pressed) {
                 dlsbutton6.setImageResource(R.drawable.dlss);
                 tlsbutton6.setImageResource(tlse);
@@ -1199,7 +1212,7 @@ public class MainActivity extends AppCompatActivity {
     public void setTls7Pressed(View v) {
         ImageButton tlsbutton7 = findViewById(tls7);
         ImageButton dlsbutton7 = findViewById(dls7);
-        if(!le7.equals(" ") && !pressed7 && playerWord.length() != 0) {
+        if (!le7.equals(" ") && !pressed7 && playerWord.length() != 0) {
             if (!tls7Pressed) {
                 tlsbutton7.setImageResource(R.drawable.tlss);
                 dlsbutton7.setImageResource(dlse);
@@ -1218,7 +1231,7 @@ public class MainActivity extends AppCompatActivity {
     public void setDls7Pressed(View v) {
         ImageButton tlsbutton7 = findViewById(tls7);
         ImageButton dlsbutton7 = findViewById(dls7);
-        if(!le7.equals(" ") && !pressed7 && playerWord.length() != 0) {
+        if (!le7.equals(" ") && !pressed7 && playerWord.length() != 0) {
             if (!dls7Pressed) {
                 dlsbutton7.setImageResource(R.drawable.dlss);
                 tlsbutton7.setImageResource(tlse);
@@ -1237,7 +1250,7 @@ public class MainActivity extends AppCompatActivity {
     public void setTls8Pressed(View v) {
         ImageButton tlsbutton8 = findViewById(tls8);
         ImageButton dlsbutton8 = findViewById(dls8);
-        if(!le8.equals(" ") && !pressed8 && playerWord.length() != 0) {
+        if (!le8.equals(" ") && !pressed8 && playerWord.length() != 0) {
             if (!tls8Pressed) {
                 tlsbutton8.setImageResource(R.drawable.tlss);
                 dlsbutton8.setImageResource(dlse);
@@ -1256,7 +1269,7 @@ public class MainActivity extends AppCompatActivity {
     public void setDls8Pressed(View v) {
         ImageButton tlsbutton8 = findViewById(tls8);
         ImageButton dlsbutton8 = findViewById(dls8);
-        if(!le8.equals(" ") && !pressed8 && playerWord.length() != 0) {
+        if (!le8.equals(" ") && !pressed8 && playerWord.length() != 0) {
             if (!dls8Pressed) {
                 dlsbutton8.setImageResource(R.drawable.dlss);
                 tlsbutton8.setImageResource(tlse);
@@ -1477,8 +1490,7 @@ public class MainActivity extends AppCompatActivity {
 
             });
             alertD.setView(promptView);
-            System.out.println("WTF9");
-            alertD.show();;
+            alertD.show();
         }
     }
 
@@ -1533,7 +1545,7 @@ public class MainActivity extends AppCompatActivity {
         checkOver();
         turnNameChange();
         wordCount++;
-        if (wordCount == 5) {
+        if (!Platinum.INSTANCE.isPlatinum(context) && wordCount == 5) {
             LayoutInflater layoutInflater = LayoutInflater.from(this);
             View promptView = layoutInflater.inflate(R.layout.scrabblescoreplatinum, nullParent);
             final AlertDialog alertD = new AlertDialog.Builder(this).create();
@@ -1547,12 +1559,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             alertD.setView(promptView);
-            System.out.println("WTF10");
-            alertD.show();;
+            alertD.show();
+            if (wordCount > 4) {
+                dicon = false;
+            }
         }
-        if (wordCount > 4) {
-            dicon = false;
-        }
+
         if (dicon) {
             loading.setImageResource(loader);
             Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate);
@@ -1561,7 +1573,7 @@ public class MainActivity extends AppCompatActivity {
             loading.setVisibility(View.GONE);
             loading.clearAnimation();
         }
-        if (wordCount % 5 == 0) {
+        if (!Platinum.INSTANCE.isPlatinum(context) && wordCount % 5 == 0) {
             if (mInterstitialAd.isLoaded()) {
                 mInterstitialAd.show();
             } else {
@@ -1574,6 +1586,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
 
     }
 
@@ -1769,8 +1782,7 @@ public class MainActivity extends AppCompatActivity {
         player3totalscore.setText(String.valueOf(player3score));
         player4totalscore.setText(String.valueOf(player4score));
         alertD.setView(promptView);
-        System.out.println("WTF1");
-        alertD.show();;
+        alertD.show();
     }
 
     public boolean isAlpha(String name) {
@@ -1788,7 +1800,7 @@ public class MainActivity extends AppCompatActivity {
         if (turnChangeBackwards() == 1 && player1score == 0 || turnChangeBackwards() == 2 && player2score == 0 || turnChangeBackwards() == 3 && player3score == 0 || turnChangeBackwards() == 4 && player4score == 0) {
             Context context;
             context = getApplicationContext();
-            Toast toast = Toast.makeText(context, getPlayerName(turnChangeBackwards()-1) + ", You have no Words.", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(context, getPlayerName(turnChangeBackwards() - 1) + ", You have no Words.", Toast.LENGTH_SHORT);
             toast.show();
         } else {
             LayoutInflater layoutInflater = LayoutInflater.from(this);
@@ -1820,8 +1832,7 @@ public class MainActivity extends AppCompatActivity {
 
             });
             alertD.setView(promptView);
-            System.out.println("WTF2");
-            alertD.show();;
+            alertD.show();
         }
     }
 
@@ -2095,8 +2106,7 @@ public class MainActivity extends AppCompatActivity {
 
             });
             alertD.setView(promptView);
-            System.out.println("WTF3");
-            alertD.show();;
+            alertD.show();
         }
     }
 
@@ -2357,8 +2367,7 @@ public class MainActivity extends AppCompatActivity {
 
             });
             alertD.setView(promptView);
-            System.out.println("WTF4");
-            alertD.show();;
+            alertD.show();
         } else {
             Toast toast = Toast.makeText(context, "Click Skip Turn to Exchange your Tiles.", Toast.LENGTH_SHORT);
             toast.show();
@@ -2646,8 +2655,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
         alertD.setView(promptView);
-        System.out.println("WTF5");
-        alertD.show();;
+        alertD.show();
     }
 
     public void lastScreen() {
@@ -2892,8 +2900,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
         alertD.setView(promptView);
-        System.out.println("WTF6");
-        alertD.show();;
+        alertD.show();
     }
 
 
@@ -2984,8 +2991,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void scrabbleScorePlatinum(View view) {
-        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=lood.corporatezen.scrabblescoreplatinum"));
-        startActivity(i);
+        ScrabbleBilling.INSTANCE.onClickPurchase();
+        Boolean platinum = Platinum.INSTANCE.isPlatinum(context);
+        Platinum.INSTANCE.setPlatinum(context, !platinum);
+        Toast.makeText(this, "platinum " + !platinum, Toast.LENGTH_SHORT).show();
     }
+
+//    public void scrabbleScorePlatinum(View view) {
+//        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
+//        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=lood.corporatezen.scrabblescoreplatinum"));
+//        startActivity(i);
+//    }
 }

@@ -88,7 +88,6 @@ object ScrabbleBilling {
                         }
                         .enablePendingPurchases()
                         .build()
-
                 startConnection()
             }
         }
@@ -170,7 +169,7 @@ object ScrabbleBilling {
                     .build()
 
             billingClient.querySkuDetailsAsync(params) { billingResult, skuDetailsList ->
-                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && !skuResultList.isNullOrEmpty()) {
                     skuResultList = skuDetailsList
 
 

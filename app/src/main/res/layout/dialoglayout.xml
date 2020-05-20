@@ -26,6 +26,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="10dp"
         android:gravity="center"
+        android:id="@+id/platinumbutton1"
         android:orientation="horizontal">
 
         <ImageButton
